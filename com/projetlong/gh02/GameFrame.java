@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements Runnable {
 
     /* Canvas onto which the frame will draw. */
     private final Canvas canvas = new Canvas();
@@ -32,13 +32,15 @@ public class GameFrame extends JFrame {
         this.setVisible(true);
 
         /* Setting up the buffering strategy. */
-        canvas.createBufferStrategy(4);
+        canvas.createBufferStrategy(3);
     }
+
 
     /** The main game loop, called at each tick.
      * Most of the game logic will be inside it.
     */
-    public void Update() {
+    @Override
+    public void run(){
         BufferStrategy bufferStrategy;
         int theta = 0;
         int radius = 200;
@@ -50,6 +52,12 @@ public class GameFrame extends JFrame {
             bufferStrategy = canvas.getBufferStrategy();
             Graphics graphics = bufferStrategy.getDrawGraphics();
             super.paint(graphics);
+
+            /* Background painting. */
+            graphics.setColor(Color.white);
+            graphics.drawRect(0, 0, this.getWidth(), this.getHeight());
+
+            /* Drawing a rotating rectangle. */
             graphics.setColor(Color.red);
             graphics.fill3DRect(xRect + 675, yRect + 375, 100, 60, true);
             graphics.dispose();
@@ -58,9 +66,17 @@ public class GameFrame extends JFrame {
     }
 
 
+    /** The main game loop, called at each tick.
+     * Most of the game logic will be inside it.
+    */
+
     public static void main(String... args) {
-        GameFrame frame = new GameFrame();
-        frame.Update();
+        GameFrame game = new GameFrame();
+        /* The thread is used to handle crash reports, to
+         * 
+         */
+        Thread gameThread = new Thread(game);
+        gameThread.start();
     }
 
 }
