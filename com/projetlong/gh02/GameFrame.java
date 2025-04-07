@@ -36,32 +36,66 @@ public class GameFrame extends JFrame implements Runnable {
     }
 
 
+    private int theta = 0;
+
+    /** Method to update the game at a certain speed.
+     * This method will update the game at a certain
+     * rate no matter what the system abilities are.
+     * Units of time here are refered to as "ticks".
+     */
+    public void update() {
+        theta++;
+    }
+
+    /** Method to render the game to the screen. Its
+     * speed depends on hardware. This is where frames
+     * are handled.
+     */
+    public void render() {
+        BufferStrategy bufferStrategy;
+
+        int radius = 200;
+        int xRect = (int) Math.floor(radius * Math.cos(200*theta));
+        int yRect = (int) Math.floor(radius * Math.sin(200*theta));
+        bufferStrategy = canvas.getBufferStrategy();
+        Graphics graphics = bufferStrategy.getDrawGraphics();
+        super.paint(graphics);
+
+        /* Background painting. */
+        graphics.setColor(Color.white);
+        graphics.drawRect(0, 0, this.getWidth(), this.getHeight());
+
+        /* Drawing a rotating rectangle. */
+        graphics.setColor(Color.red);
+        graphics.fill3DRect(xRect + 675, yRect + 375, 100, 60, true);
+        graphics.dispose();
+        bufferStrategy.show();
+    }
+
+
     /** The main game loop, called at each tick.
      * Most of the game logic will be inside it.
     */
     @Override
     public void run(){
-        BufferStrategy bufferStrategy;
-        int theta = 0;
-        int radius = 200;
+        boolean isRunning = true;
 
-        while (true) {
-            theta++;
-            int xRect = (int) Math.floor(radius * Math.cos(theta));
-            int yRect = (int) Math.floor(radius * Math.sin(theta));
-            bufferStrategy = canvas.getBufferStrategy();
-            Graphics graphics = bufferStrategy.getDrawGraphics();
-            super.paint(graphics);
+        int desiredFPS = 144;
+        double toSeconds = 1000000000 / desiredFPS;
+        Long previousTime = System.nanoTime();
+        double deltaTime = 0;
 
-            /* Background painting. */
-            graphics.setColor(Color.white);
-            graphics.drawRect(0, 0, this.getWidth(), this.getHeight());
+        while (isRunning) {
+            Long currentTime = System.nanoTime();
+            deltaTime += (currentTime - previousTime) / toSeconds;
 
-            /* Drawing a rotating rectangle. */
-            graphics.setColor(Color.red);
-            graphics.fill3DRect(xRect + 675, yRect + 375, 100, 60, true);
-            graphics.dispose();
-            bufferStrategy.show();
+            while (deltaTime >= 1) {
+                this.update();
+                deltaTime = 0;
+            }
+
+            this.render();
+            previousTime = currentTime;
         }
     }
 
