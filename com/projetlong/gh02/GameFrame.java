@@ -66,14 +66,10 @@ public class GameFrame extends JFrame implements Runnable {
     }
 
 
-    /** The main game loop, called at each tick.
-     * Most of the game logic will be inside it.
-    */
-
     public static void main(String... args) {
         GameFrame game = new GameFrame();
-        /* The thread is used to handle crash reports, to
-         * 
+        /* The thread is used to handle crash reports and
+         * to handle update and render methods.
          */
         Thread gameThread = new Thread(game);
         gameThread.start();
