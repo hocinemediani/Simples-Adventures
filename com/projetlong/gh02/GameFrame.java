@@ -66,12 +66,20 @@ public class GameFrame extends JFrame implements Runnable {
         });
     }
 
-    /** Method to update the game at a certain speed. */
+    /** Method to update the game at a certain speed.
+     * This method will update the game at a certain
+     * rate no matter what the system abilities are.
+     * Units of time here are refered to as "ticks".
+     */
     public void update() {
         player.update(keys);
     }
 
-    /** Loads and convert images to the correct format. */
+    /** Loads and convert images to the correct format
+     * to prepare them for rendering.
+     * @param path The path to the image
+     * @return The loaded image in the correct format
+     */
     private BufferedImage loadImage(String path) {
         try {
             BufferedImage loadedImage = ImageIO.read(GameFrame.class.getResource(path));
@@ -88,12 +96,16 @@ public class GameFrame extends JFrame implements Runnable {
         }
     }
 
-    /** Method to render the game to the screen. */
+    /** Method to render the game to the screen. Its
+     * speed depends on hardware. This is where frames
+     * are handled.
+     */
     public void render() {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         /* Loading the background in. */
         for (int x = 0; x < this.getWidth(); x += testBackgroundImage.getWidth()) {
@@ -101,6 +113,9 @@ public class GameFrame extends JFrame implements Runnable {
                 renderHandler.loadImageData(testBackgroundImage, x, y, 1);
 =======
         // Draw background
+=======
+        /* Loading the background in. */
+>>>>>>> 430e1e654958fc6c6054389c210b7571a5555d9a
         for (int x = 0; x < this.getWidth() - testBackgroundImage.getWidth(); x += testBackgroundImage.getWidth()) {
             for (int y = 0; y < this.getHeight() - testBackgroundImage.getHeight(); y += testBackgroundImage.getHeight()) {
                 renderHandler.loadImageData(testBackgroundImage, x, y);
@@ -113,11 +128,14 @@ public class GameFrame extends JFrame implements Runnable {
         // Draw player
         player.render(graphics);
 
+        /* Clearing the graphics and rendering what has been painted. */
         graphics.dispose();
         bufferStrategy.show();
     }
 
-    /** The main game loop */
+    /** The main game loop, called at each tick.
+     * Most of the game logic will be inside it.
+    */
     @Override
     public void run() {
         boolean isRunning = true;
@@ -142,7 +160,18 @@ public class GameFrame extends JFrame implements Runnable {
 
     public static void main(String... args) {
         GameFrame game = new GameFrame();
+        /* Thread is used for crash reports / better control. */
         Thread gameThread = new Thread(game);
         gameThread.start();
     }
 }
+
+
+
+
+
+
+
+
+
+
