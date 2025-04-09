@@ -1,7 +1,6 @@
 package com.projetlong.gh02;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
@@ -10,6 +9,8 @@ public class GameFrame extends JFrame implements Runnable {
 
     /* Canvas onto which the frame will draw. */
     private final Canvas canvas = new Canvas();
+
+    private final RenderHandler renderHandler;
 
 
     /** Constructor for the game frame. It initializes
@@ -30,13 +31,14 @@ public class GameFrame extends JFrame implements Runnable {
 
         this.add(canvas);
         this.setVisible(true);
+        this.setResizable(false);
 
         /* Setting up the buffering strategy. */
         canvas.createBufferStrategy(3);
+
+        renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
     }
 
-
-    private int theta = 0;
 
     /** Method to update the game at a certain speed.
      * This method will update the game at a certain
@@ -44,7 +46,7 @@ public class GameFrame extends JFrame implements Runnable {
      * Units of time here are refered to as "ticks".
      */
     public void update() {
-        theta++;
+
     }
 
     /** Method to render the game to the screen. Its
@@ -52,22 +54,10 @@ public class GameFrame extends JFrame implements Runnable {
      * are handled.
      */
     public void render() {
-        BufferStrategy bufferStrategy;
-
-        int radius = 200;
-        int xRect = (int) Math.floor(radius * Math.cos(200*theta));
-        int yRect = (int) Math.floor(radius * Math.sin(200*theta));
-        bufferStrategy = canvas.getBufferStrategy();
+        BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
-
-        /* Background painting. */
-        graphics.setColor(Color.white);
-        graphics.drawRect(0, 0, this.getWidth(), this.getHeight());
-
-        /* Drawing a rotating rectangle. */
-        graphics.setColor(Color.red);
-        graphics.fill3DRect(xRect + 675, yRect + 375, 100, 60, true);
+        renderHandler.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
     }
@@ -89,7 +79,7 @@ public class GameFrame extends JFrame implements Runnable {
             Long currentTime = System.nanoTime();
             deltaTime += (currentTime - previousTime) / toSeconds;
 
-            while (deltaTime >= 1) {
+            if (deltaTime >= 1) {
                 this.update();
                 deltaTime = 0;
             }
