@@ -15,17 +15,37 @@ public class Player {
         x = 100;
         y = 100;
         try {
-            sprite = ImageIO.read(getClass().getResource("assets/Player.png"));
+            sprite = ImageIO.read(getClass().getResource("assets/Player_left.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void update(boolean[] keys) {
-        if (keys[KeyEvent.VK_UP]) y -= speed;
-        if (keys[KeyEvent.VK_DOWN]) y += speed;
-        if (keys[KeyEvent.VK_LEFT]) x -= speed;
-        if (keys[KeyEvent.VK_RIGHT]) x += speed;
+        if (keys[KeyEvent.VK_UP]) {
+            y -= speed;
+        }
+            
+        if (keys[KeyEvent.VK_DOWN]) {
+            y += speed;
+        }
+        if (keys[KeyEvent.VK_LEFT]) {
+            x -= speed;
+            try {
+                sprite = ImageIO.read(getClass().getResource("assets/Player_left.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (keys[KeyEvent.VK_RIGHT]) {
+            x += speed;
+            try {
+                sprite = ImageIO.read(getClass().getResource("assets/Player_right.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
     }
 
     public void render(Graphics g) {
