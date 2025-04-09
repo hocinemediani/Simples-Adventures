@@ -6,9 +6,9 @@ import java.awt.image.DataBufferInt;
 
 public class RenderHandler {
 
-    /* Our working viewport */
+    /* Our working viewport. */
     private final BufferedImage view;
-    /* The viewport's related pixels array */
+    /* The viewport's related pixels array. */
     private final int[] pixels;
 
     /** Creates the view as a BufferedImage with set
@@ -18,9 +18,10 @@ public class RenderHandler {
      * @param height The height of the viewport
      */
     public RenderHandler(int width, int height) {
+        /* Initializes the view as a BufferedImage. */
         view = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-        /* Creates the pixels array linked to our view */
+        /* Creates the pixels array linked to the view. */
         pixels = ((DataBufferInt) view.getRaster().getDataBuffer()).getData();
     }
 
@@ -39,7 +40,8 @@ public class RenderHandler {
      * @param xPos The starting x-coordinate of the render
      * @param yPos The starting y-coordinate of the render
      */
-    public void renderImage(BufferedImage image, int xPos, int yPos) {
+    public void loadImageData(BufferedImage image, int xPos, int yPos) {
+        /* Creates the pixels array linked to the image. */
         int[] imagePixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         
         for (int y = 0; y < image.getHeight(); y++) {

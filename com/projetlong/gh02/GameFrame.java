@@ -83,12 +83,13 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Calling our renderer render methods. */
+        /* Loading the background in. */
         for (int x = 0; x < this.getWidth() - testBackgroundImage.getWidth(); x += testBackgroundImage.getWidth()) {
             for (int y = 0; y < this.getHeight() - testBackgroundImage.getHeight(); y += testBackgroundImage.getHeight()) {
-                renderHandler.renderImage(testBackgroundImage, x, y);
+                renderHandler.loadImageData(testBackgroundImage, x, y);
             }
         }
+
         renderHandler.render(graphics);
 
         /* Clearing the graphics and rendering what has been painted. */
