@@ -3,14 +3,17 @@ package com.projetlong.gh02;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame implements Runnable {
 
     /* Canvas onto which the frame will draw. */
     private final Canvas canvas = new Canvas();
-
     private final RenderHandler renderHandler;
+    private final BufferedImage testBackgroundImage;
 
 
     /** Constructor for the game frame. It initializes
@@ -35,8 +38,8 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Setting up the buffering strategy. */
         canvas.createBufferStrategy(3);
-
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
+        testBackgroundImage = loadImage("assets/grassTile.png");
     }
 
 
@@ -49,6 +52,28 @@ public class GameFrame extends JFrame implements Runnable {
 
     }
 
+
+    /** Loads and convert images to the correct format
+     * to prepare them for rendering.
+     * @param path The path to the image
+     * @return The loaded image in the correct format
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            BufferedImage loadedImage = ImageIO.read(GameFrame.class.getResource(path));
+            BufferedImage convertedImage = new BufferedImage(loadedImage.getWidth(), loadedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+            convertedImage.getGraphics().drawImage(loadedImage, 0, 0, null);
+            return convertedImage;
+        } catch (IOException e) {
+            System.out.println("No image available at location" + path);
+            return null;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Incorrect input : " + path);
+            return null;
+        }
+    }
+
+
     /** Method to render the game to the screen. Its
      * speed depends on hardware. This is where frames
      * are handled.
@@ -57,7 +82,16 @@ public class GameFrame extends JFrame implements Runnable {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
+
+        /* Calling our renderer render methods. */
+        for (int x = 0; x < this.getWidth() - testBackgroundImage.getWidth(); x += testBackgroundImage.getWidth()) {
+            for (int y = 0; y < this.getHeight() - testBackgroundImage.getHeight(); y += testBackgroundImage.getHeight()) {
+                renderHandler.renderImage(testBackgroundImage, x, y);
+            }
+        }
         renderHandler.render(graphics);
+
+        /* Clearing the graphics and rendering what has been painted. */
         graphics.dispose();
         bufferStrategy.show();
     }
@@ -92,9 +126,7 @@ public class GameFrame extends JFrame implements Runnable {
 
     public static void main(String... args) {
         GameFrame game = new GameFrame();
-        /* The thread is used to handle crash reports and
-         * to handle update and render methods.
-         */
+        /* Thread is used for crash reports / better control. */
         Thread gameThread = new Thread(game);
         gameThread.start();
     }
