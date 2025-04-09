@@ -34,20 +34,39 @@ public class RenderHandler {
     }
 
     
-    /** Renders a BufferedImage to the screen, with origin
-     * xPos and yPos.
+    /** Modifies the BufferedImage pixels array to load image
+     * data at coordinates xPos and yPos. The loaded data will
+     * be rendered upon calling the render method.
      * @param image The image to render
      * @param xPos The starting x-coordinate of the render
      * @param yPos The starting y-coordinate of the render
+     * @param scale The desired scaling ratio
      */
-    public void loadImageData(BufferedImage image, int xPos, int yPos) {
+    public void loadImageData(BufferedImage image, int xPos, int yPos, int scale) {
         /* Creates the pixels array linked to the image. */
         int[] imagePixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                pixels[(y + yPos) * view.getWidth() + xPos + x] = imagePixels[x + y * image.getWidth()];
+        for (int yScreen = 0; yScreen < image.getHeight(); yScreen++) {
+            for (int xScreen = 0; xScreen < image.getWidth(); xScreen++) {
+                for (int yScale = 0; yScale < scale; yScale++) {
+                    for (int xScale = 0; xScale < scale; xScale++) {
+                        setPixel(imagePixels[xScreen + yScreen * image.getWidth()], (xPos + xScreen * scale + xScale), ((yScreen * scale) + yPos + yScale));
+                    }
+                }
             }
+        }
+    }
+
+    /** Sets the pixel's color at coordinates (xPos, yPos)
+     * to pixelColor.
+     * @param pixelColor The desired color for the pixel
+     * @param xPos The x-coordinate of the pixel to change
+     * @param yPos The y-coordinate of the pixel to change
+     */
+    private void setPixel(int pixelColor, int xPos, int yPos) {
+        int pixelIndex = xPos + yPos * view.getWidth();
+        if (pixels.length > pixelIndex) {
+            pixels[pixelIndex] = pixelColor;
         }
     }
 }
