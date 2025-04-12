@@ -50,7 +50,7 @@ public class RenderHandler {
             for (int xScreen = 0; xScreen < image.getWidth(); xScreen++) {
                 for (int yScale = 0; yScale < scale; yScale++) {
                     for (int xScale = 0; xScale < scale; xScale++) {
-                        setPixel(imagePixels[xScreen + yScreen * image.getWidth()], (xPos + xScreen * scale + xScale), ((yScreen * scale) + yPos + yScale));
+                        setPixelColor(imagePixels[xScreen + yScreen * image.getWidth()], (xPos + xScreen * scale + xScale), ((yScreen * scale) + yPos + yScale));
                     }
                 }
             }
@@ -63,7 +63,7 @@ public class RenderHandler {
      * @param xPos The x-coordinate of the pixel to change
      * @param yPos The y-coordinate of the pixel to change
      */
-    private void setPixel(int pixelColor, int xPos, int yPos) {
+    private void setPixelColor(int pixelColor, int xPos, int yPos) {
         int pixelIndex = xPos + yPos * view.getWidth();
         if (pixels.length > pixelIndex) {
             pixels[pixelIndex] = pixelColor;

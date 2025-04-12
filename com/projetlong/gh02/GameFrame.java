@@ -9,10 +9,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame implements Runnable {
-
+    
     /* Canvas onto which the frame will draw. */
     private final Canvas canvas = new Canvas();
     private final RenderHandler renderHandler;
+    private InputHandler inputHandler;
     private final BufferedImage testBackgroundImage;
 
 
@@ -39,6 +40,7 @@ public class GameFrame extends JFrame implements Runnable {
         /* Setting up the buffering strategy. */
         canvas.createBufferStrategy(3);
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
+        inputHandler = new InputHandler();
         testBackgroundImage = loadImage("assets/grassTile.png");
     }
 
@@ -131,5 +133,4 @@ public class GameFrame extends JFrame implements Runnable {
         Thread gameThread = new Thread(game);
         gameThread.start();
     }
-
 }
