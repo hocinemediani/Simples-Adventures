@@ -8,6 +8,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+
+import java.awt.event.*;
+import java.awt.*;
+
 public class GameFrame extends JFrame implements Runnable {
     
     /* Canvas onto which the frame will draw. */
@@ -15,7 +19,12 @@ public class GameFrame extends JFrame implements Runnable {
     private final RenderHandler renderHandler;
     private InputHandler inputHandler;
     private final BufferedImage testBackgroundImage;
+    private final BufferedImage menuBackround;
 
+    /* Menu variables. */
+    private boolean isInMenu = true;
+    private boolean isNameEntered = false;
+    private String playerName = "";
 
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
@@ -42,6 +51,54 @@ public class GameFrame extends JFrame implements Runnable {
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
         inputHandler = new InputHandler();
         testBackgroundImage = loadImage("assets/grassTile.png");
+        menuBackround = loadImage("assets/Menu_background.png");
+
+        /* analysing the inputs */
+        setupInput();
+    }
+
+    private void setupInput() {
+        canvas.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                /* typing the input*/
+                if (isInMenu && !isNameEntered) {
+                    char c = e.getKeyChar();
+                    if (c == '\b' && playerName.length() > 0){
+                        /* Delete the last character of the string */
+                        char[] chars = playerName.toCharArray();      
+                        String newName = "";                          
+
+                        for (int i = 0; i < chars.length - 1; i++) {
+                            newName += chars[i];
+                        }
+
+                        playerName = newName;
+                    } else if (c == '\b' && playerName.length() == 0) {
+                        /* nothing to do */
+                    } else {
+                        playerName += c;
+                    }
+                }
+            }
+
+            @Override
+        public void keyPressed(KeyEvent e) {
+            /* pressed keys processing */
+            if (isInMenu && !isNameEntered && e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (!playerName.trim().isEmpty()) {
+                    isInMenu = false;
+                    isNameEntered = true;
+                    System.out.println("Starting game for: " + playerName);
+                }
+            }
+        }
+        });
+
+        
+        // focus on the canvas for key events
+        canvas.setFocusable(true);
+        canvas.requestFocus();
     }
 
 
@@ -85,7 +142,21 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Loading the background in. */
+        
+        if (isInMenu) {
+            /* Loading the Menu background */
+
+            
+            //* Loading the background in. */
+            graphics.drawImage(menuBackround, 0, 0, getWidth(), getHeight(), this);
+
+            // Text format and color
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("Arial", Font.BOLD, 32));
+            graphics.drawString(playerName + "_", 400, 378);
+          
+        } else {
+            /* Loading the background in. */
         for (int x = 0; x < this.getWidth(); x += testBackgroundImage.getWidth()) {
             for (int y = 0; y < this.getHeight(); y += testBackgroundImage.getHeight()) {
                 renderHandler.loadImageData(testBackgroundImage, x, y, 1);
@@ -93,6 +164,9 @@ public class GameFrame extends JFrame implements Runnable {
         }
 
         renderHandler.render(graphics);
+        }
+
+        
 
         /* Clearing the graphics and rendering what has been painted. */
         graphics.dispose();
