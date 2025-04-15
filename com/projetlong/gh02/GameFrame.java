@@ -13,7 +13,7 @@ public class GameFrame extends JFrame implements Runnable {
     /* Canvas onto which the frame will draw. */
     private final Canvas canvas = new Canvas();
     private final RenderHandler renderHandler;
-    private InputHandler inputHandler;
+    private final InputHandler inputHandler;
     private final BufferedImage testBackgroundImage;
 
 
