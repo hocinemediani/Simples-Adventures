@@ -6,10 +6,12 @@ import java.awt.image.DataBufferInt;
 
 public class RenderHandler {
 
-    /* Our working viewport. */
+    /** Our working viewport. */
     private final BufferedImage view;
-    /* The viewport's related pixels array. */
+    /** The viewport's related pixels array. */
     private final int[] pixels;
+    /** Represents the camera. */
+    private final Rectangle camera;
 
     /** Creates the view as a BufferedImage with set
      * width and height and also the pixels array linked
@@ -23,6 +25,9 @@ public class RenderHandler {
 
         /* Creates the pixels array linked to the view. */
         pixels = ((DataBufferInt) view.getRaster().getDataBuffer()).getData();
+
+        /* Initializes the camera. */
+        camera = new Rectangle(0, 0, width, height);
     }
 
 
@@ -45,17 +50,62 @@ public class RenderHandler {
     public void loadImageData(BufferedImage image, int xPos, int yPos, int scale) {
         /* Creates the pixels array linked to the image. */
         int[] imagePixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-        
-        for (int yScreen = 0; yScreen < image.getHeight(); yScreen++) {
-            for (int xScreen = 0; xScreen < image.getWidth(); xScreen++) {
+        loadFromArray(imagePixels, image.getHeight(), image.getWidth(), xPos, yPos, scale);
+    }
+    
+
+    /** Loads rectangle data into the rendering buffers at the
+     * desired scaling ratio. The loaded data will be rendered
+     * upon calling the render method.
+     * @param rectangle The rectangle to render
+     * @param scale The desired scaling ratio
+     */
+    public void loadRectangle(Rectangle rectangle, int scale) {
+        int[] rectanglePixels = rectangle.getPixels();
+        if (rectanglePixels == null) {
+            return;
+        }
+        loadFromArray(rectanglePixels, rectangle.getHeight(), rectangle.getWidth(),
+        rectangle.getX(), rectangle.getY(), scale);
+    }
+
+
+    /** Loads sprite data into the rendering buffers at the
+     * desired scaling ratio. The loaded data will be rendered
+     * upon calling the render method.
+     * @param sprite The sprite to render
+     * @param xPos The starting x-position
+     * @param yPos The starting y-position,
+     * @param scale The desired scaling ratio
+     */
+    public void loadSprite(Sprite sprite, int xPos, int yPos, int scale) {
+        int[] spritePixels = sprite.getPixels();
+        loadFromArray(spritePixels, SpriteSheet.tileSize, SpriteSheet.tileSize, xPos, yPos, scale);
+    }
+
+
+    /** Helper to load image data from an array of pixels.
+     * @param pixelArray The array of pixels
+     * @param renderHeight The initial image's height
+     * @param renderWidth The initial image's width
+     * @param xPos The starting x-position
+     * @param yPos The starting y-position
+     * @param scale The desired scaling ratio
+     */
+    public void loadFromArray(int[]pixelArray, int renderHeight, int renderWidth,
+                                int xPos, int yPos, int scale) {
+        for (int yScreen = 0; yScreen < renderHeight; yScreen++) {
+            for (int xScreen = 0; xScreen < renderWidth; xScreen++) {
                 for (int yScale = 0; yScale < scale; yScale++) {
                     for (int xScale = 0; xScale < scale; xScale++) {
-                        setPixelColor(imagePixels[xScreen + yScreen * image.getWidth()], (xPos + xScreen * scale + xScale), ((yScreen * scale) + yPos + yScale));
+                        setPixelColor(pixelArray[xScreen + yScreen * renderWidth],
+                        (xPos + xScreen * scale + xScale), ((yScreen * scale) + yPos + yScale));
                     }
                 }
             }
         }
     }
+
 
     /** Sets the pixel's color at coordinates (xPos, yPos)
      * to pixelColor.
@@ -64,9 +114,26 @@ public class RenderHandler {
      * @param yPos The y-coordinate of the pixel to change
      */
     private void setPixelColor(int pixelColor, int xPos, int yPos) {
-        int pixelIndex = xPos + yPos * view.getWidth();
-        if (pixels.length > pixelIndex) {
-            pixels[pixelIndex] = pixelColor;
+        if (isPixelOutOfBounds(xPos, yPos)) {
+            return;
         }
+        int pixelIndex = (xPos - camera.getX()) + (yPos - camera.getY()) * view.getWidth();
+        if (pixelColor == GameFrame.ALPHA) {
+            return;
+        }
+        pixels[pixelIndex] = pixelColor;
+    }
+
+
+    /** Verifies if a pixel is out of bounds in comparison to
+     * the position of the camera.
+     * @param xPos The x-position of the pixel
+     * @param yPos The y-position of the pixel
+     * @return If the pixel is out of bounds or not
+    */
+    public boolean isPixelOutOfBounds(int xPos, int yPos) {
+        return !(xPos >= camera.getX()) || !(yPos >= camera.getY()) ||
+               !(xPos < camera.getX() + camera.getWidth()) ||
+               !(yPos < camera.getY() + camera.getHeight());
     }
 }
