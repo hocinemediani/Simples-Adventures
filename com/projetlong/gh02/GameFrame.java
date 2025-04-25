@@ -15,7 +15,7 @@ public class GameFrame extends JFrame implements Runnable {
     /** The render handler of the game. */
     private final RenderHandler renderHandler;
     /** The input handler of the game. */
-    private final InputHandler inputHandler;
+    //private final InputHandler inputHandler;
     /** The global scale used to render our tiles. */
     private final int globalScale = 2;
     /** Random color that we will not use, to create transparency */
@@ -56,7 +56,8 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Assignations of the handlers. */
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
-        inputHandler = new InputHandler();
+        //inputHandler = new InputHandler();
+        
         testBackgroundImage = loadImage("assets/grassTile.png");
         testSheet = loadImage("assets/testSheet.png");
         testSpriteSheet = new SpriteSheet(testSheet);
