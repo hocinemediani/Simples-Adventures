@@ -16,6 +16,10 @@ public class Rectangle {
     /** Creates a new Rectangle with specified
      * initial x-position, y-position, width and
      * height.
+     * @param x The top-left hand corner x-coordinate
+     * @param y The top-left hand corner y-coordinate
+     * @param w The width of the rectangle
+     * @param h The height of the rectangle
      */
     public Rectangle(int x, int y, int w, int h) {
         this.xPos = x;

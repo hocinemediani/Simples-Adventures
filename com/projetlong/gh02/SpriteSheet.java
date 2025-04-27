@@ -22,6 +22,13 @@ public class SpriteSheet {
      * @param spriteSheet The spritesheet's image
      */
     public SpriteSheet(BufferedImage spriteSheet) {
+        if (spriteSheet == null) {
+            System.out.println("The sprite sheet passed as argument is null.");
+            this.spriteSheet = null;
+            this.imageWidth = 0;
+            this.imageHeight = 0;
+            return;
+        }
         this.spriteSheet = spriteSheet;
         this.imageWidth = spriteSheet.getWidth();
         this.imageHeight = spriteSheet.getHeight();

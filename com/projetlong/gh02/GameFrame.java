@@ -21,6 +21,8 @@ public class GameFrame extends JFrame implements Runnable {
     private final int globalScale = 3;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
+    /** The tiles used for the game. */
+    private final Tiles tiles;
     /** For testing purposes. */
     private final BufferedImage testBackgroundImage;
     /** For testing purposes. */
@@ -30,7 +32,7 @@ public class GameFrame extends JFrame implements Runnable {
     /** For testing purposes. */
     public final BufferedImage testSheet;
     /** For testing purposes. */
-    private final SpriteSheet testSpriteSheet;
+    private final SpriteSheet backgroundTileSheet;
 
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
@@ -59,13 +61,14 @@ public class GameFrame extends JFrame implements Runnable {
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
         inputHandler = new InputHandler();
         
+        /* Loading of the assets */
         testBackgroundImage = loadImage("assets/stone.png");
-        testSheet = loadImage("assets/testSheet.png");
-        testSpriteSheet = new SpriteSheet(testSheet);
+        testSheet = loadImage("assets/backgroundTileSheet.png");
+        backgroundTileSheet = new SpriteSheet(testSheet);
         testSprite = new Sprite(testBackgroundImage);
 
         File tilesFile = new File("com/projetlong/gh02/tiles.txt");
-        Tiles tilesTest = new Tiles(tilesFile, testSpriteSheet);
+        this.tiles = new Tiles(tilesFile, backgroundTileSheet);
     }
 
 
@@ -97,6 +100,9 @@ public class GameFrame extends JFrame implements Runnable {
         } catch (IllegalArgumentException e) {
             System.out.println("Incorrect input : " + path);
             return null;
+        } catch (NullPointerException e) {
+            System.out.println("Path does not exist or is mispelled.");
+            return null;
         }
     }
 
@@ -117,14 +123,15 @@ public class GameFrame extends JFrame implements Runnable {
             }
         }
 
-        testRectangle.generateBorderGraphics(5, 15654);
+        testRectangle.generateBorderGraphics(5, 0x000000);
 
         try {
-            renderHandler.loadSprite(testSpriteSheet.getSprite(3, 10), 50, 50, globalScale * 10);
+            renderHandler.loadSprite(backgroundTileSheet.getSprite(1, 1), 50, 50, globalScale * 10);
         } catch (NullPointerException e) {
             System.out.println("No sprite at specified location.");
         }
 
+        tiles.loadTile(1, renderHandler, 900, 500, globalScale);
         renderHandler.loadRectangle(testRectangle, globalScale);
         renderHandler.render(graphics);
 
