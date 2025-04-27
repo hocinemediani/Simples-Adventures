@@ -78,7 +78,7 @@ public class RenderHandler {
      * @param yPos The starting y-position,
      * @param scale The desired scaling ratio
      */
-    public void loadSprite(Sprite sprite, int xPos, int yPos, int scale) {
+    public void loadSprite(Sprite sprite, int xPos, int yPos, int scale) throws NullPointerException {
         int[] spritePixels = sprite.getPixels();
         loadFromArray(spritePixels, SpriteSheet.tileSize, SpriteSheet.tileSize, xPos, yPos, scale);
     }

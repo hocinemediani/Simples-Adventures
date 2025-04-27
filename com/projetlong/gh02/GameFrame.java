@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -15,9 +16,9 @@ public class GameFrame extends JFrame implements Runnable {
     /** The render handler of the game. */
     private final RenderHandler renderHandler;
     /** The input handler of the game. */
-    //private final InputHandler inputHandler;
+    private final InputHandler inputHandler;
     /** The global scale used to render our tiles. */
-    private final int globalScale = 2;
+    private final int globalScale = 3;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
     /** For testing purposes. */
@@ -56,13 +57,15 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Assignations of the handlers. */
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
-        //inputHandler = new InputHandler();
+        inputHandler = new InputHandler();
         
-        testBackgroundImage = loadImage("assets/grassTile.png");
+        testBackgroundImage = loadImage("assets/stone.png");
         testSheet = loadImage("assets/testSheet.png");
         testSpriteSheet = new SpriteSheet(testSheet);
-        testSpriteSheet.loadSprites();
         testSprite = new Sprite(testBackgroundImage);
+
+        File tilesFile = new File("com/projetlong/gh02/tiles.txt");
+        Tiles tilesTest = new Tiles(tilesFile, testSpriteSheet);
     }
 
 
@@ -115,7 +118,13 @@ public class GameFrame extends JFrame implements Runnable {
         }
 
         testRectangle.generateBorderGraphics(5, 15654);
-        renderHandler.loadSprite(testSpriteSheet.getSprite(3, 10), 50, 50, globalScale * 10);
+
+        try {
+            renderHandler.loadSprite(testSpriteSheet.getSprite(3, 10), 50, 50, globalScale * 10);
+        } catch (NullPointerException e) {
+            System.out.println("No sprite at specified location.");
+        }
+
         renderHandler.loadRectangle(testRectangle, globalScale);
         renderHandler.render(graphics);
 

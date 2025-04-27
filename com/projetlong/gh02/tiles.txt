@@ -1,0 +1,4 @@
+grass1-0-0
+grass2-1-0
+stone-0-1
+hardstone-1-1

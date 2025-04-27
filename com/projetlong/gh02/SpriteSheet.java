@@ -18,7 +18,7 @@ public class SpriteSheet {
     public static int tileSize = 16;
 
     /** Creates an instance of a spritesheet from an
-     * image.
+     * image and loads the spriteArray with the sprites.
      * @param spriteSheet The spritesheet's image
      */
     public SpriteSheet(BufferedImage spriteSheet) {
@@ -27,11 +27,12 @@ public class SpriteSheet {
         this.imageHeight = spriteSheet.getHeight();
         this.pixels = new int[this.imageHeight * this.imageWidth];
         pixels = spriteSheet.getRGB(0, 0, imageWidth, imageHeight, pixels, 0, imageWidth);
+        this.loadSprites();
     }
 
 
     /** Loads all of the sprites in the sprite array. */
-    public void loadSprites() {
+    public final void loadSprites() {
         this.spritesArray = new Sprite[(imageWidth / tileSize) * (imageHeight / tileSize)];
         for (int y = 0; y < imageHeight; y += tileSize) {
             for (int x = 0; x < imageWidth; x += tileSize) {
@@ -56,6 +57,7 @@ public class SpriteSheet {
         try {
             return spritesArray[xPos + yPos * (this.imageWidth / tileSize)];
         } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("No sprite at position (" + xPos + ", " + yPos + ")");
             return null;
         }
     }

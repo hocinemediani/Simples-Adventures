@@ -14,7 +14,6 @@ public class Sprite {
      * @param yPos The y-coordinate of the sprite
      */
     public Sprite(SpriteSheet spriteSheet, int xPos, int yPos) {
-
         pixels = new int[SpriteSheet.tileSize * SpriteSheet.tileSize];
         pixels = spriteSheet.getSpriteSheet().getRGB(xPos, yPos, SpriteSheet.tileSize,
                             SpriteSheet.tileSize, pixels, 0, SpriteSheet.tileSize);
