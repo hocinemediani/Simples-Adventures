@@ -18,19 +18,17 @@ public class GameFrame extends JFrame implements Runnable {
     /** The input handler of the game. */
     private final InputHandler inputHandler;
     /** The global scale used to render our tiles. */
-    private final int globalScale = 3;
+    public static final int GLOBALSCALE = 3;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
     /** The tiles used for the game. */
     private final Tiles tiles;
+    /** The map used for the test level. */
+    private final GameMap map;
     /** For testing purposes. */
-    private final BufferedImage testBackgroundImage;
+    private final Rectangle testRectangle = new Rectangle(50, 50, 350, 250);
     /** For testing purposes. */
-    private final Rectangle testRectangle = new Rectangle(50, 50, 250, 250);
-    /** For testing purposes. */
-    private final Sprite testSprite;
-    /** For testing purposes. */
-    public final BufferedImage testSheet;
+    public final BufferedImage backgroundTileImage;
     /** For testing purposes. */
     private final SpriteSheet backgroundTileSheet;
 
@@ -52,7 +50,7 @@ public class GameFrame extends JFrame implements Runnable {
 
         this.add(canvas);
         this.setVisible(true);
-        this.setResizable(false);
+        this.setResizable(true);
 
         /* Setting up the buffering strategy. */
         canvas.createBufferStrategy(3);
@@ -62,23 +60,15 @@ public class GameFrame extends JFrame implements Runnable {
         inputHandler = new InputHandler();
         
         /* Loading of the assets */
-        testBackgroundImage = loadImage("assets/stone.png");
-        testSheet = loadImage("assets/backgroundTileSheet.png");
-        backgroundTileSheet = new SpriteSheet(testSheet);
-        testSprite = new Sprite(testBackgroundImage);
+        backgroundTileImage = loadImage("assets/backgroundTileSheet.png");
+        backgroundTileSheet = new SpriteSheet(backgroundTileImage);
 
+        /* Initializing the Tile set. */
         File tilesFile = new File("com/projetlong/gh02/tiles.txt");
         this.tiles = new Tiles(tilesFile, backgroundTileSheet);
-    }
-
-
-    /** Method to update the game at a certain speed.
-     * This method will update the game at a certain
-     * rate no matter what the system abilities are.
-     * Units of time here are refered to as "ticks".
-     */
-    public void update() {
-
+        /* Initializing the map. */
+        File mapFile = new File("com/projetlong/gh02/firstLevel.txt");
+        this.map = new GameMap(mapFile, this.tiles);
     }
 
 
@@ -107,6 +97,16 @@ public class GameFrame extends JFrame implements Runnable {
     }
 
 
+    /** Method to update the game at a certain speed.
+     * This method will update the game at a certain
+     * rate no matter what the system abilities are.
+     * Units of time here are refered to as "ticks".
+     */
+    public void update() {
+
+    }
+
+
     /** Method to render the game to the screen. Its
      * speed depends on hardware. This is where frames
      * are handled.
@@ -116,26 +116,20 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Loading the background in. */
-        for (int x = 0; x < this.getWidth(); x += testBackgroundImage.getWidth() * globalScale) {
-            for (int y = 0; y < this.getHeight(); y += testBackgroundImage.getHeight() * globalScale) {
-                renderHandler.loadSprite(testSprite, x, y, globalScale);
-            }
-        }
-
+        /* Loading the different  tiles to render. */
         testRectangle.generateBorderGraphics(5, 0x000000);
-
+        this.map.loadMap(renderHandler, GLOBALSCALE);
         try {
-            renderHandler.loadSprite(backgroundTileSheet.getSprite(1, 1), 50, 50, globalScale * 10);
+            renderHandler.loadSprite(backgroundTileSheet.getSprite(1, 1),
+                                    250, 55, GLOBALSCALE * 5);
         } catch (NullPointerException e) {
             System.out.println("No sprite at specified location.");
         }
-
-        tiles.loadTile(1, renderHandler, 900, 500, globalScale);
-        renderHandler.loadRectangle(testRectangle, globalScale);
-        renderHandler.render(graphics);
+        tiles.load(1, renderHandler, 900, 500, GLOBALSCALE);
+        renderHandler.loadRectangle(testRectangle, GLOBALSCALE);
 
         /* Clearing the graphics and rendering what has been painted. */
+        renderHandler.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
     }

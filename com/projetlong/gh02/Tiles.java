@@ -28,7 +28,7 @@ public class Tiles {
                 String tileName = tileString[0];
                 int tileXPos = Integer.parseInt(tileString[1]);
                 int tileYPos = Integer.parseInt(tileString[2]);
-                Tile tile = new Tile(tileName, spriteSheet.getSprite(tileXPos, tileYPos));
+                Tile tile = new Tile(tileName, this.spriteSheet.getSprite(tileXPos, tileYPos));
                 tileArray.add(tile);
             }
         } catch (FileNotFoundException e) {
@@ -46,7 +46,7 @@ public class Tiles {
      * @param yPos The y-position where to render the tile
      * @param scale The desired scaling ratio
     */
-    public void loadTile(int tileID, RenderHandler renderHandler, int xPos, int yPos, int scale) {
+    public void load(int tileID, RenderHandler renderHandler, int xPos, int yPos, int scale) {
         if (tileArray.size() <= tileID || tileID < 0) {
             System.out.println("The tile with ID : " + tileID + " is not within the tile array.");
             return;

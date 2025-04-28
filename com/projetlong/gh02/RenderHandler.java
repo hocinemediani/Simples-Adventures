@@ -133,4 +133,12 @@ public class RenderHandler {
                !(xPos < camera.getX() + camera.getWidth()) ||
                !(yPos < camera.getY() + camera.getHeight());
     }
+
+
+    /** Returns the camera.
+     * @return The camera
+    */
+    public Rectangle getCamera() {
+        return this.camera;
+    }
 }

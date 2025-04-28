@@ -73,22 +73,22 @@ public class Rectangle {
 
         for (int y = 0; y < borderWidth; y++) {
             for (int x = 0; x < this.width; x++) {
-                pixels[x + y * this.height] = color;
+                pixels[x + y * this.width] = color;
             }
         }
 
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < borderWidth; x++) {
-                pixels[x + y * this.height] = color;
+                pixels[x + y * this.width] = color;
             }
-            for (int x = this.width - borderWidth; x < this.width; x++) {
-                pixels[x + y * this.height] = color;
+            for (int x = this.width - borderWidth ; x < this.width; x++) {
+                pixels[x + y * this.width] = color;
             }
         }
 
         for (int y = this.height - borderWidth; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
-                pixels[x + y * this.height] = color;
+                pixels[x + y * this.width] = color;
             }
         }
     }
