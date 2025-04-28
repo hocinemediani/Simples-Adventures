@@ -10,7 +10,7 @@ public class Tiles {
     /** The spritesheet of the tiles. */
     private SpriteSheet spriteSheet;
     /** The array of tiles from the spritesheet. */
-    private ArrayList<Tile> tileArray = new ArrayList<Tile>();
+    private ArrayList<Tile> tileArray = new ArrayList<>();
 
     /** Creates an instance of tiles from a file
      * following the convention "tileName-xPos-yPos"
@@ -30,7 +30,6 @@ public class Tiles {
                 int tileYPos = Integer.parseInt(tileString[2]);
                 Tile tile = new Tile(tileName, spriteSheet.getSprite(tileXPos, tileYPos));
                 tileArray.add(tile);
-                System.out.println(tileName + " is at position (" + tileXPos + ", " + tileYPos + ").");
             }
         } catch (FileNotFoundException e) {
             System.out.println("No such file at location " + tilesFile.getAbsolutePath());

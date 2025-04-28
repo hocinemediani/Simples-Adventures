@@ -114,13 +114,10 @@ public class RenderHandler {
      * @param yPos The y-coordinate of the pixel to change
      */
     private void setPixelColor(int pixelColor, int xPos, int yPos) {
-        if (isPixelOutOfBounds(xPos, yPos)) {
+        if (isPixelOutOfBounds(xPos, yPos) || pixelColor == GameFrame.ALPHA) {
             return;
         }
         int pixelIndex = (xPos - camera.getX()) + (yPos - camera.getY()) * view.getWidth();
-        if (pixelColor == GameFrame.ALPHA) {
-            return;
-        }
         pixels[pixelIndex] = pixelColor;
     }
 
