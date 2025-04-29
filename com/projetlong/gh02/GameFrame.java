@@ -81,7 +81,7 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();
-        player = new Player(playerTileSheet.getSprite(0, 0), inputHandler, renderHandler.getCamera());
+        player = new Player(playerTileSheet, inputHandler, renderHandler.getCamera());
         gameObjects.add(player);
 
         /* Adding the key listener. */

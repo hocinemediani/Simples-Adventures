@@ -35,7 +35,12 @@ public class Sprite {
      * @return The pixel array of the sprite
      */
     public int[] getPixels() {
-        return this.pixels;
+        try {
+            return this.pixels;
+        } catch (NullPointerException e) {
+            System.out.println("The sprite doesn't have a pixel array.");
+            return null;
+        }
     }
 
 }

@@ -79,6 +79,10 @@ public class RenderHandler {
      * @param scale The desired scaling ratio
      */
     public void loadSprite(Sprite sprite, int xPos, int yPos, int scale) {
+        if (sprite == null) {
+            return;
+        }
+        
         int[] spritePixels = sprite.getPixels();
 
         try {

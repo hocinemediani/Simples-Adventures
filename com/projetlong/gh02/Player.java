@@ -13,13 +13,16 @@ public class Player implements GameObject {
     /** The player's y-position. */
     private int yPos;
     /**  */
-    private final Sprite sprite;
+    private final SpriteSheet playerSpriteSheet;
+    /**  */
+    private Sprite sprite;
     /** */
-    private final int speed = 5;
+    private final int speed = 3;
 
     /**  */
-    public Player(Sprite sprite, InputHandler inputHandler, Rectangle camera) {
-        this.sprite = sprite;
+    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {
+        this.playerSpriteSheet = playerSpriteSheet;
+        this.sprite = playerSpriteSheet.getSprite(0, 0);
         this.camera = camera;
         this.inputHandler = inputHandler;
         this.xPos = camera.getWidth() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE - 1);
@@ -41,28 +44,44 @@ public class Player implements GameObject {
     public void update(GameFrame game) {
 
         if (inputHandler.movingUp()) {
+            setPlayerSprite(playerSpriteSheet.getSprite(1, 0));
             playerRectangle.moveY(-speed);
             camera.moveY(-speed);
             this.yPos -= speed;
         }
 
         if (inputHandler.movingDown()) {
+            setPlayerSprite(playerSpriteSheet.getSprite(0,0));
             playerRectangle.moveY(speed);
             camera.moveY(speed);
             this.yPos += speed;
         }
 
         if (inputHandler.movingLeft()) {
+            setPlayerSprite(playerSpriteSheet.getSprite(2, 0));
             playerRectangle.moveX(-speed);
             camera.moveX(-speed);
             this.xPos -= speed;
         }
 
         if (inputHandler.movingRight()) {
+            setPlayerSprite(playerSpriteSheet.getSprite(0, 0));
             playerRectangle.moveX(speed);
             camera.moveX(speed);
             this.xPos += speed;
         }
+    }
+
+
+    /**  */
+    public SpriteSheet getSpriteSheet() {
+        return this.playerSpriteSheet;
+    }
+
+
+    /** */
+    public void setPlayerSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 
 
