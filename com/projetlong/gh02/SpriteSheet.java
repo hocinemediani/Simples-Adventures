@@ -54,7 +54,7 @@ public class SpriteSheet {
      * sprites. Returns null if the spritesArray hasn't
      * been initialized.
      * @param xPos The x-coordinate of the sprite
-     * @param ypos The y-coordinate of the sprite
+     * @param yPos The y-coordinate of the sprite
      * @return The sprite at coordinates (xPos, yPos)
      */
     public Sprite getSprite(int xPos, int yPos) {

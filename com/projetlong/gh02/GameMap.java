@@ -40,7 +40,14 @@ public class GameMap {
     }
 
 
-    /**  */
+    /** Loads all the tiles from the map text file
+     * into the graphics buffering strategy to then
+     * be rendered.
+     * WILL NEED TO BE CHANGED TO CREATE MAP FROM
+     * A FILE WITH TILES WRITTEN AS A GRID.
+     * @param renderHandler The game's render handler
+     * @param scale The desired scaling ratio
+     */
     public void loadMap(RenderHandler renderHandler, int scale) {
         Rectangle camera = renderHandler.getCamera();
         for (int x = 0; x < camera.getWidth(); x += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
@@ -55,7 +62,11 @@ public class GameMap {
         }
     }
 
-    /** */
+    /** Returns the fillTileID which
+     * corresponds to the ID of the tile
+     * constituing the background of the map.
+     * @return The fillTileID
+     */
     public int getfillTileID() {
         return this.fillTileID;
     }

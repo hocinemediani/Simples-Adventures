@@ -78,9 +78,14 @@ public class RenderHandler {
      * @param yPos The starting y-position,
      * @param scale The desired scaling ratio
      */
-    public void loadSprite(Sprite sprite, int xPos, int yPos, int scale) throws NullPointerException {
+    public void loadSprite(Sprite sprite, int xPos, int yPos, int scale) {
         int[] spritePixels = sprite.getPixels();
-        loadFromArray(spritePixels, SpriteSheet.tileSize, SpriteSheet.tileSize, xPos, yPos, scale);
+
+        try {
+            loadFromArray(spritePixels, SpriteSheet.tileSize, SpriteSheet.tileSize, xPos, yPos, scale);
+        } catch (NullPointerException e) {
+            System.out.println("Couldn't load sprite.");
+        }
     }
 
 
@@ -113,8 +118,11 @@ public class RenderHandler {
      * @param xPos The x-coordinate of the pixel to change
      * @param yPos The y-coordinate of the pixel to change
      */
-    private void setPixelColor(int pixelColor, int xPos, int yPos) {
-        if (isPixelOutOfBounds(xPos, yPos) || pixelColor == GameFrame.ALPHA) {
+    public void setPixelColor(int pixelColor, int xPos, int yPos) {
+        if (isPixelOutOfBounds(xPos, yPos)) {
+            return;
+        }
+        if ((pixelColor & 0xFFFFFF) == GameFrame.ALPHA) {
             return;
         }
         int pixelIndex = (xPos - camera.getX()) + (yPos - camera.getY()) * view.getWidth();
@@ -132,6 +140,13 @@ public class RenderHandler {
         return !(xPos >= camera.getX()) || !(yPos >= camera.getY()) ||
                !(xPos < camera.getX() + camera.getWidth()) ||
                !(yPos < camera.getY() + camera.getHeight());
+    }
+
+
+    public void clear() {
+        for (int i = 0; i < pixels.length; i++) {
+            pixels[i] = 0;
+        }
     }
 
 

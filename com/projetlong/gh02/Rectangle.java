@@ -136,21 +136,21 @@ public class Rectangle {
     }
 
 
-    /** Sets the x-position of the rectangle to
-     * the specified x-position.
-     * @param newXPos The new x-position of the rectangle
+    /** Shifts the x-position of the rectangle
+     * of dx.
+     * @param dx The new x-position of the rectangle
      */
-    public void setX(int newXPos) {
-        this.xPos = newXPos;
+    public void moveX(int dx) {
+        this.xPos += dx;
     }
 
 
-    /** Sets the y-position of the rectangle to
-     * the specified y-position.
+    /** Shifts the y-position of the rectangle
+     * of dy.
      * @param newYPos The new y-position of the rectangle
      */
-    public void setY(int newYPos) {
-        this.yPos = newYPos;
+    public void moveY(int dy) {
+        this.yPos += dy;
     }
 
 

@@ -6,6 +6,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
@@ -25,12 +26,18 @@ public class GameFrame extends JFrame implements Runnable {
     private final Tiles tiles;
     /** The map used for the test level. */
     private final GameMap map;
+    /** The background's tileset image. */
+    private final BufferedImage backgroundTileImage;
+    /** The background's tileset spritesheet. */
+    private final SpriteSheet backgroundTileSheet;
+    /** All of the gameobjects in the game. */
+    private final ArrayList<GameObject> gameObjects;
+    /**  */
+    private final Player player;
+    /**  */
+    private final SpriteSheet playerTileSheet;
     /** For testing purposes. */
     private final Rectangle testRectangle = new Rectangle(50, 50, 350, 250);
-    /** For testing purposes. */
-    public final BufferedImage backgroundTileImage;
-    /** For testing purposes. */
-    private final SpriteSheet backgroundTileSheet;
 
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
@@ -62,13 +69,24 @@ public class GameFrame extends JFrame implements Runnable {
         /* Loading of the assets */
         backgroundTileImage = loadImage("assets/backgroundTileSheet.png");
         backgroundTileSheet = new SpriteSheet(backgroundTileImage);
+        playerTileSheet = new SpriteSheet(loadImage("assets/player.png"));
 
-        /* Initializing the Tile set. */
+        /* Initializing the tile set. */
         File tilesFile = new File("com/projetlong/gh02/tiles.txt");
         this.tiles = new Tiles(tilesFile, backgroundTileSheet);
+
         /* Initializing the map. */
         File mapFile = new File("com/projetlong/gh02/firstLevel.txt");
         this.map = new GameMap(mapFile, this.tiles);
+
+        /* Initializing the gameobjects. */
+        gameObjects = new ArrayList<>();
+        player = new Player(playerTileSheet.getSprite(0, 0), inputHandler, renderHandler.getCamera());
+        gameObjects.add(player);
+
+        /* Adding the key listener. */
+        canvas.addKeyListener(inputHandler);
+        canvas.addFocusListener(inputHandler);
     }
 
 
@@ -103,7 +121,9 @@ public class GameFrame extends JFrame implements Runnable {
      * Units of time here are refered to as "ticks".
      */
     public void update() {
-
+        for (GameObject gameObject : gameObjects) {
+            gameObject.update(this);
+        }
     }
 
 
@@ -116,22 +136,26 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Loading the different  tiles to render. */
+        /* Loading the different tiles to render. */
         testRectangle.generateBorderGraphics(5, 0x000000);
         this.map.loadMap(renderHandler, GLOBALSCALE);
-        try {
-            renderHandler.loadSprite(backgroundTileSheet.getSprite(1, 1),
-                                    250, 55, GLOBALSCALE * 5);
-        } catch (NullPointerException e) {
-            System.out.println("No sprite at specified location.");
-        }
+        renderHandler.loadSprite(backgroundTileSheet.getSprite(1, 1),
+                                250, 55, GLOBALSCALE * 5);
         tiles.load(1, renderHandler, 900, 500, GLOBALSCALE);
         renderHandler.loadRectangle(testRectangle, GLOBALSCALE);
+
+        /* Rendering all of the game objects.
+         * WILL NEED TO IMPLEMENT RENDERING BY LAYERS.
+         */
+        for (GameObject gameObject : gameObjects) {
+            gameObject.render(renderHandler, GLOBALSCALE);
+        }
 
         /* Clearing the graphics and rendering what has been painted. */
         renderHandler.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
+        renderHandler.clear();
     }
 
 
@@ -157,6 +181,17 @@ public class GameFrame extends JFrame implements Runnable {
             this.render();
             previousTime = currentTime;
         }
+    }
+
+    /**  */
+    public InputHandler getInputHandler(){
+        return this.inputHandler;
+    }
+
+
+    /**  */
+    public RenderHandler getRenderHandler(){
+        return this.renderHandler;
     }
 
 
