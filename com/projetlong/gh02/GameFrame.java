@@ -87,6 +87,7 @@ public class GameFrame extends JFrame implements Runnable {
         /* Adding the key listener. */
         canvas.addKeyListener(inputHandler);
         canvas.addFocusListener(inputHandler);
+
     }
 
 

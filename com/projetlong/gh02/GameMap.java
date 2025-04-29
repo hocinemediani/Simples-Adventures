@@ -50,8 +50,8 @@ public class GameMap {
      */
     public void loadMap(RenderHandler renderHandler, int scale) {
         Rectangle camera = renderHandler.getCamera();
-        for (int x = 0; x < camera.getWidth(); x += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
-            for (int y = 0; y < camera.getHeight(); y += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
+        for (int x = camera.getX(); x < camera.getWidth() + camera.getX(); x += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
+            for (int y = camera.getY(); y < camera.getHeight() + camera.getY(); y += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
                 tiles.load(this.getfillTileID(), renderHandler, x, y, GameFrame.GLOBALSCALE);
             }
         }

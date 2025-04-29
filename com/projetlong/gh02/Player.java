@@ -22,8 +22,8 @@ public class Player implements GameObject {
         this.sprite = sprite;
         this.camera = camera;
         this.inputHandler = inputHandler;
-        this.xPos = 700;
-        this.yPos = 500;
+        this.xPos = camera.getWidth() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE - 1);
+        this.yPos = camera.getHeight() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE);
         this.playerRectangle = new Rectangle(xPos, yPos,
                         SpriteSheet.tileSize, SpriteSheet.tileSize);
         playerRectangle.generateBorderGraphics(1, 0x194875);
