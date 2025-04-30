@@ -38,8 +38,6 @@ public class GameFrame extends JFrame implements Runnable {
     private final Player player;
     /**  */
     private final SpriteSheet playerTileSheet;
-    /** For testing purposes. */
-    private final Rectangle testRectangle = new Rectangle(50, 50, 350, 250);
 
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
@@ -155,7 +153,7 @@ public class GameFrame extends JFrame implements Runnable {
         renderHandler.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        // renderHandler.clear();
+        renderHandler.clear();
     }
 
 
