@@ -50,11 +50,16 @@ public class GameMap {
      */
     public void loadMap(RenderHandler renderHandler, int scale) {
         Rectangle camera = renderHandler.getCamera();
-        for (int x = camera.getX() - SpriteSheet.tileSize - (camera.getX() % SpriteSheet.tileSize); x < camera.getWidth() + camera.getX(); x += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
-            for (int y = camera.getY() - SpriteSheet.tileSize - (camera.getY() % SpriteSheet.tileSize); y < camera.getHeight() + camera.getY(); y += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
-                tiles.load(this.getfillTileID(), renderHandler, x, y, GameFrame.GLOBALSCALE);
+        if (this.getfillTileID() != -1) {
+            for (int x = camera.getX() - SpriteSheet.tileSize - (camera.getX() % SpriteSheet.tileSize);
+                                                    x < camera.getWidth() + camera.getX(); x += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
+                for (int y = camera.getY() - SpriteSheet.tileSize - (camera.getY() % SpriteSheet.tileSize);
+                                                    y < camera.getHeight() + camera.getY(); y += SpriteSheet.tileSize * GameFrame.GLOBALSCALE) {
+                    tiles.load(this.getfillTileID(), renderHandler, x, y, GameFrame.GLOBALSCALE);
+                }
             }
         }
+        
         int increment = SpriteSheet.tileSize * scale;
         for(int tileIndex = 0; tileIndex < mappedTileArray.size(); tileIndex++) {
             MappedTile mappedTile = mappedTileArray.get(tileIndex);

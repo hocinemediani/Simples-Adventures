@@ -18,6 +18,8 @@ public class GameFrame extends JFrame implements Runnable {
     private final RenderHandler renderHandler;
     /** The input handler of the game. */
     private final InputHandler inputHandler;
+    /**  */
+    private final MouseInputHandler mouseInputHandler;
     /** The global scale used to render our tiles. */
     public static final int GLOBALSCALE = 3;
     /** Random color that we will not use, to create transparency */
@@ -65,6 +67,7 @@ public class GameFrame extends JFrame implements Runnable {
         /* Assignations of the handlers. */
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
         inputHandler = new InputHandler();
+        mouseInputHandler = new MouseInputHandler(this);
         
         /* Loading of the assets */
         backgroundTileImage = loadImage("assets/backgroundTileSheet.png");
@@ -76,7 +79,7 @@ public class GameFrame extends JFrame implements Runnable {
         this.tiles = new Tiles(tilesFile, backgroundTileSheet);
 
         /* Initializing the map. */
-        File mapFile = new File("com/projetlong/gh02/firstLevel.txt");
+        File mapFile = new File("com/projetlong/gh02/testLevel.txt");
         this.map = new GameMap(mapFile, this.tiles);
 
         /* Initializing the gameobjects. */
@@ -87,7 +90,8 @@ public class GameFrame extends JFrame implements Runnable {
         /* Adding the key listener. */
         canvas.addKeyListener(inputHandler);
         canvas.addFocusListener(inputHandler);
-
+        canvas.addMouseListener(mouseInputHandler);
+        canvas.addMouseMotionListener(mouseInputHandler);
     }
 
 
@@ -137,13 +141,8 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Loading the different tiles to render. */
-        testRectangle.generateBorderGraphics(5, 0x000000);
+        /* Loading the different tiles from the map to render. */
         this.map.loadMap(renderHandler, GLOBALSCALE);
-        renderHandler.loadSprite(backgroundTileSheet.getSprite(1, 1),
-                                250, 55, GLOBALSCALE * 5);
-        tiles.load(1, renderHandler, 900, 500, GLOBALSCALE);
-        renderHandler.loadRectangle(testRectangle, GLOBALSCALE);
 
         /* Rendering all of the game objects.
          * WILL NEED TO IMPLEMENT RENDERING BY LAYERS.
@@ -193,6 +192,18 @@ public class GameFrame extends JFrame implements Runnable {
     /**  */
     public RenderHandler getRenderHandler(){
         return this.renderHandler;
+    }
+
+
+    /**  */
+    public MouseInputHandler getMouseInputHandler(){
+        return this.mouseInputHandler;
+    }
+
+
+    /**  */
+    public SpriteSheet getBackgroundTileSheet(){
+        return this.backgroundTileSheet;
     }
 
 

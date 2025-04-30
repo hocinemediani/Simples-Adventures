@@ -16,8 +16,10 @@ public class Player implements GameObject {
     private final SpriteSheet playerSpriteSheet;
     /**  */
     private Sprite sprite;
-    /** */
+    /**  */
     private final int speed = 3;
+    /**  */
+    private final int cameraSpeed = 2;
 
     /**  */
     public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {
@@ -46,28 +48,28 @@ public class Player implements GameObject {
         if (inputHandler.movingUp()) {
             setPlayerSprite(playerSpriteSheet.getSprite(1, 0));
             playerRectangle.moveY(-speed);
-            camera.moveY(-speed);
+            camera.moveY(-cameraSpeed);
             this.yPos -= speed;
         }
 
         if (inputHandler.movingDown()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0,0));
             playerRectangle.moveY(speed);
-            camera.moveY(speed);
+            camera.moveY(cameraSpeed);
             this.yPos += speed;
         }
 
         if (inputHandler.movingLeft()) {
             setPlayerSprite(playerSpriteSheet.getSprite(2, 0));
             playerRectangle.moveX(-speed);
-            camera.moveX(-speed);
+            camera.moveX(-cameraSpeed);
             this.xPos -= speed;
         }
 
         if (inputHandler.movingRight()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0, 0));
             playerRectangle.moveX(speed);
-            camera.moveX(speed);
+            camera.moveX(cameraSpeed);
             this.xPos += speed;
         }
     }
