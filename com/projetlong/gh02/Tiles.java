@@ -54,6 +54,12 @@ public class Tiles {
         renderHandler.loadSprite(tileArray.get(tileID).getSprite(), xPos, yPos, scale);
     }
 
+
+    /**  */
+    public int getNumberOfTiles() {
+        return this.tileArray.size();
+    }
+
     class Tile {
 
         /** The name of the tile. */

@@ -18,6 +18,8 @@ public class MouseInputHandler implements MouseInputListener {
     /**  */
     private PrintWriter fileWriter;
 
+    private int tileID = 0;
+
     /**  */
     public MouseInputHandler(GameFrame game) {
         this.game = game;
@@ -38,16 +40,22 @@ public class MouseInputHandler implements MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
-        int xPos = ((int) e.getX() / (tileLength));
-        int yPos = ((int) e.getY() / (tileLength));
-        this.game.getRenderHandler().loadSprite(game.getBackgroundTileSheet().getSprite(3, 0),
-                                                xPos * tileLength + this.camera.getX(),
-                                                yPos * tileLength + this.camera.getY(),
-                                                GameFrame.GLOBALSCALE);
-        String mapString =  + "-" + xPos + "-" + yPos + "\n";
-        fileWriter.write(mapString);
-        fileWriter.flush();
+        int numTiles = game.getTiles().getNumberOfTiles();
+        if (e.getButton() == 3) {
+            tileID = (tileID + 1) % numTiles;
+        }
+        if (e.getButton() == 1) {
+            int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
+            int xPos = ((int) e.getX() / (tileLength));
+            int yPos = ((int) e.getY() / (tileLength));
+            this.game.getRenderHandler().loadSprite(game.getBackgroundTileSheet().getSprite((tileID % numTiles), (tileID / numTiles)),
+                                                    xPos * tileLength + this.camera.getX(),
+                                                    yPos * tileLength + this.camera.getY(),
+                                                    GameFrame.GLOBALSCALE);
+            String mapString = tileID + "-" + xPos + "-" + yPos + "\n";
+            fileWriter.write(mapString);
+            fileWriter.flush();
+        }
     }
 
 

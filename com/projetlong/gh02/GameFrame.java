@@ -155,7 +155,7 @@ public class GameFrame extends JFrame implements Runnable {
         renderHandler.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        renderHandler.clear();
+        // renderHandler.clear();
     }
 
 
@@ -204,6 +204,12 @@ public class GameFrame extends JFrame implements Runnable {
     /**  */
     public SpriteSheet getBackgroundTileSheet(){
         return this.backgroundTileSheet;
+    }
+
+
+    /**  */
+    public Tiles getTiles(){
+        return this.tiles;
     }
 
 
