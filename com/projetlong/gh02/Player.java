@@ -19,7 +19,7 @@ public class Player implements GameObject {
     /**  */
     private final int speed = 3;
     /**  */
-    private final int cameraSpeed = 2;
+    private final int cameraSpeed = 3;
 
     /**  */
     public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {

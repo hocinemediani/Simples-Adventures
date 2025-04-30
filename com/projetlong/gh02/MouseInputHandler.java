@@ -24,7 +24,7 @@ public class MouseInputHandler implements MouseInputListener {
     public MouseInputHandler(GameFrame game) {
         this.game = game;
         this.camera = game.getRenderHandler().getCamera();
-        this.mapFile = new File("./com/projetlong/gh02/testLevel.txt");
+        this.mapFile = new File("./com/projetlong/gh02/testLevel2.txt");
         try {
             fileWriter = new PrintWriter(new FileWriter(mapFile, true));
         } catch (IOException e) {
@@ -46,13 +46,10 @@ public class MouseInputHandler implements MouseInputListener {
         }
         if (e.getButton() == 1) {
             int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
-            int xPos = ((int) e.getX() / (tileLength));
-            int yPos = ((int) e.getY() / (tileLength));
-            this.game.getRenderHandler().loadSprite(game.getBackgroundTileSheet().getSprite((tileID % numTiles), (tileID / numTiles)),
-                                                    xPos * tileLength + this.camera.getX(),
-                                                    yPos * tileLength + this.camera.getY(),
-                                                    GameFrame.GLOBALSCALE);
-            String mapString = tileID + "-" + xPos + "-" + yPos + "\n";
+            int xPos = (((int) e.getX() + this.camera.getX()) / (tileLength));
+            int yPos = (((int) e.getY() + this.camera.getY()) / (tileLength));
+            this.game.getGameMap().addMappedTile(tileID, xPos, yPos);
+            String mapString = tileID + "-" + xPos  + "-" + yPos + "\n";
             fileWriter.write(mapString);
             fileWriter.flush();
         }

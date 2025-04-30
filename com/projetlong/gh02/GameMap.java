@@ -29,10 +29,9 @@ public class GameMap {
                     fillTileID = Integer.parseInt(mapString[1]);
                     continue;
                 }
-                MappedTile mappedTile = new MappedTile(Integer.parseInt(mapString[0]),
+                addMappedTile(Integer.parseInt(mapString[0]),
                                                         Integer.parseInt(mapString[1]),
                                                         Integer.parseInt(mapString[2]));
-                mappedTileArray.add(mappedTile);
             }
         } catch (FileNotFoundException e) {
             System.out.println("No such file at location " + mapFile.getAbsolutePath());
@@ -43,8 +42,6 @@ public class GameMap {
     /** Loads all the tiles from the map text file
      * into the graphics buffering strategy to then
      * be rendered.
-     * WILL NEED TO BE CHANGED TO CREATE MAP FROM
-     * A FILE WITH TILES WRITTEN AS A GRID.
      * @param renderHandler The game's render handler
      * @param scale The desired scaling ratio
      */
@@ -66,6 +63,14 @@ public class GameMap {
             tiles.load(mappedTile.ID, renderHandler, mappedTile.xPos * increment, mappedTile.yPos * increment, scale);
         }
     }
+
+
+    /**  */
+    public final void addMappedTile(int tileID, int xPos, int yPos) {
+        MappedTile newTile = new MappedTile(tileID, xPos, yPos);
+        mappedTileArray.add(newTile);
+    }
+
 
     /** Returns the fillTileID which
      * corresponds to the ID of the tile

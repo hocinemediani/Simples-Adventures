@@ -77,7 +77,7 @@ public class GameFrame extends JFrame implements Runnable {
         this.tiles = new Tiles(tilesFile, backgroundTileSheet);
 
         /* Initializing the map. */
-        File mapFile = new File("com/projetlong/gh02/testLevel.txt");
+        File mapFile = new File("com/projetlong/gh02/testLevel2.txt");
         this.map = new GameMap(mapFile, this.tiles);
 
         /* Initializing the gameobjects. */
@@ -208,6 +208,12 @@ public class GameFrame extends JFrame implements Runnable {
     /**  */
     public Tiles getTiles(){
         return this.tiles;
+    }
+
+
+    /**  */
+    public GameMap getGameMap(){
+        return this.map;
     }
 
 
