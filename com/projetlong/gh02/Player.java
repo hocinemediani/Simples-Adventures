@@ -17,9 +17,9 @@ public class Player implements GameObject {
     /**  */
     private Sprite sprite;
     /**  */
-    private final int speed = 3;
+    private final int speed = GameFrame.GLOBALSCALE;
     /**  */
-    private final int cameraSpeed = 3;
+    private final int cameraSpeed = GameFrame.GLOBALSCALE;
 
     /**  */
     public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {

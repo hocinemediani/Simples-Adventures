@@ -21,7 +21,7 @@ public class GameFrame extends JFrame implements Runnable {
     /**  */
     private final MouseInputHandler mouseInputHandler;
     /** The global scale used to render our tiles. */
-    public static final int GLOBALSCALE = 3;
+    public static final int GLOBALSCALE = 2;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
     /** The tiles used for the game. */
