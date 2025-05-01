@@ -24,7 +24,7 @@ public class GameMap {
         this.tiles = tiles;
         try (Scanner scanner = new Scanner(mapFile)) {
             while(scanner.hasNextLine()) {
-                String[] mapString = scanner.nextLine().split("-");
+                String[] mapString = scanner.nextLine().split(",");
                 if (mapString[0].contains("Fill")) {
                     fillTileID = Integer.parseInt(mapString[1]);
                     continue;

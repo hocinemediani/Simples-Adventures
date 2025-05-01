@@ -28,6 +28,7 @@ public class RenderHandler {
 
         /* Initializes the camera. */
         camera = new Rectangle(0, 0, width, height);
+        camera.generateBorderGraphics(10, 0xFFFFFF);
     }
 
 
