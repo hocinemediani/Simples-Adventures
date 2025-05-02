@@ -2,15 +2,23 @@ package com.projetlong.gh02;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class GameMap {
 
     /** The different tiles used throughout the map. */
     private Tiles tiles;
+    /**  */
+    private File mapFile;
     /** The ID of the main background tile. */
     private int fillTileID = -1;
+    /**  */
+    private PrintWriter fileWriter;
     /** The array of mapped tiles for the map. */
     private ArrayList<MappedTile> mappedTileArray = new ArrayList<>();
 
@@ -21,7 +29,13 @@ public class GameMap {
      * @param tiles The tile set used for the map
      */
     public GameMap(File mapFile, Tiles tiles) {
+        this.mapFile = mapFile;
         this.tiles = tiles;
+        try {
+            fileWriter = new PrintWriter(new FileWriter(mapFile, true));
+        } catch (IOException e) {
+            System.out.println("Couldn't create the map file.");
+        }
         try (Scanner scanner = new Scanner(mapFile)) {
             while(scanner.hasNextLine()) {
                 String[] mapString = scanner.nextLine().split(",");
@@ -72,6 +86,42 @@ public class GameMap {
     }
 
 
+    /**  */
+    public void writeToFile(String mapString, Integer tileID){
+        fileWriter.write(tileID + "," + mapString + "\n");
+        fileWriter.flush();
+    }
+
+
+    /**  */
+    public void cleanupMapFile() {
+        HashMap<String, Integer> memoryHashMap = new HashMap<>();
+        try (Scanner scanner = new Scanner(mapFile)) {
+            while(scanner.hasNextLine()) {
+                String[] args = scanner.nextLine().split(",");
+                if (args[0].equals("Fill")) {
+                    fillTileID = Integer.parseInt(args[1]);
+                    continue;
+                }
+                int tileID = Integer.parseInt(args[0]);
+                int tileXPos = Integer.parseInt(args[1]);
+                int tileYPos = Integer.parseInt(args[2]);
+                String hashKey = tileXPos + "," + tileYPos;
+                memoryHashMap.put(hashKey, tileID);
+            }
+            fileWriter = new PrintWriter(new FileWriter(mapFile, false));
+            if (fillTileID != -1) {
+                fileWriter.append("Fill," + fillTileID + "\n");
+            }
+            memoryHashMap.forEach(this::writeToFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("No such file at location " + mapFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Couldn't create the map file.");
+        }
+    }
+
+
     /** Returns the fillTileID which
      * corresponds to the ID of the tile
      * constituing the background of the map.
@@ -84,11 +134,11 @@ public class GameMap {
     class MappedTile {
 
         /** The tile ID. */
-        public int ID;
+        private int ID;
         /** The x-coordinate to render the tile to. */
-        public int xPos;
+        private int xPos;
         /** The y-coordinate to render the tile to. */
-        public int yPos;
+        private int yPos;
 
         /** Creates an instance of MappedTile from the
          * tile ID and the x and y coordinates to render

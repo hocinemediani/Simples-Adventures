@@ -2,6 +2,8 @@ package com.projetlong.gh02;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -44,8 +46,17 @@ public class GameFrame extends JFrame implements Runnable {
      * to render images on the window.
      */
     public GameFrame() {
-        /* Option to terminate the program upon closing the window. */
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /* Option to terminate the program upon closing the window.
+         * The map text file is also being cleanedup.
+        */
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                map.cleanupMapFile();
+                dispose(); // Close the window
+                System.exit(0); // Exit the application
+            }
+        });
         this.setTitle("Projet long");
 
         /* Sets base height and centers the window. */
@@ -64,7 +75,7 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Assignations of the handlers. */
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
-        inputHandler = new InputHandler();
+        inputHandler = new InputHandler(this);
         mouseInputHandler = new MouseInputHandler(this);
         
         /* Loading of the assets */
@@ -85,7 +96,7 @@ public class GameFrame extends JFrame implements Runnable {
         player = new Player(playerTileSheet, inputHandler, renderHandler.getCamera());
         gameObjects.add(player);
 
-        /* Adding the key listener. */
+        /* Adding the listeners to the canvas. */
         canvas.addKeyListener(inputHandler);
         canvas.addFocusListener(inputHandler);
         canvas.addMouseListener(mouseInputHandler);
@@ -139,7 +150,10 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Loading the different tiles from the map to render. */
+        /* Loading the different tiles from the map to render.
+         * This constitutes the background of the map.
+         * To be pasted in each scene in the future.dddddd
+        */
         this.map.loadMap(renderHandler, GLOBALSCALE);
 
         /* Rendering all of the game objects.

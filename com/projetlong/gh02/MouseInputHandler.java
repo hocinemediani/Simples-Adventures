@@ -1,10 +1,6 @@
 package com.projetlong.gh02;
 
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javax.swing.event.MouseInputListener;
 
 public class MouseInputHandler implements MouseInputListener {
@@ -14,22 +10,12 @@ public class MouseInputHandler implements MouseInputListener {
     /**  */
     private final Rectangle camera;
     /**  */
-    private File mapFile;
-    /**  */
-    private PrintWriter fileWriter;
-
     private int tileID = 0;
 
     /**  */
     public MouseInputHandler(GameFrame game) {
         this.game = game;
         this.camera = game.getRenderHandler().getCamera();
-        this.mapFile = new File("./com/projetlong/gh02/testLevel2.txt");
-        try {
-            fileWriter = new PrintWriter(new FileWriter(mapFile, true));
-        } catch (IOException e) {
-            System.out.println("Couldn't create the map file.");
-        }
     }  
 
 
@@ -40,6 +26,14 @@ public class MouseInputHandler implements MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (this.game.getInputHandler().isInContructionMode()) {
+            this.constructionMode(e);
+        }
+    }
+
+
+    /**  */
+    public void constructionMode(MouseEvent e) {
         int numTiles = game.getTiles().getNumberOfTiles();
         int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
         int xPos = (((int) e.getX() + this.camera.getX()) / (tileLength));
@@ -55,9 +49,8 @@ public class MouseInputHandler implements MouseInputListener {
         }
         if (e.getButton() == 1) {
             this.game.getGameMap().addMappedTile(tileID, xPos, yPos);
-            String mapString = tileID + "," + xPos  + "," + yPos + "\n";
-            fileWriter.write(mapString);
-            fileWriter.flush();
+            String mapString = xPos  + "," + yPos;
+            this.game.getGameMap().writeToFile(mapString, tileID);
         }
     }
 

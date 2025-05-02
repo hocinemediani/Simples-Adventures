@@ -8,13 +8,24 @@ import java.awt.event.KeyListener;
 public class InputHandler implements KeyListener, FocusListener {
 
     /**  */
-    public boolean[] keys = new boolean[128];
+    private final boolean[] keys = new boolean[128];
+    /**  */
+    private final GameFrame game;
+    /**  */
+    private boolean constructionMode = false;
+
+    public InputHandler(GameFrame game) {
+        this.game = game;
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() > 128) {
             System.out.println("Unsupported key");
             return;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_0) {
+            constructionMode = !constructionMode;
         }
         keys[e.getKeyCode()] = true;
     }
@@ -59,6 +70,11 @@ public class InputHandler implements KeyListener, FocusListener {
     /**  */
     public boolean movingRight() {
         return keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
+    }
+
+    /**  */
+    public boolean isInContructionMode() {
+        return this.constructionMode;
     }
 
 
