@@ -39,7 +39,7 @@ public class Scene {
         this.tiles = new Tiles(tileFile, backgroundTileSheet);
         
         /* Initializing the map. */
-        this.map = new GameMap(mapFile, tiles, game);
+        this.map = new GameMap(mapFile, tiles, this.game);
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();

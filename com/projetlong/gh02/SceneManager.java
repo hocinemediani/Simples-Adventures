@@ -8,11 +8,9 @@ public class SceneManager {
     /**  */
     private Scene currentScene;
     /**  */
-    private ArrayList<Scene> sceneArray = new ArrayList<>();
+    private final ArrayList<Scene> sceneArray = new ArrayList<>();
     /**  */
     private final GameFrame game;
-    /**  */
-    private int currentSceneID = 1;
     /**  */
     private final String backgroundPath1 = "assets/backgroundTileSheet.png";
     private final File mapFile1 = new File("com/projetlong/gh02/testLevel1.txt");
