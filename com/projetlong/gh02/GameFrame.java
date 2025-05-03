@@ -88,12 +88,12 @@ public class GameFrame extends JFrame implements Runnable {
         this.tiles = new Tiles(tilesFile, backgroundTileSheet);
 
         /* Initializing the map. */
-        File mapFile = new File("com/projetlong/gh02/testLevel2.txt");
+        File mapFile = new File("com/projetlong/gh02/testLevel3.txt");
         this.map = new GameMap(mapFile, this.tiles, this);
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();
-        player = new Player(this, playerTileSheet, inputHandler, renderHandler.getCamera());
+        player = new Player(playerTileSheet, inputHandler, renderHandler.getCamera());
         gameObjects.add(player);
 
         /* Adding the listeners to the canvas. */
@@ -138,7 +138,6 @@ public class GameFrame extends JFrame implements Runnable {
         for (GameObject gameObject : gameObjects) {
             gameObject.update(this);
         }
-        System.out.println("(" + this.getWidth() + ", " + this.getHeight() +").");
     }
 
 
@@ -232,6 +231,12 @@ public class GameFrame extends JFrame implements Runnable {
     /**  */
     public GameMap getGameMap(){
         return this.map;
+    }
+
+
+    /**  */
+    public void deleteGameObject(GameObject object) {
+        this.gameObjects.remove(object);
     }
 
 

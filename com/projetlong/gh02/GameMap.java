@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class GameMap {
 
@@ -25,6 +26,8 @@ public class GameMap {
     private PrintWriter fileWriter;
     /** The array of mapped tiles for the map. */
     private ArrayList<MappedTile> mappedTileArray = new ArrayList<>();
+    /**  */
+    private HashMap<String, Integer> memoryHashMap = new HashMap<>();
 
     /** Creates an instance of Map from a map file
      * and a set of Tiles. A map represents the
@@ -42,16 +45,23 @@ public class GameMap {
         } catch (IOException e) {
             System.out.println("Couldn't create the map file.");
         }
+        scannerHelper(this::addMappedTile);
+    }
+
+
+    public final void scannerHelper(Consumer<int[]> methodToCall) {
         try (Scanner scanner = new Scanner(mapFile)) {
             while(scanner.hasNextLine()) {
-                String[] mapString = scanner.nextLine().split(",");
-                if (mapString[0].contains("Fill")) {
-                    fillTileID = Integer.parseInt(mapString[1]);
+                String[] args = scanner.nextLine().split(",");
+                if (args[0].contains("Fill")) {
+                    fillTileID = Integer.parseInt(args[1]);
                     continue;
                 }
-                addMappedTile(Integer.parseInt(mapString[0]),
-                                Integer.parseInt(mapString[1]),
-                                Integer.parseInt(mapString[2]));
+                int[] methodArgs = new int[3];
+                methodArgs[0] = Integer.parseInt(args[0]);
+                methodArgs[1] = Integer.parseInt(args[1]);
+                methodArgs[2] = Integer.parseInt(args[2]);
+                methodToCall.accept(methodArgs);
             }
         } catch (FileNotFoundException e) {
             System.out.println("No such file at location " + mapFile.getAbsolutePath());
@@ -79,18 +89,18 @@ public class GameMap {
         
         int increment = SpriteSheet.tileSize * scale;
         for(int tileIndex = 0; tileIndex < mappedTileArray.size(); tileIndex++) {
-            if (mappedTileArray.get(tileIndex) == null) {
-                continue;
-            }
             MappedTile mappedTile = mappedTileArray.get(tileIndex);
+            if (mappedTile == null) {
+                return;
+            }
             tiles.load(mappedTile.ID, renderHandler, mappedTile.xPos * increment, mappedTile.yPos * increment, scale);
         }
     }
 
 
     /**  */
-    public final void addMappedTile(int tileID, int xPos, int yPos) {
-        MappedTile newTile = new MappedTile(tileID, xPos, yPos);
+    public final void addMappedTile(int[] tileInfo) {
+        MappedTile newTile = new MappedTile(tileInfo[0], tileInfo[1], tileInfo[2]);
         mappedTileArray.add(newTile);
     }
 
@@ -100,47 +110,55 @@ public class GameMap {
         for (int i = 0; i < mappedTileArray.size(); i++) {
             if (mappedTileArray.get(i).xPos == xPos && mappedTileArray.get(i).yPos == yPos) {
                 mappedTileArray.remove(i);
-                System.out.println("deleted tile at position " + xPos + ", " + yPos);
             }
         }
     }
 
 
     /**  */
-    public void writeToFile(String mapString, Integer tileID) {
+    private void writeToFile(MappedTile tile) {
+        String tileString = tile.xPos + "," + tile.yPos;
+        writeToFile(tileString, tile.ID);
+    }
+
+
+    /**  */
+    public void writeToFile(String mapString, int tileID) {
         fileWriter.write(tileID + "," + mapString + "\n");
         fileWriter.flush();
     }
 
 
     /**  */
-    public void cleanupMapFile() {
-        HashMap<String, Integer> memoryHashMap = new HashMap<>();
-        try (Scanner scanner = new Scanner(mapFile)) {
-            while(scanner.hasNextLine()) {
-                String[] args = scanner.nextLine().split(",");
-                if (args[0].equals("Fill")) {
-                    fillTileID = Integer.parseInt(args[1]);
-                    continue;
-                }
-                int tileID = Integer.parseInt(args[0]);
-                int tileXPos = Integer.parseInt(args[1]);
-                int tileYPos = Integer.parseInt(args[2]);
-                String hashKey = tileXPos + "," + tileYPos;
-                memoryHashMap.put(hashKey, tileID);
-            }
+    public void clearFile() {
+        try {
             fileWriter = new PrintWriter(new FileWriter(mapFile, false));
             if (fillTileID != -1) {
                 fileWriter.append("Fill," + fillTileID + "\n");
             }
-            memoryHashMap.forEach(this::writeToFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("No such file at location " + mapFile.getAbsolutePath());
         } catch (IOException e) {
             System.out.println("Couldn't create the map file.");
         }
+        
     }
 
+
+    /**  */
+    public void cleanupMapFile() {
+        clearFile();
+        mappedTileArray.forEach(this::writeToFile);
+        scannerHelper(this::fillingHashMap);
+        clearFile();
+        memoryHashMap.forEach(this::writeToFile);
+    }
+
+
+    /**  */
+    public void fillingHashMap(int[] tileInfo) {
+        String hashKey = tileInfo[1] + "," + tileInfo[2];
+        memoryHashMap.put(hashKey, tileInfo[0]);
+    }
+    
 
     /** Returns the fillTileID which
      * corresponds to the ID of the tile

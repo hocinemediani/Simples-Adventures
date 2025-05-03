@@ -30,7 +30,11 @@ public class MapEditor {
             yPos = (((int) e.getY() + this.camera.getY() - tileLength) / (tileLength));
         }
         if (e.getButton() == MouseEvent.BUTTON1) {
-            this.game.getGameMap().addMappedTile(tileID, xPos, yPos);
+            int[] tileInfo = new int[3];
+            tileInfo[0] = tileID;
+            tileInfo[1] = xPos;
+            tileInfo[2] = yPos;
+            this.game.getGameMap().addMappedTile(tileInfo);
             String mapString = xPos  + "," + yPos;
             this.game.getGameMap().writeToFile(mapString, tileID);
         }
