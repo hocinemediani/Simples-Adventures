@@ -19,7 +19,7 @@ public class MapEditor {
 
     /**  */
     public void handleInput(MouseEvent e) {
-        int numTiles = game.getTiles().getNumberOfTiles();
+        int numTiles = game.getCurrentScene().getTiles().getNumberOfTiles();
         int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
         int xPos = (((int) e.getX() + this.camera.getX()) / (tileLength));
         int yPos = (((int) e.getY() + this.camera.getY()) / (tileLength));
@@ -34,14 +34,14 @@ public class MapEditor {
             tileInfo[0] = tileID;
             tileInfo[1] = xPos;
             tileInfo[2] = yPos;
-            this.game.getGameMap().addMappedTile(tileInfo);
+            this.game.getCurrentScene().getGameMap().addMappedTile(tileInfo);
             String mapString = xPos  + "," + yPos;
-            this.game.getGameMap().writeToFile(mapString, tileID);
+            this.game.getCurrentScene().getGameMap().writeToFile(mapString, tileID);
         }
         if (e.getButton() == MouseEvent.BUTTON2) {
             // delete the tile from the array of mappedtiles
             // delete the tile from the map file
-            this.game.getGameMap().deleteMappedTile(xPos, yPos);
+            this.game.getCurrentScene().getGameMap().deleteMappedTile(xPos, yPos);
         }
         if (e.getButton() == MouseEvent.BUTTON3) {
             tileID = (tileID + 1) % numTiles;
@@ -51,11 +51,11 @@ public class MapEditor {
 
     /**  */
     public void renderUI() {
-        int numTiles = game.getGameMap().getTiles().getNumberOfTiles();
+        int numTiles = game.getCurrentScene().getGameMap().getTiles().getNumberOfTiles();
         int tileUIScale = 4;
         int tileLength = SpriteSheet.tileSize * tileUIScale;
         for (int i = 0; i < numTiles; i++) {
-            game.getRenderHandler().loadSprite(game.getBackgroundTileSheet().getSprite(i % numTiles, i / numTiles),
+            game.getRenderHandler().loadSprite(game.getCurrentScene().getBackgroundTileSheet().getSprite(i % numTiles, i / numTiles),
                                                 camera.getX() + i * tileLength,
                                                 camera.getY(), tileUIScale);
             if (i == tileID) {

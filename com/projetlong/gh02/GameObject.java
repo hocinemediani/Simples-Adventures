@@ -29,7 +29,7 @@ public interface GameObject {
 
     /** Deletes the game object from the scene. */
     public default void delete(GameFrame game) {
-        game.deleteGameObject(this);
+        game.getCurrentScene().deleteGameObject(this);
     };
 
 }

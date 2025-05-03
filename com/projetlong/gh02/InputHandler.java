@@ -11,6 +11,13 @@ public class InputHandler implements KeyListener, FocusListener {
     private final boolean[] keys = new boolean[128];
     /**  */
     private boolean constructionMode = false;
+    /**  */
+    private final GameFrame game;
+
+
+    public InputHandler(GameFrame game) {
+        this.game = game;
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -20,6 +27,9 @@ public class InputHandler implements KeyListener, FocusListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_E) {
             constructionMode = !constructionMode;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            game.getSceneLoader().loadScene(game.getCurrentScene().getSceneID());
         }
         keys[e.getKeyCode()] = true;
     }

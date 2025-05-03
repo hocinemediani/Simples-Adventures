@@ -162,12 +162,25 @@ public class Rectangle {
         this.width = newWidth;
     }
 
+
     /** Sets the height of the rectangle to
      * the specified height.
      * @param newHeight The new height of the rectangle
      */
     public void setHeight(int newHeight) {
         this.height = newHeight;
+    }
+
+
+    /**  */
+    public void setX(int xPos) {
+        this.xPos = xPos;
+    }
+
+
+    /**  */
+    public void setY(int yPos) {
+        this.yPos = yPos;
     }
 
 }

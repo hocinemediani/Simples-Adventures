@@ -22,7 +22,7 @@ public class MouseInputHandler implements MouseInputListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (this.game.getInputHandler().isInContructionMode()) {
-            this.game.getGameMap().getMapEditor().handleInput(e);
+            this.game.getCurrentScene().getGameMap().getMapEditor().handleInput(e);
         }
     }
 

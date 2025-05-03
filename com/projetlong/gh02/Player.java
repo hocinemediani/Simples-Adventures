@@ -30,7 +30,7 @@ public class Player implements GameObject {
         this.xPos = camera.getWidth() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE - 1);
         this.yPos = camera.getHeight() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE);
         this.playerRectangle = new Rectangle(xPos, yPos,
-                        SpriteSheet.tileSize, SpriteSheet.tileSize);
+                                            SpriteSheet.tileSize, SpriteSheet.tileSize);
         playerRectangle.generateBorderGraphics(1, 0x194875);
     }
 
@@ -72,6 +72,10 @@ public class Player implements GameObject {
             camera.moveX(cameraSpeed);
             this.xPos += speed;
         }
+
+        /* Updates the camera position to be centered at each frame. */
+        camera.setX(xPos - camera.getWidth() / 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE / 2);
+        camera.setY(yPos - camera.getHeight() / 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE / 2);
     }
 
 

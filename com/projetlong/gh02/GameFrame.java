@@ -6,9 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
@@ -26,37 +24,18 @@ public class GameFrame extends JFrame implements Runnable {
     public static final int GLOBALSCALE = 3;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
-    /** The tiles used for the game. */
-    private final Tiles tiles;
-    /** The map used for the test level. */
-    private final GameMap map;
-    /** The background's tileset image. */
-    private final BufferedImage backgroundTileImage;
-    /** The background's tileset spritesheet. */
-    private final SpriteSheet backgroundTileSheet;
-    /** All of the gameobjects in the game. */
-    private final ArrayList<GameObject> gameObjects;
     /**  */
-    private final Player player;
+    private final SceneManager sceneManager;
     /**  */
-    private final SpriteSheet playerTileSheet;
+    private final SceneLoader sceneLoader;
+    /**  */
+    private Scene currentScene;
 
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
      * to render images on the window.
      */
     public GameFrame() {
-        /* Option to terminate the program upon closing the window.
-         * The map text file is also being cleanedup.
-        */
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                map.cleanupMapFile();
-                dispose(); // Close the window
-                System.exit(0); // Exit the application
-            }
-        });
         this.setTitle("Projet long");
 
         /* Sets base height and centers the window. */
@@ -75,32 +54,31 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Assignations of the handlers. */
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
-        inputHandler = new InputHandler();
+        inputHandler = new InputHandler(this);
         mouseInputHandler = new MouseInputHandler(this);
-        
-        /* Loading of the assets */
-        backgroundTileImage = loadImage("assets/backgroundTileSheet.png");
-        backgroundTileSheet = new SpriteSheet(backgroundTileImage);
-        playerTileSheet = new SpriteSheet(loadImage("assets/player.png"));
 
-        /* Initializing the tile set. */
-        File tilesFile = new File("com/projetlong/gh02/tiles.txt");
-        this.tiles = new Tiles(tilesFile, backgroundTileSheet);
-
-        /* Initializing the map. */
-        File mapFile = new File("com/projetlong/gh02/testLevel3.txt");
-        this.map = new GameMap(mapFile, this.tiles, this);
-
-        /* Initializing the gameobjects. */
-        gameObjects = new ArrayList<>();
-        player = new Player(playerTileSheet, inputHandler, renderHandler.getCamera());
-        gameObjects.add(player);
+        /** Loading in the first scene. */
+        this.sceneManager = new SceneManager(this);
+        this.currentScene = sceneManager.getCurrentScene();
+        this.sceneLoader = new SceneLoader(sceneManager, this);
 
         /* Adding the listeners to the canvas. */
         canvas.addKeyListener(inputHandler);
         canvas.addFocusListener(inputHandler);
         canvas.addMouseListener(mouseInputHandler);
         canvas.addMouseMotionListener(mouseInputHandler);
+
+        /* Option to terminate the program upon closing the window.
+         * The map text file is also being cleanedup.
+         */
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                currentScene.getGameMap().cleanupMapFile();
+                dispose(); // Close the window
+                System.exit(0); // Exit the application
+            }
+        });
     }
 
 
@@ -109,7 +87,7 @@ public class GameFrame extends JFrame implements Runnable {
      * @param path The path to the image
      * @return The loaded image in the correct format
      */
-    private BufferedImage loadImage(String path) {
+    public BufferedImage loadImage(String path) {
         try {
             BufferedImage loadedImage = ImageIO.read(GameFrame.class.getResource(path));
             BufferedImage convertedImage = new BufferedImage(loadedImage.getWidth(),
@@ -135,7 +113,7 @@ public class GameFrame extends JFrame implements Runnable {
      * Units of time here are refered to as "ticks".
      */
     public void update() {
-        for (GameObject gameObject : gameObjects) {
+        for (GameObject gameObject : currentScene.getGameObjects()) {
             gameObject.update(this);
         }
     }
@@ -154,15 +132,15 @@ public class GameFrame extends JFrame implements Runnable {
          * This constitutes the background of the map.
          * To be pasted in each scene in the future.
         */
-        this.map.loadMap(renderHandler, GLOBALSCALE);
+        this.currentScene.getGameMap().loadMap(renderHandler, GLOBALSCALE);
         if (inputHandler.isInContructionMode()) {
-            map.getMapEditor().renderUI();
+            this.currentScene.getGameMap().getMapEditor().renderUI();
         }
 
         /* Rendering all of the game objects.
          * WILL NEED TO IMPLEMENT RENDERING BY LAYERS.
          */
-        for (GameObject gameObject : gameObjects) {
+        for (GameObject gameObject : currentScene.getGameObjects()) {
             gameObject.render(renderHandler, GLOBALSCALE);
         }
 
@@ -198,6 +176,13 @@ public class GameFrame extends JFrame implements Runnable {
         }
     }
 
+
+    /**  */
+    public void updateCurrentScene() {
+        this.currentScene = sceneManager.getCurrentScene();
+    }
+
+
     /**  */
     public InputHandler getInputHandler(){
         return this.inputHandler;
@@ -217,26 +202,20 @@ public class GameFrame extends JFrame implements Runnable {
 
 
     /**  */
-    public SpriteSheet getBackgroundTileSheet(){
-        return this.backgroundTileSheet;
+    public Scene getCurrentScene() {
+        return this.currentScene;
     }
 
 
     /**  */
-    public Tiles getTiles(){
-        return this.tiles;
+    public SceneManager getSceneManager() {
+        return this.sceneManager;
     }
 
 
     /**  */
-    public GameMap getGameMap(){
-        return this.map;
-    }
-
-
-    /**  */
-    public void deleteGameObject(GameObject object) {
-        this.gameObjects.remove(object);
+    public SceneLoader getSceneLoader() {
+        return this.sceneLoader;
     }
 
 
