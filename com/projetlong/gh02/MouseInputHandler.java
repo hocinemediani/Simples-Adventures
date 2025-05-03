@@ -7,15 +7,10 @@ public class MouseInputHandler implements MouseInputListener {
 
     /**  */
     private final GameFrame game;
-    /**  */
-    private final Rectangle camera;
-    /**  */
-    private int tileID = 0;
 
     /**  */
     public MouseInputHandler(GameFrame game) {
         this.game = game;
-        this.camera = game.getRenderHandler().getCamera();
     }  
 
 
@@ -27,30 +22,7 @@ public class MouseInputHandler implements MouseInputListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (this.game.getInputHandler().isInContructionMode()) {
-            this.constructionMode(e);
-        }
-    }
-
-
-    /**  */
-    public void constructionMode(MouseEvent e) {
-        int numTiles = game.getTiles().getNumberOfTiles();
-        int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
-        int xPos = (((int) e.getX() + this.camera.getX()) / (tileLength));
-        int yPos = (((int) e.getY() + this.camera.getY()) / (tileLength));
-        if (e.getX() + this.camera.getX() < 0) {
-            xPos = (((int) e.getX() + this.camera.getX() - tileLength) / (tileLength));
-        }
-        if (e.getY() + this.camera.getY() < 0) {
-            yPos = (((int) e.getY() + this.camera.getY() - tileLength) / (tileLength));
-        }
-        if (e.getButton() == 3) {
-            tileID = (tileID + 1) % numTiles;
-        }
-        if (e.getButton() == 1) {
-            this.game.getGameMap().addMappedTile(tileID, xPos, yPos);
-            String mapString = xPos  + "," + yPos;
-            this.game.getGameMap().writeToFile(mapString, tileID);
+            this.game.getGameMap().getMapEditor().handleInput(e);
         }
     }
 

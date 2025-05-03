@@ -18,6 +18,10 @@ public class GameMap {
     /** The ID of the main background tile. */
     private int fillTileID = -1;
     /**  */
+    private final MapEditor mapEditor;
+    /**  */
+    private final GameFrame game;
+    /**  */
     private PrintWriter fileWriter;
     /** The array of mapped tiles for the map. */
     private ArrayList<MappedTile> mappedTileArray = new ArrayList<>();
@@ -28,10 +32,12 @@ public class GameMap {
      * @param mapFile The file that sets all tiles ID and positions
      * @param tiles The tile set used for the map
      */
-    public GameMap(File mapFile, Tiles tiles) {
+    public GameMap(File mapFile, Tiles tiles, GameFrame game) {
         this.mapFile = mapFile;
         this.tiles = tiles;
-        try {
+        this.game = game;
+        this.mapEditor = new MapEditor(this.game);
+        try {   
             fileWriter = new PrintWriter(new FileWriter(mapFile, true));
         } catch (IOException e) {
             System.out.println("Couldn't create the map file.");
@@ -44,8 +50,8 @@ public class GameMap {
                     continue;
                 }
                 addMappedTile(Integer.parseInt(mapString[0]),
-                                                        Integer.parseInt(mapString[1]),
-                                                        Integer.parseInt(mapString[2]));
+                                Integer.parseInt(mapString[1]),
+                                Integer.parseInt(mapString[2]));
             }
         } catch (FileNotFoundException e) {
             System.out.println("No such file at location " + mapFile.getAbsolutePath());
@@ -73,6 +79,9 @@ public class GameMap {
         
         int increment = SpriteSheet.tileSize * scale;
         for(int tileIndex = 0; tileIndex < mappedTileArray.size(); tileIndex++) {
+            if (mappedTileArray.get(tileIndex) == null) {
+                continue;
+            }
             MappedTile mappedTile = mappedTileArray.get(tileIndex);
             tiles.load(mappedTile.ID, renderHandler, mappedTile.xPos * increment, mappedTile.yPos * increment, scale);
         }
@@ -87,7 +96,18 @@ public class GameMap {
 
 
     /**  */
-    public void writeToFile(String mapString, Integer tileID){
+    public void deleteMappedTile(int xPos, int yPos) {
+        for (int i = 0; i < mappedTileArray.size(); i++) {
+            if (mappedTileArray.get(i).xPos == xPos && mappedTileArray.get(i).yPos == yPos) {
+                mappedTileArray.remove(i);
+                System.out.println("deleted tile at position " + xPos + ", " + yPos);
+            }
+        }
+    }
+
+
+    /**  */
+    public void writeToFile(String mapString, Integer tileID) {
         fileWriter.write(tileID + "," + mapString + "\n");
         fileWriter.flush();
     }
@@ -130,6 +150,18 @@ public class GameMap {
     public int getfillTileID() {
         return this.fillTileID;
     }
+
+
+    /**  */
+    public MapEditor getMapEditor() {
+        return this.mapEditor;
+    }
+
+
+    public Tiles getTiles() {
+        return this.tiles;
+    }
+
 
     class MappedTile {
 

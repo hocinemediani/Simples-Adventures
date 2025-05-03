@@ -10,13 +10,7 @@ public class InputHandler implements KeyListener, FocusListener {
     /**  */
     private final boolean[] keys = new boolean[128];
     /**  */
-    private final GameFrame game;
-    /**  */
     private boolean constructionMode = false;
-
-    public InputHandler(GameFrame game) {
-        this.game = game;
-    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -24,7 +18,7 @@ public class InputHandler implements KeyListener, FocusListener {
             System.out.println("Unsupported key");
             return;
         }
-        if (e.getKeyCode() == KeyEvent.VK_0) {
+        if (e.getKeyCode() == KeyEvent.VK_E) {
             constructionMode = !constructionMode;
         }
         keys[e.getKeyCode()] = true;

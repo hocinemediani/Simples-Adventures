@@ -23,7 +23,7 @@ public class GameFrame extends JFrame implements Runnable {
     /**  */
     private final MouseInputHandler mouseInputHandler;
     /** The global scale used to render our tiles. */
-    public static final int GLOBALSCALE = 2;
+    public static final int GLOBALSCALE = 3;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
     /** The tiles used for the game. */
@@ -75,7 +75,7 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Assignations of the handlers. */
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
-        inputHandler = new InputHandler(this);
+        inputHandler = new InputHandler();
         mouseInputHandler = new MouseInputHandler(this);
         
         /* Loading of the assets */
@@ -89,11 +89,11 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Initializing the map. */
         File mapFile = new File("com/projetlong/gh02/testLevel2.txt");
-        this.map = new GameMap(mapFile, this.tiles);
+        this.map = new GameMap(mapFile, this.tiles, this);
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();
-        player = new Player(playerTileSheet, inputHandler, renderHandler.getCamera());
+        player = new Player(this, playerTileSheet, inputHandler, renderHandler.getCamera());
         gameObjects.add(player);
 
         /* Adding the listeners to the canvas. */
@@ -138,6 +138,7 @@ public class GameFrame extends JFrame implements Runnable {
         for (GameObject gameObject : gameObjects) {
             gameObject.update(this);
         }
+        System.out.println("(" + this.getWidth() + ", " + this.getHeight() +").");
     }
 
 
@@ -152,9 +153,12 @@ public class GameFrame extends JFrame implements Runnable {
 
         /* Loading the different tiles from the map to render.
          * This constitutes the background of the map.
-         * To be pasted in each scene in the future.dddddd
+         * To be pasted in each scene in the future.
         */
         this.map.loadMap(renderHandler, GLOBALSCALE);
+        if (inputHandler.isInContructionMode()) {
+            map.getMapEditor().renderUI();
+        }
 
         /* Rendering all of the game objects.
          * WILL NEED TO IMPLEMENT RENDERING BY LAYERS.

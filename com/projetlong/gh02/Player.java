@@ -17,18 +17,21 @@ public class Player implements GameObject {
     /**  */
     private Sprite sprite;
     /**  */
+    private final GameFrame game;
+    /**  */
     private final int speed = GameFrame.GLOBALSCALE;
     /**  */
     private final int cameraSpeed = GameFrame.GLOBALSCALE;
 
     /**  */
-    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {
+    public Player(GameFrame game, SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {
         this.playerSpriteSheet = playerSpriteSheet;
         this.sprite = playerSpriteSheet.getSprite(0, 0);
         this.camera = camera;
+        this.game = game;
         this.inputHandler = inputHandler;
-        this.xPos = camera.getWidth() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE - 1);
-        this.yPos = camera.getHeight() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE);
+        this.xPos = game.getWidth() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE - 1);
+        this.yPos = game.getHeight() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE);
         this.playerRectangle = new Rectangle(xPos, yPos,
                         SpriteSheet.tileSize, SpriteSheet.tileSize);
         playerRectangle.generateBorderGraphics(1, 0x194875);
@@ -91,6 +94,10 @@ public class Player implements GameObject {
     public void transform(int dx, int dy, int dTheta) {
         this.xPos += dx;
         this.yPos += dy;
+        this.playerRectangle.moveX(dx);
+        this.playerRectangle.moveY(dy);
+        this.camera.moveX(dx);
+        this.camera.moveY(dy);
     }
 
 
