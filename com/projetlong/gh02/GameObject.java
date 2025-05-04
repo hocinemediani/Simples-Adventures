@@ -23,11 +23,13 @@ public interface GameObject {
      * @param dx The x-coordinate step
      * @param dy The y-coordinate step
      * @param dTheta The angle of the rotation
-    */
+     */
     public void transform(int dx, int dy, int dTheta);
 
 
-    /** Deletes the game object from the scene. */
+    /** Deletes the game object from the scene.
+     * @param game The instance of game being played
+     */
     public default void delete(GameFrame game) {
         game.getCurrentScene().deleteGameObject(this);
     };

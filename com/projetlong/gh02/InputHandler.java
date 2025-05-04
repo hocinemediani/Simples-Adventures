@@ -7,17 +7,22 @@ import java.awt.event.KeyListener;
 
 public class InputHandler implements KeyListener, FocusListener {
 
-    /**  */
+    /** The array of currently pressed keys. */
     private final boolean[] keys = new boolean[128];
-    /**  */
+    /** Indicates if the user is in construction mode. */
     private boolean constructionMode = false;
-    /**  */
+    /** The instance of game being played. */
     private final GameFrame game;
 
-
+    /** Creates an instance of InputHandler.
+     * An input handler gets input from the keyboard
+     * and maps it to certain actions.
+     * @param game The instance of game being played
+     */
     public InputHandler(GameFrame game) {
         this.game = game;
     }
+
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -53,30 +58,45 @@ public class InputHandler implements KeyListener, FocusListener {
     }
 
 
-    /**  */
+    /** Returns true if the user press a
+     * key that is mapped to move the character up.
+     * @return If the player is moving up
+     */
     public boolean movingUp() {
         return keys[KeyEvent.VK_Z] || keys[KeyEvent.VK_UP];
     }
     
 
-    /**  */
+    /** Returns true if the user press a
+     * key that is mapped to move the character down.
+     * @return If the player is moving down
+     */
     public boolean movingDown() {
         return keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN];
     }
     
 
-    /**  */
+    /** Returns true if the user press a
+     * key that is mapped to move the character left.
+     * @return If the player is moving left
+     */
     public boolean movingLeft() {
         return keys[KeyEvent.VK_Q] || keys[KeyEvent.VK_LEFT];
     }
     
 
-    /**  */
+    /** Returns true if the user press a
+     * key that is mapped to move the character right.
+     * @return If the player is moving right
+     */
     public boolean movingRight() {
         return keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
     }
 
-    /**  */
+    /** Returns true if the player is in
+     * construction mode.
+     * @return If the players is in construction mode
+     */
     public boolean isInContructionMode() {
         return this.constructionMode;
     }
@@ -84,6 +104,7 @@ public class InputHandler implements KeyListener, FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {}
+
 
     @Override
     public void keyTyped(KeyEvent e) {}

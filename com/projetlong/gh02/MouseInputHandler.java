@@ -5,18 +5,17 @@ import javax.swing.event.MouseInputListener;
 
 public class MouseInputHandler implements MouseInputListener {
 
-    /**  */
+    /** The instance of game being played. */
     private final GameFrame game;
 
-    /**  */
+    /** Creates an instance of MouseInputHandler.
+     * A mouse input handler handle's mouse input
+     * and redirects it if necessary.
+     * @param game The instance of game being played
+     */
     public MouseInputHandler(GameFrame game) {
         this.game = game;
     }  
-
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
 
 
     @Override
@@ -28,32 +27,26 @@ public class MouseInputHandler implements MouseInputListener {
 
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        
-    }
+    public void mouseClicked(MouseEvent e) {}
+    
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
 
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        
-    }
+    public void mouseEntered(MouseEvent e) {}
 
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        
-    }
+    public void mouseExited(MouseEvent e) {}
 
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        
-    }
+    public void mouseDragged(MouseEvent e) {}
 
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) {}
 
 }

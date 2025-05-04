@@ -18,17 +18,17 @@ public class GameFrame extends JFrame implements Runnable {
     private final RenderHandler renderHandler;
     /** The input handler of the game. */
     private final InputHandler inputHandler;
-    /**  */
+    /** The mouse input handler of the game. */
     private final MouseInputHandler mouseInputHandler;
     /** The global scale used to render our tiles. */
     public static final int GLOBALSCALE = 3;
     /** Random color that we will not use, to create transparency */
     public static int ALPHA = 0x8b0be0;
-    /**  */
+    /** The scene manager of the game. */
     private final SceneManager sceneManager;
-    /**  */
+    /** The scene loader of the game. */
     private final SceneLoader sceneLoader;
-    /**  */
+    /** The current scene being displayed. */
     private Scene currentScene;
 
     /** Constructor for the game frame. It initializes
@@ -60,7 +60,7 @@ public class GameFrame extends JFrame implements Runnable {
         /** Loading in the first scene. */
         this.sceneManager = new SceneManager(this);
         this.currentScene = sceneManager.getCurrentScene();
-        this.sceneLoader = new SceneLoader(sceneManager, this);
+        this.sceneLoader = new SceneLoader(this);
 
         /* Adding the listeners to the canvas. */
         canvas.addKeyListener(inputHandler);
@@ -128,18 +128,13 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
-        /* Loading the different tiles from the map to render.
-         * This constitutes the background of the map.
-         * To be pasted in each scene in the future.
-        */
-        this.currentScene.getGameMap().loadMap(renderHandler, GLOBALSCALE);
+        /* Loading the different tiles from the map to render. */
+        this.currentScene.getGameMap().loadMap(GLOBALSCALE);
         if (inputHandler.isInContructionMode()) {
             this.currentScene.getGameMap().getMapEditor().renderUI();
         }
 
-        /* Rendering all of the game objects.
-         * WILL NEED TO IMPLEMENT RENDERING BY LAYERS.
-         */
+        /* Rendering all of the game objects. */
         for (GameObject gameObject : currentScene.getGameObjects()) {
             gameObject.render(renderHandler, GLOBALSCALE);
         }
@@ -156,7 +151,6 @@ public class GameFrame extends JFrame implements Runnable {
     @Override
     public void run(){
         boolean isRunning = true;
-
         int desiredFPS = 60;
         double toSeconds = 1000000000 / desiredFPS;
         Long previousTime = System.nanoTime();
@@ -165,55 +159,67 @@ public class GameFrame extends JFrame implements Runnable {
         while (isRunning) {
             Long currentTime = System.nanoTime();
             deltaTime += (currentTime - previousTime) / toSeconds;
-
             if (deltaTime >= 1) {
                 this.update();
                 deltaTime = 0;
             }
-
             this.render();
             previousTime = currentTime;
         }
     }
 
 
-    /**  */
+    /** Updates the current scene to display
+     * it's map and game objects.
+     */
     public void updateCurrentScene() {
         this.currentScene = sceneManager.getCurrentScene();
     }
 
 
-    /**  */
+    /** Returns the input handler.
+     * @return The input handler
+     */
     public InputHandler getInputHandler(){
         return this.inputHandler;
     }
 
 
-    /**  */
+    /** Returns the render handler.
+     * @return The render handler
+     */
     public RenderHandler getRenderHandler(){
         return this.renderHandler;
     }
 
 
-    /**  */
+    /** Returns the mouse input handler.
+     * @return The mouse input handler
+     */
     public MouseInputHandler getMouseInputHandler(){
         return this.mouseInputHandler;
     }
 
 
-    /**  */
+    /** Returns the current scene.
+     * @return The current scene
+     */
     public Scene getCurrentScene() {
         return this.currentScene;
     }
 
 
-    /**  */
+    /** Returns the scene manager.
+     * @return The scene manager
+     */
     public SceneManager getSceneManager() {
         return this.sceneManager;
     }
 
 
-    /**  */
+    /** Returns the scene loader.
+     * @return The scene loader
+     */
     public SceneLoader getSceneLoader() {
         return this.sceneLoader;
     }

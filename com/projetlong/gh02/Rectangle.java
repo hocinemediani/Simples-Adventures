@@ -60,7 +60,7 @@ public class Rectangle {
 
     /** Initializes the pixels array linked to
      * the rectangle to a solid border at a given
-     * color.
+     * color and given border width.
      * @param borderWidth The width of the border
      * @param color The color of the border
      */
@@ -172,13 +172,19 @@ public class Rectangle {
     }
 
 
-    /**  */
+    /** Sets the x-coordinate of the rectangle
+     * to the specified x-coordinate.
+     * @param xPos The new x-coordinate of the rectangle
+     */
     public void setX(int xPos) {
         this.xPos = xPos;
     }
 
 
-    /**  */
+    /** Sets the y-coordinate of the rectangle
+     * to the specified y-coordinate.
+     * @param xPos The new y-coordinate of the rectangle
+     */
     public void setY(int yPos) {
         this.yPos = yPos;
     }

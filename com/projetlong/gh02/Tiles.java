@@ -55,7 +55,10 @@ public class Tiles {
     }
 
 
-    /**  */
+    /** Returns the number of tiles in the
+     * tile sheet.
+     * @return The number of tiles
+     */
     public int getNumberOfTiles() {
         return this.tileArray.size();
     }
@@ -63,9 +66,9 @@ public class Tiles {
     class Tile {
 
         /** The name of the tile. */
-        public String name;
+        private final String name;
         /** The sprite of the tile. */
-        public Sprite sprite;
+        private final Sprite sprite;
 
         /** Creates a tile from its name and its sprite.
          * @param tileName The name of the tile
@@ -75,6 +78,15 @@ public class Tiles {
             this.name = tileName;
             this.sprite = sprite;
         }
+
+
+        /** Returns the name of the Tile.
+         * @return The name of the tile
+         */
+        public String getName() {
+            return this.name;
+        }
+
 
 
         /** Returns the sprite of the Tile.

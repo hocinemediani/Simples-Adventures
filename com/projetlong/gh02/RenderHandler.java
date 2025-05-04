@@ -148,6 +148,10 @@ public class RenderHandler {
     }
 
 
+    /** Clears the pixel array to avoid overlapping
+     * of tiles when rendering and moving the camera
+     * around the map.
+     */
     public void clear() {
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = 0;
