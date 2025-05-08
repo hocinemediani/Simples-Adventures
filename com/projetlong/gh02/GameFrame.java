@@ -69,14 +69,14 @@ public class GameFrame extends JFrame implements Runnable {
         canvas.addMouseMotionListener(mouseInputHandler);
 
         /* Option to terminate the program upon closing the window.
-         * The map text file is also being cleanedup.
+         * The map text file is also being cleaned up.
          */
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 currentScene.getGameMap().cleanupMapFile();
-                dispose(); // Close the window
-                System.exit(0); // Exit the application
+                dispose();
+                System.exit(0);
             }
         });
     }

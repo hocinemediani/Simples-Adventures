@@ -92,7 +92,7 @@ public class Player implements GameObject {
     }
 
 
-    /** Set the current player' sprite to the
+    /** Set the current player's sprite to the
      * specified sprite.
      * @param sprite The new player's current sprite
      */

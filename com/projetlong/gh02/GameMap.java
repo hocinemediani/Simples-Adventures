@@ -167,7 +167,6 @@ public class GameMap {
         } catch (IOException e) {
             System.out.println("Couldn't create the map file.");
         }
-        
     }
 
 
