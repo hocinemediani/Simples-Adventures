@@ -45,29 +45,6 @@ public class NPC implements GameObject {
 
     @Override
     public void update(GameFrame game) {
-        // if (i == 30) {   // change j randomly after 30 frame
-            
-        //     Random rand = new Random();
-        //     i = 0;
-        //     j = rand.nextInt(4);
-        // }
-
-        // i++;
-    
-
-        // if (j == 0) {
-        //     transform(0, -speed, 0);
-        //     this.sprite = nPCSpriteSheet.getSprite(1, 0);
-        // } else if (j == 1) {
-        //     transform(0, speed, 0);
-        //     this.sprite = nPCSpriteSheet.getSprite(0, 0);
-        // } else if (j == 2) {
-        //     transform(speed, 0, 0);
-        //     this.sprite = nPCSpriteSheet.getSprite(0, 0);
-        // } else {
-        //     transform(-speed, 0, 0);
-        //     this.sprite = nPCSpriteSheet.getSprite(2, 0);
-        // }
 
         /* TO DO :
          * rendre le npc statique
