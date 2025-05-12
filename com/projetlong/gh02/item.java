@@ -1,13 +1,4 @@
-package com.projetlong.gh02.inventory;
-
-import java.util.*;
-
-/**
- * Raresties for items.
- */
-public enum Rarity {
-    COMMON, UNCOMMON, RARE, EPIC, LEGENDARY;
-}
+package com.projetlong.gh02;
 
 /**
  * Base class for all inventory items.
@@ -33,10 +24,5 @@ public abstract class Item {
 
     public Rarity getRarity() {
         return rarity;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s (ID:%s) - %s", name, id, rarity);
     }
 }

@@ -1,6 +1,4 @@
-package com.projetlong.gh02.inventory;
-
-import java.util.*;
+package com.projetlong.gh02;
 
 /**
  * Attachments that can be applied to weapons.
@@ -20,10 +18,5 @@ public class Attachment {
 
     public String getDescription() {
         return description;
-    }
-
-    @Override
-    public String toString() {
-        return name + ": " + description;
     }
 }

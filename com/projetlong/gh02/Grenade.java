@@ -1,6 +1,4 @@
-package com.projetlong.gh02.inventory;
-
-import java.util.*;
+package com.projetlong.gh02;
 
 /**
  * Throwable grenades.
@@ -21,10 +19,5 @@ public class Grenade extends Item {
 
     public float getRadius() {
         return radius;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + String.format(" [Damage:%d Radius:%.1f]", damage, radius);
     }
 }

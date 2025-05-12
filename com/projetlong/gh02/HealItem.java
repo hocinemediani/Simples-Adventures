@@ -1,6 +1,4 @@
-package com.projetlong.gh02.inventory;
-
-import java.util.*;
+package com.projetlong.gh02;
 
 /**
  * Consumable items that restore health or shield.
@@ -23,10 +21,5 @@ public class HealItem extends Item {
 
     public int getAmount() {
         return amount;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + String.format(" [%s +%d]", type, amount);
     }
 }

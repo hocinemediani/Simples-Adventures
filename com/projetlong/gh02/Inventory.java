@@ -1,4 +1,4 @@
-package com.projetlong.gh02.inventory;
+package com.projetlong.gh02;
 
 import java.util.*;
 
@@ -7,6 +7,12 @@ import java.util.*;
  */
 public class Inventory {
     private final Map<String, Item> items = new LinkedHashMap<>();
+    /** Pas besoin d'utiliser une linked hash map car on souhaite pouvoir acceder a tout l'inventaire dans l'ordre que l'on veut
+     * Ajouter dans la hash map avec comme clef l'emplacmeent de l'inventaire occupé plutot
+     * Changer implémentation de remove / add / get
+     * get all items devrait retourner la hash map
+     * aussi faire la partie graphique de l'inventaire
+     */
 
     public void addItem(Item item) {
         items.put(item.getId(), item);
@@ -40,12 +46,5 @@ public class Inventory {
         List<Grenade> list = new ArrayList<>();
         for (Item i : items.values()) if (i instanceof Grenade) list.add((Grenade)i);
         return list;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Inventory:\n");
-        for (Item i : items.values()) sb.append(" - ").append(i).append("\n");
-        return sb.toString();
     }
 }

@@ -16,6 +16,8 @@ import java.util.function.Consumer;
  * - ajouter l'option de changer la tile de fill
  * - régler la suppression de tile pour supprimer la dernière placée
  * - régler le problème de nettoyage de fichier de map
+ * - pour le layering utiliser une arraylist d'arraylist de tiles, chaque sous array list
+ * correspondant a une layer, puis itérer à chaque update les array list suivant l'ordre croissant
 */
 
 public class GameMap {
@@ -94,6 +96,8 @@ public class GameMap {
             fillBackground();
         }
         int increment = SpriteSheet.tileSize * scale;
+        // for (ArrayList arrayList : mappedTileArray)
+        //      cette boucle là
         for(int tileIndex = 0; tileIndex < mappedTileArray.size(); tileIndex++) {
             MappedTile mappedTile = mappedTileArray.get(tileIndex);
             if (mappedTile != null) {
