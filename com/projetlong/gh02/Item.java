@@ -21,7 +21,6 @@ public abstract class Item implements GameObject {
         this.xPos = x;
         this.yPos = y;
         this.rectangle = new Rectangle(x, y, SpriteSheet.tileSize, SpriteSheet.tileSize);
-        this.rectangle.generateBorderGraphics(1, 0x00FF00); // Bordure verte
     }
 
     /** Méthode appelée pour dessiner l'item à l'écran.
@@ -31,7 +30,6 @@ public abstract class Item implements GameObject {
     @Override
     public void render(RenderHandler renderer, int scale) {
         renderer.loadSprite(sprite, xPos, yPos, scale);
-        renderer.loadRectangle(rectangle, scale);
     }
 
     /** Méthode appelée à chaque mise à jour du jeu. */
@@ -55,11 +53,6 @@ public abstract class Item implements GameObject {
 
     /** Méthode appelée lorsque l'item est utilisé. */
     //public abstract void use(Player player);
-
-    /** Méthode appelée lorsque l'item est supprimé. */
-    public void delete(GameFrame game) {
-        game.getCurrentScene().removeGameObject(this);
-    }
 
     /** Méthode appelée lorsque l'item est déplacé. */
     @Override
