@@ -32,6 +32,6 @@ public interface GameObject {
      */
     public default void delete(GameFrame game) {
         game.getCurrentScene().deleteGameObject(this);
-    };
+    }
 
 }
