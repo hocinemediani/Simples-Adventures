@@ -27,7 +27,7 @@ public class GameMap {
     /** The array of mapped tiles for the map. */
     private ArrayList<MappedTile> mappedTileArray = new ArrayList<>();
     /** The hashmap used to clean up the map file. */
-    private HashMap<String, Integer> memoryHashMap = new HashMap<>();
+    private HashMap<String, Integer[]> memoryHashMap = new HashMap<>();
 
     /** Creates an instance of Map from a map file
      * and a set of Tiles. A map represents the
@@ -62,10 +62,25 @@ public class GameMap {
                     fillTileID = Integer.parseInt(args[1]);
                     continue;
                 }
-                int[] methodArgs = new int[3];
-                methodArgs[0] = Integer.parseInt(args[0]);
-                methodArgs[1] = Integer.parseInt(args[1]);
-                methodArgs[2] = Integer.parseInt(args[2]);
+                int[] methodArgs;
+                if (args.length == 3) {
+                    // Ancien format : pas de layer, on met layerID = 0 par défaut
+                    methodArgs = new int[4];
+                    methodArgs[0] = Integer.parseInt(args[0]);
+                    methodArgs[1] = Integer.parseInt(args[1]);
+                    methodArgs[2] = Integer.parseInt(args[2]);
+                    methodArgs[3] = 0;
+                } else if (args.length == 4) {
+                    // Nouveau format : layer inclus
+                    methodArgs = new int[4];
+                    methodArgs[0] = Integer.parseInt(args[0]);
+                    methodArgs[1] = Integer.parseInt(args[1]);
+                    methodArgs[2] = Integer.parseInt(args[2]);
+                    methodArgs[3] = Integer.parseInt(args[3]);
+                } else {
+                    // Ligne mal formée
+                    continue;
+                }
                 methodToCall.accept(methodArgs);
             }
         } catch (FileNotFoundException e) {
@@ -114,7 +129,7 @@ public class GameMap {
      * @param tileInfo The tilesID, xPos and yPos of the tile
      */
     public final void addMappedTile(int[] tileInfo) {
-        MappedTile newTile = new MappedTile(tileInfo[0], tileInfo[1], tileInfo[2]);
+        MappedTile newTile = new MappedTile(tileInfo[0], tileInfo[1], tileInfo[2], tileInfo[3]);
         mappedTileArray.add(newTile);
     }
 
@@ -125,9 +140,9 @@ public class GameMap {
      * @param xPos The x-position of the tile to delete
      * @param yPos The y-position of the tile to delete
     */
-    public void deleteMappedTile(int xPos, int yPos) {
+    public void deleteMappedTile(int xPos, int yPos, int layerID) {
         for (int i = 0; i < mappedTileArray.size(); i++) {
-            if (mappedTileArray.get(i).xPos == xPos && mappedTileArray.get(i).yPos == yPos) {
+            if (mappedTileArray.get(i).xPos == xPos && mappedTileArray.get(i).yPos == yPos && mappedTileArray.get(i).layerID == layerID) {
                 mappedTileArray.remove(i);
             }
         }
@@ -140,7 +155,7 @@ public class GameMap {
      */
     private void writeToFile(MappedTile tile) {
         String tileString = tile.xPos + "," + tile.yPos;
-        writeToFile(tileString, tile.ID);
+        writeToFile(tileString, tile.ID, tile.layerID);
     }
 
 
@@ -148,12 +163,22 @@ public class GameMap {
      * needed to save the desired tile to the map.
      * @param mapString The xPos and yPos of the tile
      * @param tileID The ID of the tile
+     * @param layerID The layer ID of the tile
      */
-    public void writeToFile(String mapString, int tileID) {
-        fileWriter.write(tileID + "," + mapString + "\n");
+    public void writeToFile(String mapString, int tileID, int layerID) {
+        fileWriter.write(tileID + "," + mapString + "," + layerID + "\n");
         fileWriter.flush();
     }
 
+    /** Writes to the map file the information
+     * needed to save the desired tile to the map.
+     * @param mapString The xPos and yPos of the tile
+     * @param tileInfo The tile ID and layer ID of the tile
+     */
+    public void writeToFile(String mapString, Integer[] tileInfo) {
+        fileWriter.write(tileInfo[0] + "," + mapString + "," + tileInfo[1] + "\n");
+        fileWriter.flush();
+    }
 
     /** Clears the file and adds the Fill line
      * if the fillTIleID has been initialized.
@@ -170,7 +195,6 @@ public class GameMap {
         
     }
 
-
     /** Cleans up the map file to remove duplicates and
      * account for newly created / deleted tiles.
      */
@@ -186,11 +210,12 @@ public class GameMap {
     /** Helper function called for each object
      * in the memory hash map to add an entry of 
      * each mapped tile to it.
-     * @param tileInfo The tile informations (tileID, xPos, yPos)
+     * @param tileInfo The tile informations (tileID, xPos, yPos, layerID)
      */
     public void fillingHashMap(int[] tileInfo) {
         String hashKey = tileInfo[1] + "," + tileInfo[2];
-        memoryHashMap.put(hashKey, tileInfo[0]);
+        Integer[] tileInfoArray = {tileInfo[0], tileInfo[3]};
+        memoryHashMap.put(hashKey, tileInfoArray);
     }
     
 
@@ -228,6 +253,8 @@ public class GameMap {
         private int xPos;
         /** The y-coordinate to render the tile to. */
         private int yPos;
+        /** The layer ID. */
+        private int layerID;
 
         /** Creates an instance of MappedTile from the
          * tile ID and the x and y coordinates to render
@@ -236,10 +263,11 @@ public class GameMap {
          * @param xPos The x-coordinate to render the tile to.
          * @param yPos The y-coordinate to render the tile to.
          */
-        public MappedTile(int ID, int xPos, int yPos) {
+        public MappedTile(int ID, int xPos, int yPos, int layerID) {
             this.ID = ID;
             this.xPos = xPos;
             this.yPos = yPos;
+            this.layerID = layerID;
         }
     }
 }

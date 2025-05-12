@@ -36,6 +36,15 @@ public class InputHandler implements KeyListener, FocusListener {
         if (e.getKeyCode() == KeyEvent.VK_A) {
             game.getSceneLoader().loadScene(game.getCurrentScene().getSceneID());
         }
+        // Gestion du layer en mode construction
+        if (constructionMode) {
+            if (e.getKeyCode() == KeyEvent.VK_L) {
+                game.getCurrentScene().getGameMap().getMapEditor().nextLayer();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_K) {
+                game.getCurrentScene().getGameMap().getMapEditor().previousLayer();
+            }
+        }
         keys[e.getKeyCode()] = true;
     }
 

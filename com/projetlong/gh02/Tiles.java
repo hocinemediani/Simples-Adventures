@@ -7,8 +7,10 @@ import java.util.Scanner;
 
 public class Tiles {
 
-    /** The spritesheet of the tiles. */
-    private SpriteSheet spriteSheet;
+    /** The spritesheet1 of the tiles. */
+    private SpriteSheet spriteSheet1;
+    private SpriteSheet spriteSheet2;
+    private SpriteSheet spriteSheet3;
     /** The array of tiles from the spritesheet. */
     private ArrayList<Tile> tileArray = new ArrayList<>();
 
@@ -17,10 +19,14 @@ public class Tiles {
      * and the spriteSheet from where the tiles come
      * from.
      * @param tilesFile The text file containing the info of the tiles
-     * @param spriteSheet The spritesheet where the tiles come from
+     * @param spriteSheet0 The spritesheet where the tiles from the layer 0 (background) come from
+     * @param spriteSheet1 The spritesheet where the tiles from the layer 1 (obstacle) come from
+     * @param spriteSheet2 The spritesheet where the tiles from the layer 2 (decoration) come from
      */
-    public Tiles(File tilesFile, SpriteSheet spriteSheet) {
-        this.spriteSheet = spriteSheet;
+    public Tiles(File tilesFile, SpriteSheet spriteSheet0, SpriteSheet spriteSheet1, SpriteSheet spriteSheet2) {
+        this.spriteSheet1 = spriteSheet0;
+        this.spriteSheet2 = spriteSheet1;
+        this.spriteSheet3 = spriteSheet2;
 
         try (Scanner scanner = new Scanner(tilesFile)) {
             while(scanner.hasNextLine()) {
@@ -28,13 +34,22 @@ public class Tiles {
                 String tileName = tileString[0];
                 int tileXPos = Integer.parseInt(tileString[1]);
                 int tileYPos = Integer.parseInt(tileString[2]);
-                Tile tile = new Tile(tileName, this.spriteSheet.getSprite(tileXPos, tileYPos));
+                int layer = Integer.parseInt(tileString[3]);
+                
+                SpriteSheet selectedSheet;
+
+                selectedSheet = switch (layer) {
+                    case 1 -> spriteSheet1;
+                    case 2 -> spriteSheet2;
+                    default -> spriteSheet0;
+                };
+                Tile tile = new Tile(tileName, selectedSheet.getSprite(tileXPos, tileYPos));
                 tileArray.add(tile);
             }
         } catch (FileNotFoundException e) {
             System.out.println("No such file at location " + tilesFile.getAbsolutePath());
         } catch (NumberFormatException e) {
-            System.out.println("Tiles.txt does not follow the convention 'tileName-xPos-yPos");
+            System.out.println("Tiles.txt does not follow the convention 'tileName-xPos-yPos-layer");
         }
     }
 

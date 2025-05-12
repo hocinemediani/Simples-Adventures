@@ -1,6 +1,9 @@
 package com.projetlong.gh02;
 
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class MapEditor {
 
@@ -10,6 +13,11 @@ public class MapEditor {
     private final Rectangle camera;
     /** The ID of the selected tile. */
     private int tileID;
+    /** The ID of the selected layer. */
+    private int layerID;
+    private static final int MAX_LAYERS = 3; // Modifie selon le nombre de layers souhaité
+    /** The hashmap used to identify the sprites of the different layers */
+    private HashMap<Integer, ArrayList<Integer>> layerToSprite = new HashMap<>();
 
     /** Creates an instance of MapEditor.
      * A Map Editor helps in the process of map
@@ -20,8 +28,21 @@ public class MapEditor {
     public MapEditor(GameFrame game) {
         this.game = game;
         this.camera = this.game.getRenderHandler().getCamera();
+        layerToSprite.put(0, new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7))); // background
+        layerToSprite.put(1, new ArrayList<>(Arrays.asList(8, 9, 10, 11)));       // obstacle
+        layerToSprite.put(2, new ArrayList<>(Arrays.asList(12, 13, 14, 15, 16, 17)));    // decoration
     }
 
+
+    public void nextLayer() {
+        layerID = (layerID + 1) % MAX_LAYERS;
+    }
+    public void previousLayer() {
+        layerID = (layerID - 1 + MAX_LAYERS) % MAX_LAYERS;
+    }
+    public int getLayerID() {
+        return layerID;
+    }
 
     /** Handles input from a mouse event.
      * Depending on the mouse button clicked, this
@@ -30,7 +51,7 @@ public class MapEditor {
      * @param e The mouse event to handle
      */
     public void handleInput(MouseEvent e) {
-        int numTiles = game.getCurrentScene().getTiles().getNumberOfTiles();
+        int numTiles = layerToSprite.get(getLayerID()).size();
         int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
         int xPos = (((int) e.getX() + this.camera.getX()) / (tileLength));
         int yPos = (((int) e.getY() + this.camera.getY()) / (tileLength));
@@ -44,7 +65,7 @@ public class MapEditor {
             placeTile(xPos, yPos);
         }
         if (e.getButton() == MouseEvent.BUTTON2) {
-            this.game.getCurrentScene().getGameMap().deleteMappedTile(xPos, yPos);
+            this.game.getCurrentScene().getGameMap().deleteMappedTile(xPos, yPos, layerID);
         }
         if (e.getButton() == MouseEvent.BUTTON3) {
             tileID = (tileID + 1) % numTiles;
@@ -59,13 +80,14 @@ public class MapEditor {
      * @param yPos The y-position of the tile
      */
     public void placeTile(int xPos, int yPos) {
-        int[] tileInfo = new int[3];
-        tileInfo[0] = tileID;
+        int[] tileInfo = new int[4];
+        tileInfo[0] = layerToSprite.get(layerID).get(tileID);
         tileInfo[1] = xPos;
         tileInfo[2] = yPos;
+        tileInfo[3] = layerID;
         this.game.getCurrentScene().getGameMap().addMappedTile(tileInfo);
         String mapString = xPos  + "," + yPos;
-        this.game.getCurrentScene().getGameMap().writeToFile(mapString, tileID);
+        this.game.getCurrentScene().getGameMap().writeToFile(mapString, tileID, layerID);
     }
 
 
@@ -77,14 +99,16 @@ public class MapEditor {
      * the currently selected tile.
      */
     public void renderUI() {
-        int numTiles = game.getCurrentScene().getGameMap().getTiles().getNumberOfTiles();
+        ArrayList<Integer> tileIDs = layerToSprite.get(getLayerID());
+        int numTiles = tileIDs.size();
         int tileUIScale = 4;
         int tileLength = SpriteSheet.tileSize * tileUIScale;
         for (int i = 0; i < numTiles; i++) {
-            game.getRenderHandler().loadSprite(game.getCurrentScene().getBackgroundTileSheet().getSprite(i % numTiles, i / numTiles),
+            int tileID = tileIDs.get(i);
+            game.getRenderHandler().loadSprite(game.getCurrentScene().getTileSheet(layerID).getSprite(i % numTiles, i / numTiles),
                                                 camera.getX() + i * tileLength,
                                                 camera.getY(), tileUIScale);
-            if (i == tileID) {
+            if (i == this.tileID) {
                 Rectangle currentTile = new Rectangle(camera.getX() + i * tileLength,
                                                     camera.getY(), SpriteSheet.tileSize, SpriteSheet.tileSize);
                 currentTile.generateBorderGraphics(1, 0xFFFFFF);

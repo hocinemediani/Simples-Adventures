@@ -16,6 +16,14 @@ public class Scene {
     private final BufferedImage backgroundTileImage;
     /** The background's tileset spritesheet. */
     private final SpriteSheet backgroundTileSheet;
+    /** The obstacle's tileset image. */
+    private final BufferedImage obstacleTileImage;
+    /** The obstacle's tileset spritesheet. */
+    private final SpriteSheet obstacleTileSheet;
+    /** The decoration's tileset image. */
+    private final BufferedImage decorationTileImage;
+    /** The decoration's tileset spritesheet. */
+    private final SpriteSheet decorationTileSheet;
     /** All of the gameobjects in the scene. */
     private final ArrayList<GameObject> gameObjects;
     /** The player. */
@@ -30,12 +38,14 @@ public class Scene {
      * Scenes separates different zones of the game for more
      * simple game-making.
      * @param backgroundTilePath The path to the background tile sheet
+     * @param obstacleTilePath The path to the obstacle tile sheet
+     * @param decorationTilePath The path to the decoration tile sheet
      * @param mapFile The file to load the map from
      * @param tileFile The file to load the map's tile from
      * @param game The instance of game being played
      * @param sceneID The unique scene ID
      */
-    public Scene(String backgroundTilePath, File mapFile, File tileFile, GameFrame game, int sceneID) {
+    public Scene(String backgroundTilePath, String obstacleTilePath, String decorationTilePath, File mapFile, File tileFile, GameFrame game, int sceneID) {
         this.game = game;
         this.sceneID = sceneID;
 
@@ -43,9 +53,13 @@ public class Scene {
         this.playerTileSheet = new SpriteSheet(game.loadImage("assets/player.png"));
         backgroundTileImage = game.loadImage(backgroundTilePath);
         backgroundTileSheet = new SpriteSheet(backgroundTileImage);
+        obstacleTileImage = game.loadImage(obstacleTilePath);
+        obstacleTileSheet = new SpriteSheet(obstacleTileImage);
+        decorationTileImage = game.loadImage(decorationTilePath);
+        decorationTileSheet = new SpriteSheet(decorationTileImage);
 
         /* Initializing the tile set. */
-        this.tiles = new Tiles(tileFile, backgroundTileSheet);
+        this.tiles = new Tiles(tileFile, backgroundTileSheet, obstacleTileSheet, decorationTileSheet);
         
         /* Initializing the map. */
         this.map = new GameMap(mapFile, tiles, this.game);
@@ -81,12 +95,16 @@ public class Scene {
     }
 
 
-    /** Returns the background's tile sheet.
-     * @return The background's tile sheet
+    /** Returns the tile sheet following the layer.
+     * @return The layer's tile sheet
      */
-    public SpriteSheet getBackgroundTileSheet(){
-        return this.backgroundTileSheet;
-    }
+    public SpriteSheet getTileSheet(int layerID) {
+        return switch (layerID) {
+            case 1 -> obstacleTileSheet;
+            case 2 -> decorationTileSheet;
+            default -> backgroundTileSheet;
+        };
+}
 
 
     /** Returns the tiles used in the scene.

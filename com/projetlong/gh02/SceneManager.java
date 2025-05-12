@@ -11,16 +11,17 @@ public class SceneManager {
     private final ArrayList<Scene> sceneArray = new ArrayList<>();
     /** The instance of game being played. */
     private final GameFrame game;
+    /** Path of the different layers. */
+    private final String backgroundPath = "assets/backgroundTileSheet.png";
+    private final String obstaclePath = "assets/obstacleTileSheet.png";
+    private final String decorationPath = "assets/decorationTileSheet.png";
     /** Assets and files for the first scene. */
-    private final String backgroundPath1 = "assets/backgroundTileSheet.png";
     private final File mapFile1 = new File("com/projetlong/gh02/testLevel1.txt");
     private final File tileFile1 = new File("com/projetlong/gh02/tiles.txt");
     /** Assets and files for the second scene. */
-    private final String backgroundPath2 = "assets/backgroundTileSheet.png";
     private final File mapFile2 = new File("com/projetlong/gh02/testLevel2.txt");
     private final File tileFile2 = new File("com/projetlong/gh02/tiles.txt");
     /** Assets and files for the third scene. */
-    private final String backgroundPath3 = "assets/backgroundTileSheet.png";
     private final File mapFile3 = new File("com/projetlong/gh02/testLevel3.txt");
     private final File tileFile3 = new File("com/projetlong/gh02/tiles.txt");
 
@@ -31,9 +32,9 @@ public class SceneManager {
      */
     public SceneManager(GameFrame game) {
         this.game = game;
-        this.sceneArray.add(new Scene(backgroundPath1, mapFile1, tileFile1, game, 1));
-        this.sceneArray.add(new Scene(backgroundPath2, mapFile2, tileFile2, game, 2));
-        this.sceneArray.add(new Scene(backgroundPath3, mapFile3, tileFile3, game, 3));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile1, tileFile1, game, 1));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile2, tileFile2, game, 2));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile3, tileFile3, game, 3));
         this.currentScene = sceneArray.get(0);
     }
 

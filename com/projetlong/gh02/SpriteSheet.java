@@ -84,5 +84,5 @@ public class SpriteSheet {
     public BufferedImage getSpriteSheet() {
         return this.spriteSheet;
     }
-
+    
 }
