@@ -85,4 +85,13 @@ public class SpriteSheet {
         return this.spriteSheet;
     }
 
+
+    public int getWidth() {
+        return this.imageWidth;
+    }
+
+    public int getHeight() {
+        return this.imageHeight;
+    }
+
 }
