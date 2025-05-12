@@ -1,7 +1,5 @@
 package com.projetlong.gh02;
 
-import java.util.Random;
-
 public class NPC implements GameObject {
 
     /** NPC's cadre */
@@ -32,7 +30,7 @@ public class NPC implements GameObject {
         this.xPos = xPos_initial;
         this.yPos = yPos_initial;
         this.nPCSpriteSheet = npcSpriteSheet;
-        this.nPCRectangle = new Rectangle(this.xPos, this.yPos, SpriteSheet.tileSize, SpriteSheet.tileSize);
+        this.nPCRectangle = new Rectangle(this.xPos - 30, this.yPos - 30, SpriteSheet.tileSize + 30, SpriteSheet.tileSize + 30);
         this.sprite = npcSpriteSheet.getSprite(0, 0);
         nPCRectangle.generateBorderGraphics(1, 0x194875);
         
@@ -47,31 +45,36 @@ public class NPC implements GameObject {
 
     @Override
     public void update(GameFrame game) {
-        if (i == 30) {   // change j randomly after 30 frame
+        // if (i == 30) {   // change j randomly after 30 frame
             
-            Random rand = new Random();
-            i = 0;
-            j = rand.nextInt(4);
-        }
+        //     Random rand = new Random();
+        //     i = 0;
+        //     j = rand.nextInt(4);
+        // }
 
-        i++;
+        // i++;
     
 
-        if (j == 0) {
-            transform(0, -speed, 0);
-            this.sprite = nPCSpriteSheet.getSprite(1, 0);
-        } else if (j == 1) {
-            transform(0, speed, 0);
-            this.sprite = nPCSpriteSheet.getSprite(0, 0);
-        } else if (j == 2) {
-            transform(speed, 0, 0);
-            this.sprite = nPCSpriteSheet.getSprite(0, 0);
-        } else {
-            transform(-speed, 0, 0);
-            this.sprite = nPCSpriteSheet.getSprite(2, 0);
-        }
+        // if (j == 0) {
+        //     transform(0, -speed, 0);
+        //     this.sprite = nPCSpriteSheet.getSprite(1, 0);
+        // } else if (j == 1) {
+        //     transform(0, speed, 0);
+        //     this.sprite = nPCSpriteSheet.getSprite(0, 0);
+        // } else if (j == 2) {
+        //     transform(speed, 0, 0);
+        //     this.sprite = nPCSpriteSheet.getSprite(0, 0);
+        // } else {
+        //     transform(-speed, 0, 0);
+        //     this.sprite = nPCSpriteSheet.getSprite(2, 0);
+        // }
 
-        
+        /* TO DO :
+         * rendre le npc statique
+         * créer sa hitbox plus grande que lui afin de pouvoir interagir depuis plus loin
+         * créer un overlay au dessus du personnage quand il peut interagir avec le npc
+         * gérer la partie intéraction (dialogue etc)
+         */
         
     }
 

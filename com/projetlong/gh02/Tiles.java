@@ -8,9 +8,12 @@ import java.util.Scanner;
 public class Tiles {
 
     /** The spritesheet1 of the tiles. */
-    private SpriteSheet spriteSheet1;
-    private SpriteSheet spriteSheet2;
-    private SpriteSheet spriteSheet3;
+    private final SpriteSheet spriteSheet1;
+    private final SpriteSheet spriteSheet2;
+    private final SpriteSheet spriteSheet3;
+
+    /* TO DO : mettre un spriteSheetFile */
+
     /** The array of tiles from the spritesheet. */
     private ArrayList<Tile> tileArray = new ArrayList<>();
 
@@ -36,8 +39,8 @@ public class Tiles {
                 int tileYPos = Integer.parseInt(tileString[2]);
                 int layer = Integer.parseInt(tileString[3]);
                 
+                /* A déplacer dans le map editor. */
                 SpriteSheet selectedSheet;
-
                 selectedSheet = switch (layer) {
                     case 1 -> spriteSheet1;
                     case 2 -> spriteSheet2;

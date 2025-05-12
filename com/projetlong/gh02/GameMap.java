@@ -10,6 +10,14 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
+/* TO DO :
+ * - régler le problème de suppresion de tile de layer inférieure à la dernière placée
+ * - régler le problème de possibilité de duplication de tiles
+ * - ajouter l'option de changer la tile de fill
+ * - régler la suppression de tile pour supprimer la dernière placée
+ * - régler le problème de nettoyage de fichier de map
+*/
+
 public class GameMap {
 
     /** The different tiles used throughout the map. */
@@ -63,24 +71,11 @@ public class GameMap {
                     continue;
                 }
                 int[] methodArgs;
-                if (args.length == 3) {
-                    // Ancien format : pas de layer, on met layerID = 0 par défaut
-                    methodArgs = new int[4];
-                    methodArgs[0] = Integer.parseInt(args[0]);
-                    methodArgs[1] = Integer.parseInt(args[1]);
-                    methodArgs[2] = Integer.parseInt(args[2]);
-                    methodArgs[3] = 0;
-                } else if (args.length == 4) {
-                    // Nouveau format : layer inclus
-                    methodArgs = new int[4];
-                    methodArgs[0] = Integer.parseInt(args[0]);
-                    methodArgs[1] = Integer.parseInt(args[1]);
-                    methodArgs[2] = Integer.parseInt(args[2]);
-                    methodArgs[3] = Integer.parseInt(args[3]);
-                } else {
-                    // Ligne mal formée
-                    continue;
-                }
+                methodArgs = new int[4];
+                methodArgs[0] = Integer.parseInt(args[0]);
+                methodArgs[1] = Integer.parseInt(args[1]);
+                methodArgs[2] = Integer.parseInt(args[2]);
+                methodArgs[3] = Integer.parseInt(args[3]);
                 methodToCall.accept(methodArgs);
             }
         } catch (FileNotFoundException e) {

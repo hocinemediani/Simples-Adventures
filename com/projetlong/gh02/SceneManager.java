@@ -47,6 +47,12 @@ public class SceneManager {
     }
 
 
+    /**  */
+    public ArrayList<Scene> getScenes() {
+        return this.sceneArray;
+    }
+
+
     /** Sets the current scene to the scene
      * with ID sceneID.
      * @param sceneID The ID of the scene to load

@@ -74,7 +74,9 @@ public class GameFrame extends JFrame implements Runnable {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                currentScene.getGameMap().cleanupMapFile();
+                for (Scene scene : getSceneManager().getScenes()) {
+                    scene.getGameMap().cleanupMapFile();
+                }
                 dispose();
                 System.exit(0);
             }

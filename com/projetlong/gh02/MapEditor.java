@@ -17,7 +17,7 @@ public class MapEditor {
     private int layerID;
     private static final int MAX_LAYERS = 3; // Modifie selon le nombre de layers souhaité
     /** The hashmap used to identify the sprites of the different layers */
-    private HashMap<Integer, ArrayList<Integer>> layerToSprite = new HashMap<>();
+    private final HashMap<Integer, ArrayList<Integer>> layerToSprite = new HashMap<>();
 
     /** Creates an instance of MapEditor.
      * A Map Editor helps in the process of map

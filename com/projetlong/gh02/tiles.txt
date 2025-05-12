@@ -11,8 +11,8 @@ rock2-0-1-1
 rock3-1-0-1
 rock4-1-1-1
 plant1-0-0-2
-plant2-0-1-2
-plant3-1-0-2
-plant4-1-1-2
-plant5-2-0-2
+plant2-1-0-2
+plant3-2-0-2
+plant4-0-1-2
+plant5-1-1-2
 plant6-2-1-2

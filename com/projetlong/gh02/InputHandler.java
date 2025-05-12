@@ -38,10 +38,10 @@ public class InputHandler implements KeyListener, FocusListener {
         }
         // Gestion du layer en mode construction
         if (constructionMode) {
-            if (e.getKeyCode() == KeyEvent.VK_L) {
+            if (e.getKeyCode() == KeyEvent.VK_W) {
                 game.getCurrentScene().getGameMap().getMapEditor().nextLayer();
             }
-            if (e.getKeyCode() == KeyEvent.VK_K) {
+            if (e.getKeyCode() == KeyEvent.VK_X) {
                 game.getCurrentScene().getGameMap().getMapEditor().previousLayer();
             }
         }
