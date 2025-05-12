@@ -84,18 +84,5 @@ public class SpriteSheet {
     public BufferedImage getSpriteSheet() {
         return this.spriteSheet;
     }
-<<<<<<< HEAD
     
-=======
-
-
-    public int getWidth() {
-        return this.imageWidth;
-    }
-
-    public int getHeight() {
-        return this.imageHeight;
-    }
-
->>>>>>> b5dd5123a76756ec71c56ad3dd64c0243863f32d
 }

@@ -28,7 +28,6 @@ public class Scene {
     private final ArrayList<GameObject> gameObjects;
     /** The player. */
     private final Player player;
-
     /** The NPCs of the game */
     private final NPC npc1;
     // private final NPC npc2;
@@ -112,7 +111,7 @@ public class Scene {
             case 2 -> decorationTileSheet;
             default -> backgroundTileSheet;
         };
-}
+    }
 
 
     /** Returns the tiles used in the scene.

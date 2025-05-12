@@ -49,11 +49,7 @@ public class Tiles {
         } catch (FileNotFoundException e) {
             System.out.println("No such file at location " + tilesFile.getAbsolutePath());
         } catch (NumberFormatException e) {
-<<<<<<< HEAD
             System.out.println("Tiles.txt does not follow the convention 'tileName-xPos-yPos-layer");
-=======
-            System.out.println("Tiles.txt does not follow the convention 'tileName-xPos-yPos'");
->>>>>>> b5dd5123a76756ec71c56ad3dd64c0243863f32d
         }
     }
 
