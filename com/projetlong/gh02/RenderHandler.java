@@ -4,6 +4,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+
 public class RenderHandler {
 
     /** Our working viewport. */
@@ -114,6 +118,44 @@ public class RenderHandler {
                 }
             }
         }
+    }
+
+    
+    public void drawText(String text, int x, int y, int scale, Color color, Graphics graphics) {
+        graphics.setColor(color);
+        Font font = new Font("Arial", Font.BOLD, scale);
+        graphics.setFont(font);
+        graphics.drawString(text, x - camera.getX(), y - camera.getY() - 140);
+    }
+
+    public void drawTextBubble(String text, int x, int y, int scale, Graphics graphics) {
+
+        graphics.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, scale));
+        FontMetrics metrics = graphics.getFontMetrics();
+        int textWidth = metrics.stringWidth(text);
+        int textHeight = metrics.getHeight();
+
+        int bubbleWidth = textWidth + scale ;
+        int bubbleHeight = textHeight + scale;
+
+        int screenX = x - camera.getX();
+        int screenY = y - camera.getY();
+
+        // Fond arrondi
+        graphics.setColor(new java.awt.Color(0, 0, 0, 170)); // Fond noir transparent
+        graphics.fillRoundRect(screenX, screenY - bubbleHeight, bubbleWidth, bubbleHeight, 15, 15);
+
+        // Bordure blanche
+        graphics.setColor(java.awt.Color.WHITE);
+        graphics.drawRoundRect(screenX, screenY - bubbleHeight, bubbleWidth, bubbleHeight, 15, 15);
+
+        // Texte
+        graphics.drawString(text, screenX + scale, screenY - bubbleHeight + scale + metrics.getAscent());
+    }
+
+    // le milieu de dessin
+    public Graphics getViewGraphics() {
+        return view.getGraphics();
     }
 
 

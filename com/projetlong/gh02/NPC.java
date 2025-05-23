@@ -1,5 +1,8 @@
 package com.projetlong.gh02;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class NPC implements GameObject {
 
     /** NPC's cadre */
@@ -24,13 +27,16 @@ public class NPC implements GameObject {
     private static int i = 0;   // time adjustment
     private static int j = 0;   // behavior adjustment (random value between 0 and 3)
 
+    //
+    private static boolean canInteract = false;
+
 
 
     public NPC(SpriteSheet npcSpriteSheet, int xPos_initial, int yPos_initial) {
         this.xPos = xPos_initial;
         this.yPos = yPos_initial;
         this.nPCSpriteSheet = npcSpriteSheet;
-        this.nPCRectangle = new Rectangle(this.xPos - 30, this.yPos - 30, SpriteSheet.tileSize + 30, SpriteSheet.tileSize + 30);
+        this.nPCRectangle = new Rectangle(this.xPos - 45, this.yPos - 40, SpriteSheet.tileSize + 30, SpriteSheet.tileSize + 30);
         this.sprite = npcSpriteSheet.getSprite(0, 0);
         nPCRectangle.generateBorderGraphics(1, 0x194875);
         
@@ -41,6 +47,12 @@ public class NPC implements GameObject {
     public void render(RenderHandler renderHandler, int scale) {
         renderHandler.loadSprite(this.sprite, this.xPos, this.yPos, scale);
         renderHandler.loadRectangle(this.nPCRectangle, scale);
+
+        if (canInteract) {
+            Graphics graphics = renderHandler.getViewGraphics();
+            renderHandler.drawTextBubble("Press I For interaction", this.xPos, this.yPos - 20, 6 * scale, graphics);
+            //this.canInteract = false;
+        }
     }
 
     @Override
@@ -63,5 +75,12 @@ public class NPC implements GameObject {
         this.nPCRectangle.moveY(dy); 
     }
 
+    public Rectangle getNPRectangle() {
+        return this.nPCRectangle;
+    }
+
+    public void setcanInteract(boolean Bool) {
+        canInteract = Bool;
+    }
 
 }
