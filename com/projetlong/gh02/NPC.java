@@ -28,7 +28,7 @@ public class NPC implements GameObject {
     private static int j = 0;   // behavior adjustment (random value between 0 and 3)
 
     //
-    private static boolean canInteract = false;
+    private boolean canInteract = false;
 
 
 
@@ -80,7 +80,7 @@ public class NPC implements GameObject {
     }
 
     public void setcanInteract(boolean Bool) {
-        canInteract = Bool;
+        this.canInteract = Bool;
     }
 
 }

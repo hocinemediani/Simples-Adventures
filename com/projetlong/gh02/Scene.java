@@ -30,7 +30,7 @@ public class Scene {
     private final Player player;
     /** The NPCs of the game */
     private final NPC npc1;
-    // private final NPC npc2;
+    private final NPC npc2;
     /** The player's sprite sheet. */
     private final SpriteSheet playerTileSheet;
     /** The unique scene ID. */
@@ -71,10 +71,10 @@ public class Scene {
         gameObjects = new ArrayList<>();
         this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this);
         this.npc1 = new NPC(this.playerTileSheet, 300, 200);
-        // this.npc2 = new NPC(this.playerTileSheet, 600, 400);
+         this.npc2 = new NPC(this.playerTileSheet, 600, 400);
         gameObjects.add(this.player);
         gameObjects.add(this.npc1);
-        // gameObjects.add(this.npc2);
+         gameObjects.add(this.npc2);
     }
 
 
