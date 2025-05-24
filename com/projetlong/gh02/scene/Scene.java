@@ -1,7 +1,6 @@
 package com.projetlong.gh02.scene;
 
 import com.projetlong.gh02.GameFrame;
-import com.projetlong.gh02.SpriteSheet;
 import com.projetlong.gh02.entities.GameObject;
 import com.projetlong.gh02.entities.NPC;
 import com.projetlong.gh02.entities.Player;
@@ -11,6 +10,8 @@ import com.projetlong.gh02.menus.LoadGameMenu;
 import com.projetlong.gh02.menus.MainMenu;
 import com.projetlong.gh02.menus.NewGameMenu;
 import com.projetlong.gh02.menus.SettingsMenu;
+import com.projetlong.gh02.sprite.SpriteSheet;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;

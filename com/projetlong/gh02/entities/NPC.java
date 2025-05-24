@@ -2,9 +2,9 @@ package com.projetlong.gh02.entities;
 
 import com.projetlong.gh02.GameFrame;
 import com.projetlong.gh02.Rectangle;
-import com.projetlong.gh02.Sprite;
-import com.projetlong.gh02.SpriteSheet;
 import com.projetlong.gh02.handlers.RenderHandler;
+import com.projetlong.gh02.sprite.Sprite;
+import com.projetlong.gh02.sprite.SpriteSheet;
 
 import java.awt.Color;
 import java.awt.Graphics;

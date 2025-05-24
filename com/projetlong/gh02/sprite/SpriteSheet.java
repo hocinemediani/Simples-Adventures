@@ -1,4 +1,4 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.sprite;
 
 import java.awt.image.BufferedImage;
 

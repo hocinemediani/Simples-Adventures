@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import com.projetlong.gh02.GameFrame;
 import com.projetlong.gh02.Rectangle;
-import com.projetlong.gh02.SpriteSheet;
+import com.projetlong.gh02.sprite.SpriteSheet;
 
 public class MapEditor {
 
