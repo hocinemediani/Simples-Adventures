@@ -7,6 +7,9 @@ import com.projetlong.gh02.SpriteSheet;
 import com.projetlong.gh02.handlers.InputHandler;
 import com.projetlong.gh02.handlers.RenderHandler;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Player implements GameObject {
 
     /** The player's hitbox. */
@@ -28,6 +31,11 @@ public class Player implements GameObject {
     /** The camera's movement speed. */
     private final int cameraSpeed = GameFrame.GLOBALSCALE;
 
+
+    private Scene currentScene;
+
+    private final GameFrame game;
+
     /** Creates an instance of player.
      * A player has a sprite and a camera that moves along
      * with him. He is controlled by the ZQSD or arrow keys.
@@ -35,7 +43,8 @@ public class Player implements GameObject {
      * @param inputHandler The input handler used to detect movement
      * @param camera The player's camera
      */
-    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera) {
+    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera, Scene scene, GameFrame game) {
+        this.game = game;
         this.playerSpriteSheet = playerSpriteSheet;
         this.sprite = playerSpriteSheet.getSprite(0, 0);
         this.camera = camera;
@@ -45,6 +54,8 @@ public class Player implements GameObject {
         this.playerRectangle = new Rectangle(xPos, yPos,
                                             SpriteSheet.tileSize, SpriteSheet.tileSize);
         playerRectangle.generateBorderGraphics(1, 0x194875);
+        this.currentScene = scene;
+
     }
 
 
@@ -52,6 +63,9 @@ public class Player implements GameObject {
     public void render(RenderHandler renderHandler, int scale) {
         renderHandler.loadSprite(this.sprite, xPos, yPos, scale);
         renderHandler.loadRectangle(playerRectangle, scale);
+        // graphics est le milieu où on va dessiner
+        Graphics graphics = renderHandler.getViewGraphics();
+        renderHandler.drawText(this.game.getplayerName(), this.playerRectangle.getX(), this.yPos + 200, 6* scale, Color.WHITE, graphics);
     }
 
 
@@ -85,6 +99,32 @@ public class Player implements GameObject {
         /* Updates the camera position to be centered at each frame. */
         camera.setX(xPos - camera.getWidth() / 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE / 2);
         camera.setY(yPos - camera.getHeight() / 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE / 2);
+
+        for (GameObject obj : currentScene.getGameObjects()) {
+            if (obj instanceof NPC npc) {
+                Rectangle interactionZone = npc.getNPRectangle();
+                //Rectangle playerHitbox = new Rectangle(xPos, yPos, width, height); // ou ta vraie hitbox
+                //npc.setcanInteract(false);
+                
+
+                if (this.isInRectangle(interactionZone) ) {
+                    // if (game.isInteractionKeyPressed()) {
+                    //     // Lancer l’interaction
+                    //     System.out.println("Interagis avec NPC !");
+                    // }
+                    System.out.println("Interagis avec NPC !");
+                    npc.setcanInteract(true);
+                } else {
+                    npc.setcanInteract(false);
+                }
+                //npc.setcanInteract(false);
+
+
+            }
+
+
+        }
+
     }
 
     
@@ -97,6 +137,14 @@ public class Player implements GameObject {
         this.camera.moveX(dx);
         this.camera.moveY(dy);
     }
+
+
+    public boolean isInRectangle(Rectangle rectangle) {
+    return xPos >= rectangle.getX() - 20 && xPos <= rectangle.getX() + 2.5 * rectangle.getWidth() &&
+           yPos >= rectangle.getY() - 20 && yPos <= rectangle.getY() + 2.5*rectangle.getHeight();
+    }
+
+
 
 
     /** Set the current player's sprite to the

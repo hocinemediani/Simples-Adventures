@@ -38,6 +38,10 @@ public class Scene {
     private final ArrayList<GameObject> gameObjects;
     /** The player. */
     private Player player;
+    private final Player player;
+    /** The NPCs of the game */
+    private final NPC npc1;
+    private final NPC npc2;
     /** The player's sprite sheet. */
     private final SpriteSheet playerTileSheet;
     /** The unique scene ID. */
@@ -76,6 +80,7 @@ public class Scene {
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();
+<<<<<<< HEAD:com/projetlong/gh02/scene/Scene.java
         switch (sceneID) {
             case 0 -> this.gameObjects.add(new MainMenu(game));
             case 1 -> this.gameObjects.add(new SettingsMenu(game));
@@ -86,6 +91,14 @@ public class Scene {
                 gameObjects.add(this.player);
             }
         }
+=======
+        this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game);
+        this.npc1 = new NPC(this.playerTileSheet, 300, 200);
+         this.npc2 = new NPC(this.playerTileSheet, 600, 400);
+        gameObjects.add(this.player);
+        gameObjects.add(this.npc1);
+         gameObjects.add(this.npc2);
+>>>>>>> 1f2365650a09f95d3f7a508b17fdf6f1bce07562:com/projetlong/gh02/Scene.java
     }
 
 

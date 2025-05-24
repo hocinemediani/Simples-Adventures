@@ -28,10 +28,20 @@ public class InputHandler implements KeyListener, FocusListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() > 128) {
-            System.out.println("Unsupported key");
-            return;
+
+        
+
+        if (this.game.getInMenu() && !this.game.getisNameEntered() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!this.game.getplayerName().trim().isEmpty()) {
+                this.game.setEtatMenu(false);
+                this.game.setisNameEntered(true);
+                this.game.setisInPrincipalPage(true);
+                this.game.setIsNewGame(true);
+                System.out.println("Starting game for: " + this.game.getplayerName());
+                //this.game.loadImage("assets/Menu_background.png");
+                }
         }
+<<<<<<< HEAD:com/projetlong/gh02/handlers/InputHandler.java
         if (e.getKeyCode() == KeyEvent.VK_E) {
             isInConstructionMode = !isInConstructionMode;
         }
@@ -45,9 +55,33 @@ public class InputHandler implements KeyListener, FocusListener {
             }
             if (e.getKeyCode() == KeyEvent.VK_X) {
                 game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().previousLayer();
+=======
+
+            
+        
+        if (this.game.getIsNewGame()) {
+            if (e.getKeyCode() > 128) {
+                System.out.println("Unsupported key");
+                return;
             }
-        }
-        keys[e.getKeyCode()] = true;
+            if (e.getKeyCode() == KeyEvent.VK_E) {
+                constructionMode = !constructionMode;
+>>>>>>> 1f2365650a09f95d3f7a508b17fdf6f1bce07562:com/projetlong/gh02/InputHandler.java
+            }
+            if (e.getKeyCode() == KeyEvent.VK_A) {
+                game.getSceneLoader().loadScene(game.getCurrentScene().getSceneID());
+            }
+            // Gestion du layer en mode construction
+            if (constructionMode) {
+                if (e.getKeyCode() == KeyEvent.VK_W) {
+                    game.getCurrentScene().getGameMap().getMapEditor().nextLayer();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_X) {
+                    game.getCurrentScene().getGameMap().getMapEditor().previousLayer();
+                }
+            }
+            keys[e.getKeyCode()] = true;
+        }    
     }
 
 
@@ -118,6 +152,32 @@ public class InputHandler implements KeyListener, FocusListener {
 
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+        /* typing the input*/
+        if (this.game.getInMenu() && !this.game.getisNameEntered()) {
+            char c = e.getKeyChar();
+            if (c == '\b' && this.game.getplayerName().length() > 0){
+                /* Delete the last character of the string */
+                char[] chars = this.game.getplayerName().toCharArray();      
+                String newName = "";                          
+
+                for (int i = 0; i < chars.length - 1; i++) {
+                        newName += chars[i];
+                }
+
+                this.game.setplayerName(newName);
+            } else if (c == '\b' && this.game.getplayerName().length() == 0) {
+                /* nothing to do */
+            } else {
+                this.game.setplayerName(this.game.getplayerName() + c);
+                
+            }
+        }
+
+    }
+    
 
 }
+
+
+
