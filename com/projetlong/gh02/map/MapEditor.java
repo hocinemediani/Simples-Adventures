@@ -1,9 +1,13 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.map;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import com.projetlong.gh02.GameFrame;
+import com.projetlong.gh02.Rectangle;
+import com.projetlong.gh02.SpriteSheet;
 
 public class MapEditor {
 
@@ -65,7 +69,7 @@ public class MapEditor {
             placeTile(xPos, yPos);
         }
         if (e.getButton() == MouseEvent.BUTTON2) {
-            this.game.getCurrentScene().getGameMap().deleteMappedTile(xPos, yPos, layerID);
+            this.game.getSceneManager().getCurrentScene().getGameMap().deleteMappedTile(xPos, yPos, layerID);
         }
         if (e.getButton() == MouseEvent.BUTTON3) {
             tileID = (tileID + 1) % numTiles;
@@ -85,9 +89,9 @@ public class MapEditor {
         tileInfo[1] = xPos;
         tileInfo[2] = yPos;
         tileInfo[3] = layerID;
-        this.game.getCurrentScene().getGameMap().addMappedTile(tileInfo);
+        this.game.getSceneManager().getCurrentScene().getGameMap().addMappedTile(tileInfo);
         String mapString = xPos  + "," + yPos;
-        this.game.getCurrentScene().getGameMap().writeToFile(mapString, tileID, layerID);
+        this.game.getSceneManager().getCurrentScene().getGameMap().writeToFile(mapString, tileID, layerID);
     }
 
 
@@ -105,7 +109,7 @@ public class MapEditor {
         int tileLength = SpriteSheet.tileSize * tileUIScale;
         for (int i = 0; i < numTiles; i++) {
             int tileID = tileIDs.get(i);
-            game.getRenderHandler().loadSprite(game.getCurrentScene().getTileSheet(layerID).getSprite(i % numTiles, i / numTiles),
+            game.getRenderHandler().loadSprite(game.getSceneManager().getCurrentScene().getTileSheet(layerID).getSprite(i % numTiles, i / numTiles),
                                                 camera.getX() + i * tileLength,
                                                 camera.getY(), tileUIScale);
             if (i == this.tileID) {

@@ -1,4 +1,7 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.entities;
+
+import com.projetlong.gh02.GameFrame;
+import com.projetlong.gh02.handlers.RenderHandler;
 
 public interface GameObject {
 
@@ -31,7 +34,7 @@ public interface GameObject {
      * @param game The instance of game being played
      */
     public default void delete(GameFrame game) {
-        game.getCurrentScene().deleteGameObject(this);
+        game.getSceneManager().getCurrentScene().deleteGameObject(this);
     }
 
 }

@@ -1,5 +1,8 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.map;
 
+import com.projetlong.gh02.Sprite;
+import com.projetlong.gh02.SpriteSheet;
+import com.projetlong.gh02.handlers.RenderHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.scene;
+
+import com.projetlong.gh02.GameFrame;
 
 public class SceneLoader {
 

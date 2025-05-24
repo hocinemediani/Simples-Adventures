@@ -1,4 +1,4 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.inventory;
 
 /**
  * Attachments that can be applied to weapons.

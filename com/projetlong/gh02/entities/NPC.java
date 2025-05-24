@@ -1,4 +1,10 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.entities;
+
+import com.projetlong.gh02.GameFrame;
+import com.projetlong.gh02.Rectangle;
+import com.projetlong.gh02.Sprite;
+import com.projetlong.gh02.SpriteSheet;
+import com.projetlong.gh02.handlers.RenderHandler;
 
 public class NPC implements GameObject {
 

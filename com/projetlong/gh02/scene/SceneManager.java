@@ -1,5 +1,6 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.scene;
 
+import com.projetlong.gh02.GameFrame;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -16,14 +17,15 @@ public class SceneManager {
     private final String obstaclePath = "assets/obstacleTileSheet.png";
     private final String decorationPath = "assets/decorationTileSheet.png";
     /** Assets and files for the first scene. */
-    private final File mapFile1 = new File("com/projetlong/gh02/testLevel1.txt");
-    private final File tileFile1 = new File("com/projetlong/gh02/tiles.txt");
+    private final File mapFile1 = new File("com/projetlong/gh02/mapFiles/testLevel1.txt");
+    private final File tileFile = new File("com/projetlong/gh02/mapFiles/tiles.txt");
     /** Assets and files for the second scene. */
-    private final File mapFile2 = new File("com/projetlong/gh02/testLevel2.txt");
-    private final File tileFile2 = new File("com/projetlong/gh02/tiles.txt");
+    private final File mapFile2 = new File("com/projetlong/gh02/mapFiles/testLevel2.txt");
     /** Assets and files for the third scene. */
-    private final File mapFile3 = new File("com/projetlong/gh02/testLevel3.txt");
-    private final File tileFile3 = new File("com/projetlong/gh02/tiles.txt");
+    private final File mapFile3 = new File("com/projetlong/gh02/mapFiles/testLevel3.txt");
+
+    /** Main menu. */
+    private final File mainMenuMapFile = new File("com/projetlong/gh02/mapFiles/mainmenu.txt");
 
     /** Creates an instance of SceneManager. A scene
      * manager keeps track of all of the scenes in
@@ -32,10 +34,14 @@ public class SceneManager {
      */
     public SceneManager(GameFrame game) {
         this.game = game;
-        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile1, tileFile1, game, 1));
-        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile2, tileFile2, game, 2));
-        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile3, tileFile3, game, 3));
-        this.currentScene = sceneArray.get(0);
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mainMenuMapFile, tileFile, game, 0));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mainMenuMapFile, tileFile, game, 1));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mainMenuMapFile, tileFile, game, 2));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mainMenuMapFile, tileFile, game, 3));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile1, tileFile, game, 4));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile2, tileFile, game, 5));
+        this.sceneArray.add(new Scene(backgroundPath, obstaclePath, decorationPath, mapFile3, tileFile, game, 6));
+        this.currentScene = sceneArray.getFirst();
     }
 
 

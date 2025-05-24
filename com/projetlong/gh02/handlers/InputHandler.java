@@ -1,23 +1,25 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.handlers;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.projetlong.gh02.GameFrame;
+
 public class InputHandler implements KeyListener, FocusListener {
 
     /** The array of currently pressed keys. */
     private final boolean[] keys = new boolean[128];
     /** Indicates if the user is in construction mode. */
-    private boolean constructionMode = false;
+    private boolean isInConstructionMode = false;
     /** The instance of game being played. */
     private final GameFrame game;
 
     /** Creates an instance of InputHandler.
      * An input handler gets input from the keyboard
      * and maps it to certain actions.
-     * @param game The instance of game being played
+     * @param game The instance of game being played    
      */
     public InputHandler(GameFrame game) {
         this.game = game;
@@ -31,18 +33,18 @@ public class InputHandler implements KeyListener, FocusListener {
             return;
         }
         if (e.getKeyCode() == KeyEvent.VK_E) {
-            constructionMode = !constructionMode;
+            isInConstructionMode = !isInConstructionMode;
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            game.getSceneLoader().loadScene(game.getCurrentScene().getSceneID());
+            game.getSceneLoader().loadScene(game.getSceneManager().getCurrentScene().getSceneID() + 1);
         }
         // Gestion du layer en mode construction
-        if (constructionMode) {
+        if (isInConstructionMode) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
-                game.getCurrentScene().getGameMap().getMapEditor().nextLayer();
+                game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().nextLayer();
             }
             if (e.getKeyCode() == KeyEvent.VK_X) {
-                game.getCurrentScene().getGameMap().getMapEditor().previousLayer();
+                game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().previousLayer();
             }
         }
         keys[e.getKeyCode()] = true;
@@ -107,7 +109,7 @@ public class InputHandler implements KeyListener, FocusListener {
      * @return If the players is in construction mode
      */
     public boolean isInContructionMode() {
-        return this.constructionMode;
+        return this.isInConstructionMode;
     }
 
 

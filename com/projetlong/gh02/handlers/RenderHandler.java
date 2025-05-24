@@ -1,8 +1,13 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.handlers;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+
+import com.projetlong.gh02.GameFrame;
+import com.projetlong.gh02.Rectangle;
+import com.projetlong.gh02.Sprite;
+import com.projetlong.gh02.SpriteSheet;
 
 public class RenderHandler {
 

@@ -1,5 +1,12 @@
 package com.projetlong.gh02;
 
+import com.projetlong.gh02.entities.GameObject;
+import com.projetlong.gh02.handlers.InputHandler;
+import com.projetlong.gh02.handlers.MouseInputHandler;
+import com.projetlong.gh02.handlers.RenderHandler;
+import com.projetlong.gh02.scene.Scene;
+import com.projetlong.gh02.scene.SceneLoader;
+import com.projetlong.gh02.scene.SceneManager;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
@@ -8,6 +15,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame implements Runnable {
@@ -28,6 +36,7 @@ public class GameFrame extends JFrame implements Runnable {
     private final SceneManager sceneManager;
     /** The scene loader of the game. */
     private final SceneLoader sceneLoader;
+    private final ImageIcon logo = new ImageIcon("com/projetlong/gh02/assets/logo32.png");
     /** The current scene being displayed. */
     private Scene currentScene;
 
@@ -46,6 +55,7 @@ public class GameFrame extends JFrame implements Runnable {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         this.add(canvas);
+        this.setIconImage(logo.getImage());
         this.setVisible(true);
         this.setResizable(true);
 
@@ -200,14 +210,6 @@ public class GameFrame extends JFrame implements Runnable {
      */
     public MouseInputHandler getMouseInputHandler(){
         return this.mouseInputHandler;
-    }
-
-
-    /** Returns the current scene.
-     * @return The current scene
-     */
-    public Scene getCurrentScene() {
-        return this.currentScene;
     }
 
 

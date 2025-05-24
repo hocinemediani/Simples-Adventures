@@ -52,7 +52,7 @@ public class Rectangle {
 
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
-                pixels[x + y * this.height] = color; 
+                pixels[x + y * this.width] = color; 
             }
         }
     }
@@ -65,10 +65,11 @@ public class Rectangle {
      * @param color The color of the border
      */
     public void generateBorderGraphics(int borderWidth, int color) {
-        pixels = new int[this.width * this.height];
-
-        for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = GameFrame.ALPHA;
+        if (pixels == null) {
+            pixels = new int[this.width * this.height];
+            for (int i = 0; i < pixels.length; i++) {
+                pixels[i] = GameFrame.ALPHA;
+            }
         }
 
         for (int y = 0; y < borderWidth; y++) {
@@ -187,6 +188,11 @@ public class Rectangle {
      */
     public void setY(int yPos) {
         this.yPos = yPos;
+    }
+
+
+    public boolean isClicked(int x, int y) {
+        return x >= xPos && x < xPos + width && y >= yPos && y < yPos + height;
     }
 
 }

@@ -1,5 +1,8 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.map;
 
+import com.projetlong.gh02.GameFrame;
+import com.projetlong.gh02.Rectangle;
+import com.projetlong.gh02.SpriteSheet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

@@ -1,4 +1,4 @@
-package com.projetlong.gh02;
+package com.projetlong.gh02.inventory;
 
 /**
  * Consumable items that restore health or shield.
