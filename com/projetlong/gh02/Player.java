@@ -27,6 +27,8 @@ public class Player implements GameObject {
 
     private Scene currentScene;
 
+    private final GameFrame game;
+
     /** Creates an instance of player.
      * A player has a sprite and a camera that moves along
      * with him. He is controlled by the ZQSD or arrow keys.
@@ -34,7 +36,8 @@ public class Player implements GameObject {
      * @param inputHandler The input handler used to detect movement
      * @param camera The player's camera
      */
-    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera, Scene scene) {
+    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera, Scene scene, GameFrame game) {
+        this.game = game;
         this.playerSpriteSheet = playerSpriteSheet;
         this.sprite = playerSpriteSheet.getSprite(0, 0);
         this.camera = camera;
@@ -55,7 +58,7 @@ public class Player implements GameObject {
         renderHandler.loadRectangle(playerRectangle, scale);
         // graphics est le milieu où on va dessiner
         Graphics graphics = renderHandler.getViewGraphics();
-        renderHandler.drawText("Player", this.playerRectangle.getX(), this.yPos + 200, 6* scale, Color.WHITE, graphics);
+        renderHandler.drawText(this.game.getplayerName(), this.playerRectangle.getX(), this.yPos + 200, 6* scale, Color.WHITE, graphics);
     }
 
 

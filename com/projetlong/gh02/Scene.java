@@ -69,7 +69,7 @@ public class Scene {
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();
-        this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this);
+        this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game);
         this.npc1 = new NPC(this.playerTileSheet, 300, 200);
          this.npc2 = new NPC(this.playerTileSheet, 600, 400);
         gameObjects.add(this.player);

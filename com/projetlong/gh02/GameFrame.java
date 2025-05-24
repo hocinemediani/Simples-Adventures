@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Font;
+
 
 public class GameFrame extends JFrame implements Runnable {
     
@@ -30,6 +33,21 @@ public class GameFrame extends JFrame implements Runnable {
     private final SceneLoader sceneLoader;
     /** The current scene being displayed. */
     private Scene currentScene;
+
+
+    /* Menu variables. */
+    private boolean isInMenu = true;
+    private boolean isNameEntered = false;
+    private String playerName = "";
+
+    /* Principal page parameters */
+    private boolean isInPrincipalPage = false;
+    private boolean newGame = false;
+    private boolean Setting = false;
+
+    private final BufferedImage menuBackround;
+    private final BufferedImage PrincipalPageBackground;
+
 
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
@@ -56,6 +74,10 @@ public class GameFrame extends JFrame implements Runnable {
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
         inputHandler = new InputHandler(this);
         mouseInputHandler = new MouseInputHandler(this);
+
+        menuBackround = loadImage("assets/Menu_background.png");
+        PrincipalPageBackground = loadImage("assets/PrincipalPage_background.png");
+        
 
         /** Loading in the first scene. */
         this.sceneManager = new SceneManager(this);
@@ -130,22 +152,39 @@ public class GameFrame extends JFrame implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
 
+        if (this.getInMenu()) {
+            graphics.drawImage(menuBackround, 0, 0, getWidth(), getHeight(), this);
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("Arial", Font.BOLD, 32));
+            graphics.drawString(playerName + "_", 280, 544);
+            
+        } else if (this.getisInPrincipalPage()) {
+            graphics.drawImage(PrincipalPageBackground, 0, 0, getWidth(), getHeight(), this);
+
+
+        } else {
+
         /* Loading the different tiles from the map to render. */
         this.currentScene.getGameMap().loadMap(GLOBALSCALE);
+        
         if (inputHandler.isInContructionMode()) {
             this.currentScene.getGameMap().getMapEditor().renderUI();
         }
+    
 
         /* Rendering all of the game objects. */
         for (GameObject gameObject : currentScene.getGameObjects()) {
             gameObject.render(renderHandler, GLOBALSCALE);
         }
+    
 
         /* Clearing the graphics and rendering what has been painted. */
         renderHandler.render(graphics);
+    }
         graphics.dispose();
         bufferStrategy.show();
         renderHandler.clear();
+    
     }
 
 
@@ -225,6 +264,64 @@ public class GameFrame extends JFrame implements Runnable {
     public SceneLoader getSceneLoader() {
         return this.sceneLoader;
     }
+
+
+    public boolean getInMenu() {
+        return this.isInMenu;
+    }
+
+    public void setEtatMenu(boolean etat) {
+        this.isInMenu = etat;
+    }
+
+
+    public boolean getisNameEntered() {
+        return this.isNameEntered;
+    }
+
+    public void setisNameEntered(boolean etat) {
+        this.isNameEntered = etat;
+    }
+
+
+    public String getplayerName() {
+        return this.playerName;
+    }
+
+    public void setplayerName(String name) {
+        this.playerName = name;
+    }
+
+    public boolean getisInPrincipalPage() {
+        return this.isInPrincipalPage;
+    }
+
+    public void setisInPrincipalPage(boolean etat) {
+        this.isInPrincipalPage = etat;
+    }
+
+
+    public boolean getIsNewGame() {
+        return this.newGame;
+    }
+
+    public void setIsNewGame(boolean etat) {
+        this.newGame = etat;
+    }
+
+
+    public boolean getIsInSetting() {
+        return this.Setting;
+    }
+
+    public void setIsInSetting(boolean etat) {
+        this.Setting = etat;
+    }
+
+    public BufferedImage getmenuBackround() {
+        return this.menuBackround;
+    }
+
 
 
     public static void main(String... args) {
