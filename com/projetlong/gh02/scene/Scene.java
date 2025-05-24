@@ -3,6 +3,7 @@ package com.projetlong.gh02.scene;
 import com.projetlong.gh02.GameFrame;
 import com.projetlong.gh02.SpriteSheet;
 import com.projetlong.gh02.entities.GameObject;
+import com.projetlong.gh02.entities.NPC;
 import com.projetlong.gh02.entities.Player;
 import com.projetlong.gh02.map.GameMap;
 import com.projetlong.gh02.map.Tiles;
@@ -38,10 +39,9 @@ public class Scene {
     private final ArrayList<GameObject> gameObjects;
     /** The player. */
     private Player player;
-    private final Player player;
     /** The NPCs of the game */
-    private final NPC npc1;
-    private final NPC npc2;
+    private NPC npc1;
+    private NPC npc2;
     /** The player's sprite sheet. */
     private final SpriteSheet playerTileSheet;
     /** The unique scene ID. */
@@ -80,25 +80,21 @@ public class Scene {
 
         /* Initializing the gameobjects. */
         gameObjects = new ArrayList<>();
-<<<<<<< HEAD:com/projetlong/gh02/scene/Scene.java
         switch (sceneID) {
             case 0 -> this.gameObjects.add(new MainMenu(game));
             case 1 -> this.gameObjects.add(new SettingsMenu(game));
             case 2 -> this.gameObjects.add(new NewGameMenu(game));
             case 3 -> this.gameObjects.add(new LoadGameMenu(game));
             default -> {
-                this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera());
+                this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game);
+                this.npc1 = new NPC(this.playerTileSheet, 300, 200);
+                this.npc2 = new NPC(this.playerTileSheet, 600, 400);
                 gameObjects.add(this.player);
+                gameObjects.add(this.npc1);
+                gameObjects.add(this.npc2);
             }
         }
-=======
-        this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game);
-        this.npc1 = new NPC(this.playerTileSheet, 300, 200);
-         this.npc2 = new NPC(this.playerTileSheet, 600, 400);
-        gameObjects.add(this.player);
-        gameObjects.add(this.npc1);
-         gameObjects.add(this.npc2);
->>>>>>> 1f2365650a09f95d3f7a508b17fdf6f1bce07562:com/projetlong/gh02/Scene.java
+        
     }
 
 

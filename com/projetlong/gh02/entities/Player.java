@@ -6,7 +6,7 @@ import com.projetlong.gh02.Sprite;
 import com.projetlong.gh02.SpriteSheet;
 import com.projetlong.gh02.handlers.InputHandler;
 import com.projetlong.gh02.handlers.RenderHandler;
-
+import com.projetlong.gh02.scene.Scene;
 import java.awt.Color;
 import java.awt.Graphics;
 

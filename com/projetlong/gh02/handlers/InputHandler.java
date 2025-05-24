@@ -1,11 +1,10 @@
 package com.projetlong.gh02.handlers;
 
+import com.projetlong.gh02.GameFrame;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import com.projetlong.gh02.GameFrame;
 
 public class InputHandler implements KeyListener, FocusListener {
 
@@ -29,8 +28,6 @@ public class InputHandler implements KeyListener, FocusListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        
-
         if (this.game.getInMenu() && !this.game.getisNameEntered() && e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (!this.game.getplayerName().trim().isEmpty()) {
                 this.game.setEtatMenu(false);
@@ -41,7 +38,6 @@ public class InputHandler implements KeyListener, FocusListener {
                 //this.game.loadImage("assets/Menu_background.png");
                 }
         }
-<<<<<<< HEAD:com/projetlong/gh02/handlers/InputHandler.java
         if (e.getKeyCode() == KeyEvent.VK_E) {
             isInConstructionMode = !isInConstructionMode;
         }
@@ -55,8 +51,8 @@ public class InputHandler implements KeyListener, FocusListener {
             }
             if (e.getKeyCode() == KeyEvent.VK_X) {
                 game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().previousLayer();
-=======
-
+            }
+        }
             
         
         if (this.game.getIsNewGame()) {
@@ -65,19 +61,18 @@ public class InputHandler implements KeyListener, FocusListener {
                 return;
             }
             if (e.getKeyCode() == KeyEvent.VK_E) {
-                constructionMode = !constructionMode;
->>>>>>> 1f2365650a09f95d3f7a508b17fdf6f1bce07562:com/projetlong/gh02/InputHandler.java
+                isInConstructionMode = !isInConstructionMode;
             }
             if (e.getKeyCode() == KeyEvent.VK_A) {
-                game.getSceneLoader().loadScene(game.getCurrentScene().getSceneID());
+                game.getSceneLoader().loadScene(game.getSceneManager().getCurrentScene().getSceneID());
             }
             // Gestion du layer en mode construction
-            if (constructionMode) {
+            if (isInConstructionMode) {
                 if (e.getKeyCode() == KeyEvent.VK_W) {
-                    game.getCurrentScene().getGameMap().getMapEditor().nextLayer();
+                    game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().nextLayer();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_X) {
-                    game.getCurrentScene().getGameMap().getMapEditor().previousLayer();
+                    game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().previousLayer();
                 }
             }
             keys[e.getKeyCode()] = true;
