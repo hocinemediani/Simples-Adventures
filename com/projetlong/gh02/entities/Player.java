@@ -7,7 +7,6 @@ import com.projetlong.gh02.handlers.RenderHandler;
 import com.projetlong.gh02.scene.Scene;
 import com.projetlong.gh02.sprite.Sprite;
 import com.projetlong.gh02.sprite.SpriteSheet;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -141,8 +140,8 @@ public class Player implements GameObject {
 
 
     public boolean isInRectangle(Rectangle rectangle) {
-    return xPos >= rectangle.getX() - 20 && xPos <= rectangle.getX() + 2.5 * rectangle.getWidth() &&
-           yPos >= rectangle.getY() - 20 && yPos <= rectangle.getY() + 2.5*rectangle.getHeight();
+    return xPos >= rectangle.getX() - rectangle.getWidth() && xPos <= rectangle.getX() + rectangle.getWidth() * 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE &&
+           yPos >= rectangle.getY() - rectangle.getHeight() && yPos <= rectangle.getY() + rectangle.getHeight() * 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
     }
 
 

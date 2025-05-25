@@ -25,6 +25,11 @@ public class InputHandler implements KeyListener, FocusListener {
     }
 
 
+    public boolean isInteracting() {
+        return keys[KeyEvent.VK_I];
+    }
+
+
     @Override
     public void keyPressed(KeyEvent e) {
 

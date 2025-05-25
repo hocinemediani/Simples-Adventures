@@ -138,8 +138,8 @@ public class RenderHandler {
         int textWidth = metrics.stringWidth(text);
         int textHeight = metrics.getHeight();
 
-        int bubbleWidth = textWidth + scale ;
-        int bubbleHeight = textHeight + scale;
+        int bubbleWidth = textWidth * scale / 15;
+        int bubbleHeight = textHeight * scale / 7;
 
         int screenX = x - camera.getX();
         int screenY = y - camera.getY();

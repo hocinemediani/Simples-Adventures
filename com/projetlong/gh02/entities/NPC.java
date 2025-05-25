@@ -5,8 +5,6 @@ import com.projetlong.gh02.Rectangle;
 import com.projetlong.gh02.handlers.RenderHandler;
 import com.projetlong.gh02.sprite.Sprite;
 import com.projetlong.gh02.sprite.SpriteSheet;
-
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class NPC implements GameObject {
@@ -36,13 +34,15 @@ public class NPC implements GameObject {
     //
     private boolean canInteract = false;
 
-
+    private String text = "Press I to interact";
+    private RenderHandler renderHandler;
+    private int scale;
 
     public NPC(SpriteSheet npcSpriteSheet, int xPos_initial, int yPos_initial) {
         this.xPos = xPos_initial;
         this.yPos = yPos_initial;
         this.nPCSpriteSheet = npcSpriteSheet;
-        this.nPCRectangle = new Rectangle(this.xPos - 45, this.yPos - 40, SpriteSheet.tileSize + 30, SpriteSheet.tileSize + 30);
+        this.nPCRectangle = new Rectangle(this.xPos - SpriteSheet.tileSize * 3, this.yPos - SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3);
         this.sprite = npcSpriteSheet.getSprite(0, 0);
         nPCRectangle.generateBorderGraphics(1, 0x194875);
         
@@ -51,19 +51,23 @@ public class NPC implements GameObject {
 
     @Override
     public void render(RenderHandler renderHandler, int scale) {
+        this.renderHandler = renderHandler;
+        this.scale = scale;
         renderHandler.loadSprite(this.sprite, this.xPos, this.yPos, scale);
         renderHandler.loadRectangle(this.nPCRectangle, scale);
 
         if (canInteract) {
             Graphics graphics = renderHandler.getViewGraphics();
-            renderHandler.drawTextBubble("Press I For interaction", this.xPos, this.yPos - 20, 6 * scale, graphics);
-            //this.canInteract = false;
+            renderHandler.drawTextBubble(text, this.xPos, this.yPos - 20, 6 * scale, graphics);
         }
     }
 
     @Override
     public void update(GameFrame game) {
 
+        if (canInteract && game.getInputHandler().isInteracting()) {
+            startDialogue(scale, renderHandler.getViewGraphics());
+        }
         /* TO DO :
          * rendre le npc statique
          * créer sa hitbox plus grande que lui afin de pouvoir interagir depuis plus loin
@@ -72,6 +76,14 @@ public class NPC implements GameObject {
          */
         
     }
+
+
+    public void startDialogue(int scale, Graphics graphics) {
+        this.canInteract = false;
+        text = "Once upon a time, Cregut was a little guy.";
+        this.canInteract = true;
+    }
+
 
     @Override
     public void transform(int dx, int dy, int dTheta) {
