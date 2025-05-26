@@ -26,10 +26,7 @@ public class NPC implements GameObject {
     private final SpriteSheet nPCSpriteSheet;
 
     /** The NPC's current sprite */
-    private Sprite sprite;
-
-    /** The speed of NPCs */
-    private final int speed = GameFrame.GLOBALSCALE;
+    private final Sprite sprite;
 
     /** NPC Class attributes used to change the behavior of NPCs */
     private static int i = 0;   // time adjustment
@@ -38,13 +35,16 @@ public class NPC implements GameObject {
     //
     private boolean canInteract = false;
 
+    private final String name;
+
     private String text = "Press I to interact";
     private RenderHandler renderHandler;
     private int scale;
 
-    public NPC(SpriteSheet npcSpriteSheet, int xPos_initial, int yPos_initial, String message) {
+    public NPC(SpriteSheet npcSpriteSheet, int xPos_initial, int yPos_initial, String message, String name) {
         this.xPos = xPos_initial;
         this.yPos = yPos_initial;
+        this.name = name;
         this.nPCSpriteSheet = npcSpriteSheet;
         this.nPCRectangle = new Rectangle(this.xPos - SpriteSheet.tileSize * 3, this.yPos - SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3);
         this.sprite = npcSpriteSheet.getSprite(0, 0);
@@ -64,7 +64,7 @@ public class NPC implements GameObject {
         if (canInteract) {
             Graphics graphics = renderHandler.getViewGraphics();
             renderHandler.drawTextBubble(text, this.xPos, this.yPos - 20, 6 * scale, graphics);
-            renderHandler.drawText("Albert", this.xPos, this.yPos + 200, 6 * scale, Color.WHITE, graphics);
+            renderHandler.drawText(this.name, this.xPos, this.yPos + 200, 6 * scale, Color.WHITE, graphics);
         }
     }
 
