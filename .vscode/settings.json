@@ -58,7 +58,6 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "java.project.referencedLibraries": [
-    "lib/**/*.jar",
-    "javafx-sdk-24.0.1/lib/javafx.media.jar"
+    "lib/**/*.jar"
   ]
 }
