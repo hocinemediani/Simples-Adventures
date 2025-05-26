@@ -2,7 +2,6 @@ package com.projetlong.gh02.entities;
 
 import com.projetlong.gh02.GameFrame;
 import com.projetlong.gh02.Rectangle;
-import com.projetlong.gh02.entities.GameObject;
 import com.projetlong.gh02.handlers.InputHandler;
 import com.projetlong.gh02.handlers.RenderHandler;
 import com.projetlong.gh02.scene.Scene;
@@ -52,8 +51,8 @@ public class Player implements GameObject {
         this.inputHandler = inputHandler;
         this.xPos = camera.getWidth() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE - 1);
         this.yPos = camera.getHeight() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE);
-        this.playerRectangle = new Rectangle(xPos, yPos,
-                                            SpriteSheet.tileSize, SpriteSheet.tileSize);
+        this.playerRectangle = new Rectangle(xPos + SpriteSheet.tileSize / 2, yPos + SpriteSheet.tileSize / 2,
+                                            SpriteSheet.tileSize / 2, SpriteSheet.tileSize / 2);
         playerRectangle.generateBorderGraphics(1, 0x194875);
         this.currentScene = scene;
 
