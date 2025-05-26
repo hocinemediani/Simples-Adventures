@@ -49,9 +49,7 @@ public class MainMenu implements GameObject {
         renderHandler.loadRectangle(newGameRectangle, 1);
         renderHandler.loadRectangle(loadGameRectangle, 1);
         
-        renderHandler.drawText("Settings.", settingsRectangle.getX() + settingsRectangle.getWidth() / 2, settingsRectangle.getY() + settingsRectangle.getHeight(), 100, Color.BLACK, game.getRenderHandler().getViewGraphics());
-        System.out.println();
-        System.out.println();
+        renderHandler.drawText("Settings.", settingsRectangle.getX(), settingsRectangle.getY() + settingsRectangle.getHeight(), 70, Color.BLACK, game.getRenderHandler().getViewGraphics());
     }
 
     @Override

@@ -126,7 +126,7 @@ public class RenderHandler {
     
     public void drawText(String text, int x, int y, int scale, Color color, Graphics graphics) {
         graphics.setColor(color);
-        Font font = new Font("Arial", Font.BOLD, scale);
+        Font font = new Font("Poppins", Font.BOLD, scale);
         graphics.setFont(font);
         graphics.drawString(text, x - camera.getX(), y - camera.getY() - 140);
     }
