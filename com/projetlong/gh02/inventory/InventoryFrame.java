@@ -22,8 +22,9 @@ public class InventoryFrame extends JFrame {
     private final JLabel lblDegats = new JLabel();
     private final JLabel lblAmmo = new JLabel();
     private final JList<String> listAttachments = new JList<>();
-    private final JButton btnReload = new JButton("Recharger");
-    private final JButton btnFire = new JButton("Tirer");
+    private final JButton btnReload = new JButton("Recharger"); // Bouton pour recharger les munitions
+    private final JButton btnFire = new JButton("Tirer"); // Bouton pour tirer
+    private final JButton btnShowInventory = new JButton("Afficher l'inventaire"); // Bouton pour afficher l'inventaire
 
     public InventoryFrame(Inventory inventory) {
         super("Inventaire des armes");
@@ -87,14 +88,16 @@ public class InventoryFrame extends JFrame {
         detailsPanel.add(new JLabel("Pièces jointes :"), c);
         c.gridy = 6; detailsPanel.add(new JScrollPane(listAttachments), c);
 
-        // Boutons d’action
+        // Boutons d'action
         JPanel buttonPanel = new JPanel();
         btnReload.setEnabled(false);
         btnFire.setEnabled(false);
         buttonPanel.add(btnReload);
         buttonPanel.add(btnFire);
+        buttonPanel.add(btnShowInventory);
 
         // Actions des boutons
+        // Action du bouton "Recharger"
         btnReload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,6 +111,7 @@ public class InventoryFrame extends JFrame {
                 }
             }
         });
+        // Action du bouton "Tirer"
         btnFire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,6 +131,13 @@ public class InventoryFrame extends JFrame {
                 }
             }
         });
+        // Action du bouton "Afficher l'inventaire"
+        btnShowInventory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadTableData();
+            }
+        });
 
         // Assemblage général
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -139,6 +150,18 @@ public class InventoryFrame extends JFrame {
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Recharge les données du tableau en vidant le modèle et en le remplissant à nouveau.
+     */
+    private void reloadTableData() {
+        tableModel.setRowCount(0); // Vide le tableau
+        loadTableData();           // Recharge les données
+    }
+
+    /**
+     * Charge les données des armes dans le tableau.
+     * Parcourt l'inventaire et ajoute chaque arme au modèle de tableau.
+     */
     private void loadTableData() {
         for (Weapon w : inventory.getWeapons()) {
             Object[] ligne = {
