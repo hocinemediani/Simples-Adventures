@@ -184,7 +184,7 @@ public class GameFrame extends JFrame implements Runnable {
         this.currentScene.getGameMap().loadMap(GLOBALSCALE);
         
         if (inputHandler.isInInventory()) {
-                // Création d'un inventaire de test
+            // Création d'un inventaire de test
             Inventory inv = new Inventory();
             Weapon w1 = new Weapon("w1", "Fusil d'assaut", Rarity.RARE, 35, 30);
             w1.addAttachment(new Attachment("Silencieux", "Réduit le bruit des tirs"));
