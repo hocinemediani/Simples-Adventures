@@ -19,6 +19,9 @@ public class NPC implements GameObject {
     /** y-position */
     private int yPos;
 
+    /** The NPC's message after interaction */
+    private String message = "";
+
     /** The NPC's sprite sheet */
     private final SpriteSheet nPCSpriteSheet;
 
@@ -39,13 +42,14 @@ public class NPC implements GameObject {
     private RenderHandler renderHandler;
     private int scale;
 
-    public NPC(SpriteSheet npcSpriteSheet, int xPos_initial, int yPos_initial) {
+    public NPC(SpriteSheet npcSpriteSheet, int xPos_initial, int yPos_initial, String message) {
         this.xPos = xPos_initial;
         this.yPos = yPos_initial;
         this.nPCSpriteSheet = npcSpriteSheet;
         this.nPCRectangle = new Rectangle(this.xPos - SpriteSheet.tileSize * 3, this.yPos - SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3);
         this.sprite = npcSpriteSheet.getSprite(0, 0);
         nPCRectangle.generateBorderGraphics(1, 0x194875);
+        this.message = message;
         
     }
 
@@ -82,7 +86,7 @@ public class NPC implements GameObject {
 
     public void startDialogue(int scale, Graphics graphics) {
         this.canInteract = false;
-        text = "Once upon a time, Cregut was a little guy.";
+        text = this.message;
         this.canInteract = true;
     }
 

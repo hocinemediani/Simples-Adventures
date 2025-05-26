@@ -87,8 +87,8 @@ public class Scene {
             case 3 -> this.gameObjects.add(new LoadGameMenu(game));
             default -> {
                 this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game, "SuperJoueur");
-                this.npc1 = new NPC(this.playerTileSheet, -49, -1434);
-                this.npc2 = new NPC(this.playerTileSheet, 600, 400);
+                this.npc1 = new NPC(this.playerTileSheet, -49, -1434, "It's time for you to go on an adventure !");
+                this.npc2 = new NPC(this.playerTileSheet, 600, 400, "You know how to walk ? Magnifique !");
                 gameObjects.add(this.player);
                 gameObjects.add(this.npc1);
                 gameObjects.add(this.npc2);
