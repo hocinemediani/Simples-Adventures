@@ -5,6 +5,7 @@ import com.projetlong.gh02.Rectangle;
 import com.projetlong.gh02.handlers.RenderHandler;
 import com.projetlong.gh02.sprite.Sprite;
 import com.projetlong.gh02.sprite.SpriteSheet;
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class NPC implements GameObject {
@@ -59,6 +60,7 @@ public class NPC implements GameObject {
         if (canInteract) {
             Graphics graphics = renderHandler.getViewGraphics();
             renderHandler.drawTextBubble(text, this.xPos, this.yPos - 20, 6 * scale, graphics);
+            renderHandler.drawText("Albert", this.xPos, this.yPos + 200, 6 * scale, Color.WHITE, graphics);
         }
     }
 
