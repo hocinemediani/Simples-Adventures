@@ -31,10 +31,9 @@ public class Player implements GameObject {
     /** The camera's movement speed. */
     private final int cameraSpeed = GameFrame.GLOBALSCALE;
 
-
-    private Scene currentScene;
-
     private final GameFrame game;
+
+    private final String name;
 
     /** Creates an instance of player.
      * A player has a sprite and a camera that moves along
@@ -43,7 +42,8 @@ public class Player implements GameObject {
      * @param inputHandler The input handler used to detect movement
      * @param camera The player's camera
      */
-    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera, Scene scene, GameFrame game) {
+    public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera, Scene scene, GameFrame game, String name) {
+        this.name = name;
         this.game = game;
         this.playerSpriteSheet = playerSpriteSheet;
         this.sprite = playerSpriteSheet.getSprite(0, 0);
@@ -54,8 +54,6 @@ public class Player implements GameObject {
         this.playerRectangle = new Rectangle(xPos + SpriteSheet.tileSize / 2, yPos + SpriteSheet.tileSize / 2,
                                             SpriteSheet.tileSize / 2, SpriteSheet.tileSize / 2);
         playerRectangle.generateBorderGraphics(1, 0x194875);
-        this.currentScene = scene;
-
     }
 
 
@@ -63,9 +61,8 @@ public class Player implements GameObject {
     public void render(RenderHandler renderHandler, int scale) {
         renderHandler.loadSprite(this.sprite, xPos, yPos, scale);
         renderHandler.loadRectangle(playerRectangle, scale);
-        // graphics est le milieu où on va dessiner
         Graphics graphics = renderHandler.getViewGraphics();
-        renderHandler.drawText(this.game.getplayerName(), this.playerRectangle.getX(), this.yPos + 200, 6* scale, Color.WHITE, graphics);
+        renderHandler.drawText(this.name, this.playerRectangle.getX(), this.yPos + 200, 6* scale, Color.WHITE, graphics);
     }
 
 
@@ -76,7 +73,7 @@ public class Player implements GameObject {
         int y = yPos / tileLength;
         if (inputHandler.movingUp()) {
             setPlayerSprite(playerSpriteSheet.getSprite(1, 0));
-            if (currentScene.getGameMap().getMaxLayerAtPosition(x + 1, y - speed/tileLength) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed, y - speed/tileLength) != 1) {
                 playerRectangle.moveY(-speed);
                 camera.moveY(-cameraSpeed);
                 this.yPos -= speed;
@@ -84,7 +81,7 @@ public class Player implements GameObject {
         }
         if (inputHandler.movingDown()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0,0));
-            if (currentScene.getGameMap().getMaxLayerAtPosition(x + 1, y + speed/tileLength + 1) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed, y + speed/tileLength + 1) != 1) {
                 playerRectangle.moveY(speed);
                 camera.moveY(cameraSpeed);
                 this.yPos += speed;
@@ -92,7 +89,7 @@ public class Player implements GameObject {
         }
         if (inputHandler.movingLeft()) {
             setPlayerSprite(playerSpriteSheet.getSprite(2, 0));
-            if (currentScene.getGameMap().getMaxLayerAtPosition(x - speed/tileLength, y) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x - speed/tileLength, y) != 1) {
                 playerRectangle.moveX(-speed);
                 camera.moveX(-cameraSpeed);
                 this.xPos -= speed;
@@ -100,7 +97,7 @@ public class Player implements GameObject {
         }
         if (inputHandler.movingRight()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0, 0));
-            if (currentScene.getGameMap().getMaxLayerAtPosition(x + speed/tileLength + 1, y) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed/tileLength + 1, y) != 1) {
                 playerRectangle.moveX(speed);
                 camera.moveX(cameraSpeed);
                 this.xPos += speed;
@@ -111,31 +108,16 @@ public class Player implements GameObject {
         camera.setX(xPos - camera.getWidth() / 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE / 2);
         camera.setY(yPos - camera.getHeight() / 2 + SpriteSheet.tileSize * GameFrame.GLOBALSCALE / 2);
 
-        for (GameObject obj : currentScene.getGameObjects()) {
+        for (GameObject obj : game.getSceneManager().getCurrentScene().getGameObjects()) {
             if (obj instanceof NPC npc) {
                 Rectangle interactionZone = npc.getNPRectangle();
-                //Rectangle playerHitbox = new Rectangle(xPos, yPos, width, height); // ou ta vraie hitbox
-                //npc.setcanInteract(false);
-                
-
                 if (this.isInRectangle(interactionZone) ) {
-                    // if (game.isInteractionKeyPressed()) {
-                    //     // Lancer l’interaction
-                    //     System.out.println("Interagis avec NPC !");
-                    // }
-                    System.out.println("Interagis avec NPC !");
                     npc.setcanInteract(true);
                 } else {
                     npc.setcanInteract(false);
                 }
-                //npc.setcanInteract(false);
-
-
             }
-
-
         }
-
     }
 
     

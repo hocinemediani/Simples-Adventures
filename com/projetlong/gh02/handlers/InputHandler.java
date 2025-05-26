@@ -32,17 +32,6 @@ public class InputHandler implements KeyListener, FocusListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-        if (this.game.getInMenu() && !this.game.getisNameEntered() && e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (!this.game.getplayerName().trim().isEmpty()) {
-                this.game.setEtatMenu(false);
-                this.game.setisNameEntered(true);
-                this.game.setisInPrincipalPage(true);
-                this.game.setIsNewGame(true);
-                System.out.println("Starting game for: " + this.game.getplayerName());
-                //this.game.loadImage("assets/Menu_background.png");
-                }
-        }
         if (e.getKeyCode() == KeyEvent.VK_E) {
             isInConstructionMode = !isInConstructionMode;
         }
