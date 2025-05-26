@@ -59,7 +59,7 @@ public class GameMap {
         } catch (IOException e) {
             System.out.println("Couldn't create the map file.");
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             mappedTileArray.add(new ArrayList<>());
         }
         scannerHelper(this::addMappedTile);
@@ -147,10 +147,10 @@ public class GameMap {
      * @param layerID the layer id of the tile to delete
     */
     public void deleteMappedTile(int xPos, int yPos, int layerID) {
-        for (int i = mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).size() - 1; i >= 0; i--) {
+        for (int i = 0; i < mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).size(); i++) {
             if (mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).get(i).xPos == xPos && mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).get(i).yPos == yPos) {
                 mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).remove(i);
-                break;
+                break; // Sortir de la boucle une fois la tile supprimée
             }
         }
     }

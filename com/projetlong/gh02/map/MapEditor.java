@@ -89,11 +89,11 @@ public class MapEditor {
         tileInfo[1] = xPos;
         tileInfo[2] = yPos;
         tileInfo[3] = layerID;
-        if (layerID > this.game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(xPos, yPos)) {
+        //if (layerID > this.game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(xPos, yPos)) {
             this.game.getSceneManager().getCurrentScene().getGameMap().addMappedTile(tileInfo);
             String mapString = xPos  + "," + yPos;
-            this.game.getSceneManager().getCurrentScene().getGameMap().writeToFile(mapString, tileID, layerID);
-        }
+            this.game.getSceneManager().getCurrentScene().getGameMap().writeToFile(mapString, tileInfo[0], layerID);
+        //}
     }
 
 

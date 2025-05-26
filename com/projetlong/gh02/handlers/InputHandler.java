@@ -59,29 +59,8 @@ public class InputHandler implements KeyListener, FocusListener {
             }
         }
             
+        keys[e.getKeyCode()] = true;
         
-        if (this.game.getIsNewGame()) {
-            if (e.getKeyCode() > 128) {
-                System.out.println("Unsupported key");
-                return;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_E) {
-                isInConstructionMode = !isInConstructionMode;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_A) {
-                game.getSceneLoader().loadScene(game.getSceneManager().getCurrentScene().getSceneID());
-            }
-            // Gestion du layer en mode construction
-            if (isInConstructionMode) {
-                if (e.getKeyCode() == KeyEvent.VK_W) {
-                    game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().nextLayer();
-                }
-                if (e.getKeyCode() == KeyEvent.VK_X) {
-                    game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().previousLayer();
-                }
-            }
-            keys[e.getKeyCode()] = true;
-        }    
     }
 
 
