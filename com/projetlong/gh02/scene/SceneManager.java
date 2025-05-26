@@ -15,9 +15,6 @@ public class SceneManager {
     /** The instance of game being played. */
     private final GameFrame game;
 
-    /** Main menu. */
-    private final File mainMenuMapFile = new File("com/projetlong/gh02/mapFiles/mainmenu.txt");
-
     /** Creates an instance of SceneManager. A scene
      * manager keeps track of all of the scenes in
      * the game, and ease the scene loading process.
@@ -34,6 +31,8 @@ public class SceneManager {
             File mapFile3 = new File(informations[5]);
             /** Tiles file. */
             File tileFile = new File(informations[6]);
+            /** Main menu map file. */
+            File mainMenuMapFile = new File(informations[7]);
             
             this.sceneArray.add(new Scene(informations[0], informations[1], informations[2], mainMenuMapFile, tileFile, game, 0));
             this.sceneArray.add(new Scene(informations[0], informations[1], informations[2], mainMenuMapFile, tileFile, game, 1));
