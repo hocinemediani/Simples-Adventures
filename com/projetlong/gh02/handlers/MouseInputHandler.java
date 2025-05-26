@@ -25,6 +25,8 @@ public class MouseInputHandler implements MouseInputListener {
     public void mousePressed(MouseEvent e) {
         if (this.game.getInputHandler().isInContructionMode()) {
             this.game.getSceneManager().getCurrentScene().getGameMap().getMapEditor().handleInput(e);
+        } else {
+            System.out.println("Click au coordonnées x :" + (e.getX() + game.getRenderHandler().getCamera().getX()) + " et y : " + (e.getY() + game.getRenderHandler().getCamera().getY()));
         }
         if (this.game.getSceneManager().getCurrentScene().getSceneID() == 0) {
             GameObject object = game.getSceneManager().getCurrentScene().getGameObjects().getFirst();
