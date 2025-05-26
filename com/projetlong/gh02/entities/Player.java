@@ -71,29 +71,40 @@ public class Player implements GameObject {
 
     @Override
     public void update(GameFrame game) {
+        int tileLength = SpriteSheet.tileSize * GameFrame.GLOBALSCALE;
+        int x = xPos / tileLength;
+        int y = yPos / tileLength;
         if (inputHandler.movingUp()) {
             setPlayerSprite(playerSpriteSheet.getSprite(1, 0));
-            playerRectangle.moveY(-speed);
-            camera.moveY(-cameraSpeed);
-            this.yPos -= speed;
+            if (currentScene.getGameMap().getMaxLayerAtPosition(x + 1, y - speed/tileLength) != 1) {
+                playerRectangle.moveY(-speed);
+                camera.moveY(-cameraSpeed);
+                this.yPos -= speed;
+            }
         }
         if (inputHandler.movingDown()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0,0));
-            playerRectangle.moveY(speed);
-            camera.moveY(cameraSpeed);
-            this.yPos += speed;
+            if (currentScene.getGameMap().getMaxLayerAtPosition(x + 1, y + speed/tileLength + 1) != 1) {
+                playerRectangle.moveY(speed);
+                camera.moveY(cameraSpeed);
+                this.yPos += speed;
+            }
         }
         if (inputHandler.movingLeft()) {
             setPlayerSprite(playerSpriteSheet.getSprite(2, 0));
-            playerRectangle.moveX(-speed);
-            camera.moveX(-cameraSpeed);
-            this.xPos -= speed;
+            if (currentScene.getGameMap().getMaxLayerAtPosition(x - speed/tileLength, y) != 1) {
+                playerRectangle.moveX(-speed);
+                camera.moveX(-cameraSpeed);
+                this.xPos -= speed;
+            }
         }
         if (inputHandler.movingRight()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0, 0));
-            playerRectangle.moveX(speed);
-            camera.moveX(cameraSpeed);
-            this.xPos += speed;
+            if (currentScene.getGameMap().getMaxLayerAtPosition(x + speed/tileLength + 1, y) != 1) {
+                playerRectangle.moveX(speed);
+                camera.moveX(cameraSpeed);
+                this.xPos += speed;
+            }
         }
 
         /* Updates the camera position to be centered at each frame. */
