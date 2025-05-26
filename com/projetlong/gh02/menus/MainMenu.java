@@ -12,9 +12,11 @@ public class MainMenu implements GameObject {
     private final Rectangle newGameRectangle = new Rectangle();
     private final Rectangle loadGameRectangle = new Rectangle();
     private final GameFrame game;
+    private final int initialWidth;
 
     public MainMenu(GameFrame game) {
         this.game = game;
+        this.initialWidth = game.getWidth();
     }
 
 
@@ -49,7 +51,7 @@ public class MainMenu implements GameObject {
         renderHandler.loadRectangle(newGameRectangle, 1);
         renderHandler.loadRectangle(loadGameRectangle, 1);
         
-        renderHandler.drawText("Settings.", settingsRectangle.getX() + (int) (settingsRectangle.getWidth() * 0.15), settingsRectangle.getY() + (int) (settingsRectangle.getHeight() * 0.9), 70, Color.BLACK, game.getRenderHandler().getViewGraphics());
+        renderHandler.drawText("Settings.", settingsRectangle.getX() + (int) (settingsRectangle.getWidth() * 0.15), settingsRectangle.getY() + (int) (settingsRectangle.getHeight() * 0.9), 70 * game.getWidth() / initialWidth, Color.BLACK, game.getRenderHandler().getViewGraphics());
     }
 
     @Override
