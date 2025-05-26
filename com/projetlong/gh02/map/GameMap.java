@@ -14,13 +14,13 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 /* TO DO :
- * - régler le problème de suppresion de tile de layer inférieure à la dernière placée
- * - régler le problème de possibilité de duplication de tiles
- * - ajouter l'option de changer la tile de fill
- * - régler la suppression de tile pour supprimer la dernière placée
- * - régler le problème de nettoyage de fichier de map
+ * - régler le problème de suppresion de tile de layer inférieure à la dernière placée OK
+ * - régler le problème de possibilité de duplication de tiles OK
+ * - ajouter l'option de changer la tile de fill OK
+ * - régler la suppression de tile pour supprimer la dernière placée OK
+ * - régler le problème de nettoyage de fichier de map OK
  * - pour le layering utiliser une arraylist d'arraylist de tiles, chaque sous array list
- * correspondant a une layer, puis itérer à chaque update les array list suivant l'ordre croissant
+ * correspondant a une layer, puis itérer à chaque update les array list suivant l'ordre croissant OK
 */
 
 public class GameMap {
@@ -38,9 +38,9 @@ public class GameMap {
     /** The file writer to write to the map file. */
     private PrintWriter fileWriter;
     /** The array of mapped tiles for the map. */
-    private ArrayList<MappedTile> mappedTileArray = new ArrayList<>();
+    private ArrayList<ArrayList<MappedTile>> mappedTileArray = new ArrayList<>();
     /** The hashmap used to clean up the map file. */
-    private HashMap<String, Integer[]> memoryHashMap = new HashMap<>();
+    private HashMap<String, Integer> memoryHashMap = new HashMap<>();
 
     /** Creates an instance of Map from a map file
      * and a set of Tiles. A map represents the
@@ -58,6 +58,9 @@ public class GameMap {
             fileWriter = new PrintWriter(new FileWriter(mapFile, true));
         } catch (IOException e) {
             System.out.println("Couldn't create the map file.");
+        }
+        for (int i = 0; i < 5; i++) {
+            mappedTileArray.add(new ArrayList<>());
         }
         scannerHelper(this::addMappedTile);
     }
@@ -99,12 +102,12 @@ public class GameMap {
             fillBackground();
         }
         int increment = SpriteSheet.tileSize * scale;
-        // for (ArrayList arrayList : mappedTileArray)
-        //      cette boucle là
-        for(int tileIndex = 0; tileIndex < mappedTileArray.size(); tileIndex++) {
-            MappedTile mappedTile = mappedTileArray.get(tileIndex);
-            if (mappedTile != null) {
-                tiles.load(mappedTile.ID, game.getRenderHandler(), mappedTile.xPos * increment, mappedTile.yPos * increment, scale);
+        for (int layerIndex = 0; layerIndex < mappedTileArray.size(); layerIndex++) {
+            for (int tileIndex = 0; tileIndex < mappedTileArray.get(layerIndex).size(); tileIndex++) {
+                MappedTile mappedTile = mappedTileArray.get(layerIndex).get(tileIndex);
+                if (mappedTile != null) {
+                    tiles.load(mappedTile.ID, game.getRenderHandler(), mappedTile.xPos * increment, mappedTile.yPos * increment, scale);
+                }
             }
         }
     }
@@ -132,7 +135,7 @@ public class GameMap {
      */
     public final void addMappedTile(int[] tileInfo) {
         MappedTile newTile = new MappedTile(tileInfo[0], tileInfo[1], tileInfo[2], tileInfo[3]);
-        mappedTileArray.add(newTile);
+        mappedTileArray.get(tileInfo[3]).add(newTile);
     }
 
 
@@ -141,11 +144,13 @@ public class GameMap {
      * map file and will not be rendered anymore.
      * @param xPos The x-position of the tile to delete
      * @param yPos The y-position of the tile to delete
+     * @param layerID the layer id of the tile to delete
     */
     public void deleteMappedTile(int xPos, int yPos, int layerID) {
-        for (int i = 0; i < mappedTileArray.size(); i++) {
-            if (mappedTileArray.get(i).xPos == xPos && mappedTileArray.get(i).yPos == yPos && mappedTileArray.get(i).layerID == layerID) {
-                mappedTileArray.remove(i);
+        for (int i = mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).size() - 1; i >= 0; i--) {
+            if (mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).get(i).xPos == xPos && mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).get(i).yPos == yPos) {
+                mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).remove(i);
+                break;
             }
         }
     }
@@ -174,11 +179,11 @@ public class GameMap {
 
     /** Writes to the map file the information
      * needed to save the desired tile to the map.
-     * @param mapString The xPos and yPos of the tile
-     * @param tileInfo The tile ID and layer ID of the tile
+     * @param mapString The xPos, yPos and layerID of the tile
+     * @param tileID The ID of the tile
      */
-    public void writeToFile(String mapString, Integer[] tileInfo) {
-        fileWriter.write(tileInfo[0] + "," + mapString + "," + tileInfo[1] + "\n");
+    public void writeToFile(String mapString, Integer tileID) {
+        fileWriter.write(tileID + "," + mapString + "\n");
         fileWriter.flush();
     }
 
@@ -201,7 +206,9 @@ public class GameMap {
      */
     public void cleanupMapFile() {
         clearFile();
-        mappedTileArray.forEach(this::writeToFile);
+        for (int i = 0; i < mappedTileArray.size(); i++) {
+            mappedTileArray.get(i).forEach(this::writeToFile);
+        }
         scannerHelper(this::fillingHashMap);
         clearFile();
         memoryHashMap.forEach(this::writeToFile);
@@ -214,9 +221,9 @@ public class GameMap {
      * @param tileInfo The tile informations (tileID, xPos, yPos, layerID)
      */
     public void fillingHashMap(int[] tileInfo) {
-        String hashKey = tileInfo[1] + "," + tileInfo[2];
-        Integer[] tileInfoArray = {tileInfo[0], tileInfo[3]};
-        memoryHashMap.put(hashKey, tileInfoArray);
+        String hashKey = tileInfo[1] + "," + tileInfo[2] + "," + tileInfo[3];
+        Integer tileID = tileInfo[0];
+        memoryHashMap.put(hashKey, tileID);
     }
     
 
@@ -244,6 +251,25 @@ public class GameMap {
     public Tiles getTiles() {
         return this.tiles;
     }
+
+    /** Returns the maximum layerID of a position.
+     * 
+     * @param xPos 
+     * @param yPos
+     * @return the layerID and -1 if there is no layer
+     */
+    public int getMaxLayerAtPosition(int xPos, int yPos) {
+        int max = -1;
+        for (int i = 0; i < mappedTileArray.size(); i++) {
+            for (int j = 0; j < mappedTileArray.get(i).size(); j++) {
+                if (mappedTileArray.get(i).get(j).xPos == xPos && mappedTileArray.get(i).get(j).yPos == yPos && mappedTileArray.get(i).get(j).layerID > max) {
+                        max = mappedTileArray.get(i).get(j).layerID;
+                }
+            }
+        }
+        return max;
+    }
+
 
 
     class MappedTile {
