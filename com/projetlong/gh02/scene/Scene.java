@@ -11,7 +11,6 @@ import com.projetlong.gh02.menus.MainMenu;
 import com.projetlong.gh02.menus.NewGameMenu;
 import com.projetlong.gh02.menus.SettingsMenu;
 import com.projetlong.gh02.sprite.SpriteSheet;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -87,7 +86,7 @@ public class Scene {
             case 2 -> this.gameObjects.add(new NewGameMenu(game));
             case 3 -> this.gameObjects.add(new LoadGameMenu(game));
             default -> {
-                this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game);
+                this.player = new Player(this.playerTileSheet, game.getInputHandler(), game.getRenderHandler().getCamera(), this, game, "SuperJoueur");
                 this.npc1 = new NPC(this.playerTileSheet, 300, 200);
                 this.npc2 = new NPC(this.playerTileSheet, 600, 400);
                 gameObjects.add(this.player);

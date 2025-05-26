@@ -126,30 +126,7 @@ public class InputHandler implements KeyListener, FocusListener {
 
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        /* typing the input*/
-        if (this.game.getInMenu() && !this.game.getisNameEntered()) {
-            char c = e.getKeyChar();
-            if (c == '\b' && this.game.getplayerName().length() > 0){
-                /* Delete the last character of the string */
-                char[] chars = this.game.getplayerName().toCharArray();      
-                String newName = "";                          
-
-                for (int i = 0; i < chars.length - 1; i++) {
-                        newName += chars[i];
-                }
-
-                this.game.setplayerName(newName);
-            } else if (c == '\b' && this.game.getplayerName().length() == 0) {
-                /* nothing to do */
-            } else {
-                this.game.setplayerName(this.game.getplayerName() + c);
-                
-            }
-        }
-
-    }
-    
+    public void keyTyped(KeyEvent e) {}
 
 }
 
