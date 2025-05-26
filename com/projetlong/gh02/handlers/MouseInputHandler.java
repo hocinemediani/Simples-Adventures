@@ -29,7 +29,7 @@ public class MouseInputHandler implements MouseInputListener {
         if (this.game.getSceneManager().getCurrentScene().getSceneID() == 0) {
             GameObject object = game.getSceneManager().getCurrentScene().getGameObjects().getFirst();
             if (object instanceof MainMenu menu) {
-                menu.handleClick(e.getX(), e.getY(), game);
+                menu.handleClick(e.getX(), e.getY());
             }
         }
     }

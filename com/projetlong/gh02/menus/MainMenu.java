@@ -17,7 +17,7 @@ public class MainMenu implements GameObject {
     }
 
 
-    public void handleClick(int mouseX, int mouseY, GameFrame game) {
+    public void handleClick(int mouseX, int mouseY) {
         if (settingsRectangle.isClicked(mouseX, mouseY)) {
             System.out.println("Onglet Options");
             game.getSceneLoader().loadScene(1);

@@ -193,9 +193,7 @@ public class InventoryFrame extends JFrame {
         btnFire.setEnabled(true);
     }
 
-    // Exemple de lancement
-    public static void main(String[] args) {
-        // Création d'un inventaire de test
+    public void showInventory() {
         Inventory inv = new Inventory();
         Weapon w1 = new Weapon("w1", "Fusil d'assaut", Rarity.RARE, 35, 30);
         w1.addAttachment(new Attachment("Silencieux", "Réduit le bruit des tirs"));
@@ -209,5 +207,6 @@ public class InventoryFrame extends JFrame {
             frame.setVisible(true);
         });
     }
+
 }
 

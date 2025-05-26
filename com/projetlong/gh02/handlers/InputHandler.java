@@ -117,6 +117,12 @@ public class InputHandler implements KeyListener, FocusListener {
         return keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
     }
 
+
+    public boolean isInInventory() {
+        return keys [KeyEvent.VK_T];
+    }
+
+
     /** Returns true if the player is in
      * construction mode.
      * @return If the players is in construction mode

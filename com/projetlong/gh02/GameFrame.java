@@ -4,10 +4,17 @@ import com.projetlong.gh02.entities.GameObject;
 import com.projetlong.gh02.handlers.InputHandler;
 import com.projetlong.gh02.handlers.MouseInputHandler;
 import com.projetlong.gh02.handlers.RenderHandler;
+import com.projetlong.gh02.inventory.Attachment;
+import com.projetlong.gh02.inventory.Inventory;
+import com.projetlong.gh02.inventory.InventoryFrame;
+import com.projetlong.gh02.inventory.Rarity;
+import com.projetlong.gh02.inventory.Weapon;
 import com.projetlong.gh02.scene.Scene;
 import com.projetlong.gh02.scene.SceneLoader;
 import com.projetlong.gh02.scene.SceneManager;
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -17,8 +24,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.SwingUtilities;
 
 
 public class GameFrame extends JFrame implements Runnable {
@@ -177,6 +183,22 @@ public class GameFrame extends JFrame implements Runnable {
         /* Loading the different tiles from the map to render. */
         this.currentScene.getGameMap().loadMap(GLOBALSCALE);
         
+        if (inputHandler.isInInventory()) {
+                // Création d'un inventaire de test
+            Inventory inv = new Inventory();
+            Weapon w1 = new Weapon("w1", "Fusil d'assaut", Rarity.RARE, 35, 30);
+            w1.addAttachment(new Attachment("Silencieux", "Réduit le bruit des tirs"));
+            w1.addAttachment(new Attachment("Viseur", "Améliore la précision"));
+            Weapon w2 = new Weapon("w2", "Pistolet", Rarity.COMMON, 15, 12);
+            inv.addItem(w1);
+            inv.addItem(w2);
+
+            SwingUtilities.invokeLater(() -> {
+                InventoryFrame frame = new InventoryFrame(inv);
+                frame.setVisible(true);
+            });
+        }
+
         if (inputHandler.isInContructionMode()) {
             this.currentScene.getGameMap().getMapEditor().renderUI();
         }

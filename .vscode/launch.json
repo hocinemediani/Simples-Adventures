@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "InventoryFrame",
+      "request": "launch",
+      "mainClass": "com.projetlong.gh02.inventory.InventoryFrame",
+      "projectName": "projet-long_92ee7b0d"
+    },
+    {
+      "type": "java",
       "name": "GameFrame",
       "request": "launch",
       "mainClass": "com.projetlong.gh02.GameFrame",
