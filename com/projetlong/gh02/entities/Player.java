@@ -53,7 +53,6 @@ public class Player implements GameObject {
         this.yPos = camera.getHeight() / 2 - SpriteSheet.tileSize * (GameFrame.GLOBALSCALE);
         this.playerRectangle = new Rectangle(xPos + SpriteSheet.tileSize / 2, yPos + SpriteSheet.tileSize / 2,
                                             SpriteSheet.tileSize / 2, SpriteSheet.tileSize / 2);
-        playerRectangle.generateBorderGraphics(1, 0x194875);
     }
 
 

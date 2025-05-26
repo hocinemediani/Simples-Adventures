@@ -41,21 +41,6 @@ public class GameFrame extends JFrame implements Runnable {
     /** The current scene being displayed. */
     private Scene currentScene;
 
-
-    /* Menu variables. */
-    private boolean isInMenu = true;
-    private boolean isNameEntered = false;
-    private String playerName = "";
-
-    /* Principal page parameters */
-    private boolean isInPrincipalPage = false;
-    private boolean newGame = false;
-    private boolean Setting = false;
-
-    private final BufferedImage menuBackround;
-    private final BufferedImage PrincipalPageBackground;
-
-
     /** Constructor for the game frame. It initializes
      * a window with a canvas and creates a BufferStrategy
      * to render images on the window.
@@ -82,10 +67,6 @@ public class GameFrame extends JFrame implements Runnable {
         renderHandler = new RenderHandler(this.getWidth(), this.getHeight());
         inputHandler = new InputHandler(this);
         mouseInputHandler = new MouseInputHandler(this);
-
-        menuBackround = loadImage("assets/Menu_background.png");
-        PrincipalPageBackground = loadImage("assets/PrincipalPage_background.png");
-        
 
         /** Loading in the first scene. */
         this.sceneManager = new SceneManager(this);
