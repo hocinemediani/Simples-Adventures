@@ -4,17 +4,10 @@ import com.projetlong.gh02.entities.GameObject;
 import com.projetlong.gh02.handlers.InputHandler;
 import com.projetlong.gh02.handlers.MouseInputHandler;
 import com.projetlong.gh02.handlers.RenderHandler;
-import com.projetlong.gh02.inventory.Attachment;
-import com.projetlong.gh02.inventory.Inventory;
-import com.projetlong.gh02.inventory.InventoryFrame;
-import com.projetlong.gh02.inventory.Rarity;
-import com.projetlong.gh02.inventory.Weapon;
 import com.projetlong.gh02.scene.Scene;
 import com.projetlong.gh02.scene.SceneLoader;
 import com.projetlong.gh02.scene.SceneManager;
 import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -166,49 +159,21 @@ public class GameFrame extends JFrame implements Runnable {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics graphics = bufferStrategy.getDrawGraphics();
         super.paint(graphics);
-
-        if (this.getInMenu()) {
-            graphics.drawImage(menuBackround, 0, 0, getWidth(), getHeight(), this);
-            graphics.setColor(Color.BLACK);
-            graphics.setFont(new Font("Arial", Font.BOLD, 32));
-            graphics.drawString(playerName + "_", 280, 544);
-            
-        } else if (this.getisInPrincipalPage()) {
-            graphics.drawImage(PrincipalPageBackground, 0, 0, getWidth(), getHeight(), this);
-
-
-        } else {
-
+        
         /* Loading the different tiles from the map to render. */
         this.currentScene.getGameMap().loadMap(GLOBALSCALE);
-        
-        if (inputHandler.isInInventory()) {
-            // Création d'un inventaire de test
-            Inventory inv = new Inventory();
-            Weapon w1 = new Weapon("w1", "Fusil d'assaut", Rarity.RARE, 35, 30);
-            w1.addAttachment(new Attachment("Silencieux", "Réduit le bruit des tirs"));
-            w1.addAttachment(new Attachment("Viseur", "Améliore la précision"));
-            Weapon w2 = new Weapon("w2", "Pistolet", Rarity.COMMON, 15, 12);
-            inv.addItem(w1);
-            inv.addItem(w2);
-            InventoryFrame frame = new InventoryFrame(inv);
-            frame.setVisible(true);
-        }
 
         if (inputHandler.isInContructionMode()) {
             this.currentScene.getGameMap().getMapEditor().renderUI();
         }
     
-
         /* Rendering all of the game objects. */
         for (GameObject gameObject : currentScene.getGameObjects()) {
             gameObject.render(renderHandler, GLOBALSCALE);
         }
     
-
         /* Clearing the graphics and rendering what has been painted. */
         renderHandler.render(graphics);
-    }
         graphics.dispose();
         bufferStrategy.show();
         renderHandler.clear();
@@ -284,64 +249,6 @@ public class GameFrame extends JFrame implements Runnable {
     public SceneLoader getSceneLoader() {
         return this.sceneLoader;
     }
-
-
-    public boolean getInMenu() {
-        return this.isInMenu;
-    }
-
-    public void setEtatMenu(boolean etat) {
-        this.isInMenu = etat;
-    }
-
-
-    public boolean getisNameEntered() {
-        return this.isNameEntered;
-    }
-
-    public void setisNameEntered(boolean etat) {
-        this.isNameEntered = etat;
-    }
-
-
-    public String getplayerName() {
-        return this.playerName;
-    }
-
-    public void setplayerName(String name) {
-        this.playerName = name;
-    }
-
-    public boolean getisInPrincipalPage() {
-        return this.isInPrincipalPage;
-    }
-
-    public void setisInPrincipalPage(boolean etat) {
-        this.isInPrincipalPage = etat;
-    }
-
-
-    public boolean getIsNewGame() {
-        return this.newGame;
-    }
-
-    public void setIsNewGame(boolean etat) {
-        this.newGame = etat;
-    }
-
-
-    public boolean getIsInSetting() {
-        return this.Setting;
-    }
-
-    public void setIsInSetting(boolean etat) {
-        this.Setting = etat;
-    }
-
-    public BufferedImage getmenuBackround() {
-        return this.menuBackround;
-    }
-
 
 
     public static void main(String... args) {
