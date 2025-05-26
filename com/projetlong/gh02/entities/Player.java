@@ -2,6 +2,7 @@ package com.projetlong.gh02.entities;
 
 import com.projetlong.gh02.GameFrame;
 import com.projetlong.gh02.Rectangle;
+import com.projetlong.gh02.entities.GameObject;
 import com.projetlong.gh02.handlers.InputHandler;
 import com.projetlong.gh02.handlers.RenderHandler;
 import com.projetlong.gh02.scene.Scene;

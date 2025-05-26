@@ -1,6 +1,5 @@
-package com.projetlong.gh02.inventory.gui;
+package com.projetlong.gh02.inventory;
 
-import com.projetlong.gh02.inventory.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
