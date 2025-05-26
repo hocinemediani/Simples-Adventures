@@ -73,7 +73,7 @@ public class Player implements GameObject {
         int y = yPos / tileLength;
         if (inputHandler.movingUp()) {
             setPlayerSprite(playerSpriteSheet.getSprite(1, 0));
-            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed, y - speed/tileLength) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + 1, y - speed/tileLength) != 1 && game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + 1, y - speed/tileLength - 1) != -1) {
                 playerRectangle.moveY(-speed);
                 camera.moveY(-cameraSpeed);
                 this.yPos -= speed;
@@ -81,7 +81,7 @@ public class Player implements GameObject {
         }
         if (inputHandler.movingDown()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0,0));
-            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed, y + speed/tileLength + 1) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + 1, y + speed/tileLength + 1) != 1 && game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + 1, y + speed/tileLength + 1) != -1) {
                 playerRectangle.moveY(speed);
                 camera.moveY(cameraSpeed);
                 this.yPos += speed;
@@ -89,7 +89,7 @@ public class Player implements GameObject {
         }
         if (inputHandler.movingLeft()) {
             setPlayerSprite(playerSpriteSheet.getSprite(2, 0));
-            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x - speed/tileLength, y) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x - speed/tileLength, y) != 1 && game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x - speed/tileLength - 1, y) != -1) {
                 playerRectangle.moveX(-speed);
                 camera.moveX(-cameraSpeed);
                 this.xPos -= speed;
@@ -97,7 +97,7 @@ public class Player implements GameObject {
         }
         if (inputHandler.movingRight()) {
             setPlayerSprite(playerSpriteSheet.getSprite(0, 0));
-            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed/tileLength + 1, y) != 1) {
+            if (game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed/tileLength + 1, y) != 1 && game.getSceneManager().getCurrentScene().getGameMap().getMaxLayerAtPosition(x + speed/tileLength + 1, y) != -1) {
                 playerRectangle.moveX(speed);
                 camera.moveX(cameraSpeed);
                 this.xPos += speed;
