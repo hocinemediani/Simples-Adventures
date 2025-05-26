@@ -4,6 +4,7 @@ import com.projetlong.gh02.GameFrame;
 import com.projetlong.gh02.Rectangle;
 import com.projetlong.gh02.entities.GameObject;
 import com.projetlong.gh02.handlers.RenderHandler;
+import java.awt.Color;
 
 public class MainMenu implements GameObject {
 
@@ -43,6 +44,8 @@ public class MainMenu implements GameObject {
 
         loadGameRectangle.generateGraphics(0xC0C0C0);
         loadGameRectangle.generateBorderGraphics(20, 0xffffff);
+
+        renderHandler.drawText("Settings.", 500, 500, 100, Color.BLACK, game.getRenderHandler().getViewGraphics());
 
         renderHandler.loadRectangle(settingsRectangle, 1);
         renderHandler.loadRectangle(newGameRectangle, 1);
