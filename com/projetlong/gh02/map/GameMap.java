@@ -147,7 +147,7 @@ public class GameMap {
      * @param layerID the layer id of the tile to delete
     */
     public void deleteMappedTile(int xPos, int yPos, int layerID) {
-        for (int i = 0; i < mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).size(); i++) {
+        for (int i = mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).size() - 1; i >= 0; i--) {
             if (mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).get(i).xPos == xPos && mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).get(i).yPos == yPos) {
                 mappedTileArray.get(getMaxLayerAtPosition(xPos, yPos)).remove(i);
                 break; // Sortir de la boucle une fois la tile supprimée
