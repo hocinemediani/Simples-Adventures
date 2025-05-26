@@ -19,7 +19,7 @@ public class NewGameMenu implements GameObject {
 
     @Override
     public void update(GameFrame game) {
-        
+        game.getSceneLoader().loadScene(4);
     }
 
     @Override
