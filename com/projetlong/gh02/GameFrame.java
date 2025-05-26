@@ -24,7 +24,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 
 public class GameFrame extends JFrame implements Runnable {
@@ -192,11 +191,8 @@ public class GameFrame extends JFrame implements Runnable {
             Weapon w2 = new Weapon("w2", "Pistolet", Rarity.COMMON, 15, 12);
             inv.addItem(w1);
             inv.addItem(w2);
-
-            SwingUtilities.invokeLater(() -> {
-                InventoryFrame frame = new InventoryFrame(inv);
-                frame.setVisible(true);
-            });
+            InventoryFrame frame = new InventoryFrame(inv);
+            frame.setVisible(true);
         }
 
         if (inputHandler.isInContructionMode()) {
