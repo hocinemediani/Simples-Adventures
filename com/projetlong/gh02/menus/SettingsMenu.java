@@ -6,10 +6,8 @@ import com.projetlong.gh02.handlers.RenderHandler;
 
 public class SettingsMenu implements GameObject {
 
-    private GameFrame game;
 
     public SettingsMenu(GameFrame game) {
-        this.game = game;
     }
 
     @Override

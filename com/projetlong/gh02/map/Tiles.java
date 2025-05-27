@@ -3,7 +3,6 @@ package com.projetlong.gh02.map;
 import com.projetlong.gh02.handlers.RenderHandler;
 import com.projetlong.gh02.sprite.Sprite;
 import com.projetlong.gh02.sprite.SpriteSheet;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,12 +10,6 @@ import java.util.Scanner;
 
 public class Tiles {
 
-    /** The spritesheet1 of the tiles. */
-    private final SpriteSheet spriteSheet1;
-    private final SpriteSheet spriteSheet2;
-    private final SpriteSheet spriteSheet3;
-
-    /* TO DO : mettre un spriteSheetFile */
 
     /** The array of tiles from the spritesheet. */
     private ArrayList<Tile> tileArray = new ArrayList<>();
@@ -31,9 +24,6 @@ public class Tiles {
      * @param spriteSheet2 The spritesheet where the tiles from the layer 2 (decoration) come from
      */
     public Tiles(File tilesFile, SpriteSheet spriteSheet0, SpriteSheet spriteSheet1, SpriteSheet spriteSheet2) {
-        this.spriteSheet1 = spriteSheet0;
-        this.spriteSheet2 = spriteSheet1;
-        this.spriteSheet3 = spriteSheet2;
 
         try (Scanner scanner = new Scanner(tilesFile)) {
             while(scanner.hasNextLine()) {

@@ -6,10 +6,7 @@ import com.projetlong.gh02.handlers.RenderHandler;
 
 public class LoadGameMenu implements GameObject {
 
-    private GameFrame game;
-
     public LoadGameMenu(GameFrame game) {
-        this.game = game;
     }
 
     @Override

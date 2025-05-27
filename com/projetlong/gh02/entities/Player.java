@@ -31,8 +31,6 @@ public class Player implements GameObject {
     /** The camera's movement speed. */
     private final int cameraSpeed = GameFrame.GLOBALSCALE;
 
-    private final GameFrame game;
-
     private final String name;
 
     /** Creates an instance of player.
@@ -44,7 +42,6 @@ public class Player implements GameObject {
      */
     public Player(SpriteSheet playerSpriteSheet, InputHandler inputHandler, Rectangle camera, Scene scene, GameFrame game, String name) {
         this.name = name;
-        this.game = game;
         this.playerSpriteSheet = playerSpriteSheet;
         this.sprite = playerSpriteSheet.getSprite(0, 0);
         this.camera = camera;

@@ -22,17 +22,9 @@ public class NPC implements GameObject {
     /** The NPC's message after interaction */
     private String message = "";
 
-    /** The NPC's sprite sheet */
-    private final SpriteSheet nPCSpriteSheet;
-
     /** The NPC's current sprite */
     private final Sprite sprite;
 
-    /** NPC Class attributes used to change the behavior of NPCs */
-    private static int i = 0;   // time adjustment
-    private static int j = 0;   // behavior adjustment (random value between 0 and 3)
-
-    //
     private boolean canInteract = false;
 
     private final String name;
@@ -45,7 +37,6 @@ public class NPC implements GameObject {
         this.xPos = xPos_initial;
         this.yPos = yPos_initial;
         this.name = name;
-        this.nPCSpriteSheet = npcSpriteSheet;
         this.nPCRectangle = new Rectangle(this.xPos - SpriteSheet.tileSize * 3, this.yPos - SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3, SpriteSheet.tileSize * 3);
         this.sprite = npcSpriteSheet.getSprite(0, 0);
         nPCRectangle.generateBorderGraphics(1, 0x194875);

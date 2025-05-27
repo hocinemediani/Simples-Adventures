@@ -1,13 +1,12 @@
 package com.projetlong.gh02.map;
 
+import com.projetlong.gh02.GameFrame;
+import com.projetlong.gh02.Rectangle;
+import com.projetlong.gh02.sprite.SpriteSheet;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import com.projetlong.gh02.GameFrame;
-import com.projetlong.gh02.Rectangle;
-import com.projetlong.gh02.sprite.SpriteSheet;
 
 public class MapEditor {
 
@@ -110,7 +109,6 @@ public class MapEditor {
         int tileUIScale = 4;
         int tileLength = SpriteSheet.tileSize * tileUIScale;
         for (int i = 0; i < numTiles; i++) {
-            int tileID = tileIDs.get(i);
             game.getRenderHandler().loadSprite(game.getSceneManager().getCurrentScene().getTileSheet(layerID).getSprite(i % numTiles, i / numTiles),
                                                 camera.getX() + i * tileLength,
                                                 camera.getY(), tileUIScale);
