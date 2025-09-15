@@ -28,6 +28,18 @@ and become more than just anotehr simple guy.
 
 
 ## 🖼️ Screenshots & Demos
+>📷​ An in game view of the world.
+
+<img width="1920" height="1080" alt="game-screen" src="https://github.com/user-attachments/assets/626c5f65-f717-4017-be86-c6a0f22a0dd0" />  
+
+>📷​ Interacting with the NPCs.
+
+<img width="1917" height="1080" alt="npc-screen" src="https://github.com/user-attachments/assets/10d6e971-1140-4622-8d52-a03ea5e71314" />  
+
+>📷​ First draft of a main screen.
+
+<img width="1920" height="1080" alt="main-screen" src="https://github.com/user-attachments/assets/dd863df2-fb50-4fdf-9b89-9c1cd359fda3" />  
+
 ---
 
 
