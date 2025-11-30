@@ -82,8 +82,6 @@ java com/projetlong/gh02/Game
 | *Ilian Kraifi* | 👨‍💻 Developer   | [> iki389](https://github.com/ik389) |
 | *Benjamin Krief* | 👨‍💻 Developer   | [> Banshai012](https://github.com/Banshai012) |
 | *Achraf Al oumami* | 👨‍💻 Developer   | [> Achrafaloumami](https://github.com/Achrafaloumami) |
-| *Othmane Zenbi* | 👨‍💻 Developer   | [> zenbiothmane](https://github.com/zenbiothmane) |
-| *Khalil Abdellaoui* | 👨‍💻 Developer   | [> taizan36](https://github.com/taizan36) |
 ---
 
 
