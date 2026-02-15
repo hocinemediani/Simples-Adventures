@@ -8,7 +8,7 @@
 Simple is a pretty simple guy. And like any other simple guy, he strives for one thing : POWER!
 Play as Simple and explore an entirely unique world made of multiple regions with their own sets
 of ressources, challenges, and enemies. Slay your way through every obstacles on the path to glory
-and become more than just anotehr simple guy.
+and become more than just another simple guy.
 
 ---
 
